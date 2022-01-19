@@ -16,11 +16,14 @@ struct ContentView: View {
         animation: .default)
     private var signs: FetchedResults<Sign>
     
-    var selectedSign = 0
     @State private var isExpanded = false
+    
+    
+    
    // var signShowing: Sign
     
     //    init() {
+           
     //
     //        let newSign = Sign(context: viewContext)
     //        newSign.name = "Dodo"
@@ -33,7 +36,7 @@ struct ContentView: View {
     //            let nsError = error as NSError
     //            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
     //        }
-    //    }
+   //     }
     
     var body: some View {
         
@@ -87,6 +90,8 @@ struct ContentView: View {
             .background(Color.gray)
             .padding()
             Spacer()
+            
+
             
             if let activeSign = signs.first {
                 Text(activeSign.name!)
