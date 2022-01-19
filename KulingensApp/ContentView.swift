@@ -17,6 +17,7 @@ struct ContentView: View {
     private var signs: FetchedResults<Sign>
     
     @State private var isExpanded = false
+    @State private var signIndex = 0
     
     
     
@@ -91,27 +92,33 @@ struct ContentView: View {
             .padding()
             Spacer()
             
-
             
-            if let activeSign = signs.first {
-                Text(activeSign.name!)
-                    .padding()
+            if signs.count == 0 {
+                Text ("Det finns inga tecken att visa.")
+                Text("Skapa ett nytt genom att trycka på plus tecknet uppe i menyn.")
             }else{
-                Text("Tecken Namn")
-                    .padding()
+                
+                if let activeSign = signs.first {
+                    Text(activeSign.name!)
+                        .padding()
+                }else{
+                    Text("Tecken Namn")
+                        .padding()
+                }
+                
+                if let activeSign = signs.first {
+                    Text(activeSign.instruction!)
+                        .padding()
+                }else{
+                    Text("Tecken instruktion.")
+                        .padding()
+                }
+                
+                Spacer()
             }
-            
-            if let activeSign = signs.first {
-                Text(activeSign.instruction!)
-                    .padding()
-            }else{
-                Text("Tecken instruktion.")
-                    .padding()
-            }
-            
-            Spacer()
             
         }
+        
         
         
     }
@@ -146,6 +153,14 @@ struct ContentView: View {
                 fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
             }
         }
+    }
+    
+    private func loadActiveSign() {
+        
+        
+        
+        
+        
     }
 }
 
