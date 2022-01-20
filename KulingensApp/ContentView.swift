@@ -17,14 +17,16 @@ struct ContentView: View {
     private var signs: FetchedResults<Sign>
     
     @State private var isExpanded = false
-    @State private var signIndex = 0
+    @State private var isLocked = true
+    @State var createViewIsActive = false
     @State var activeSign: Sign? = nil
+    private var pinCode: Int? = nil
     
     
-   // var signShowing: Sign
+    // var signShowing: Sign
     
     //    init() {
-           
+    
     //
     //        let newSign = Sign(context: viewContext)
     //        newSign.name = "Dodo"
@@ -37,10 +39,9 @@ struct ContentView: View {
     //            let nsError = error as NSError
     //            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
     //        }
-   //     }
+    //     }
     
     var body: some View {
-        
         
         
         VStack {
@@ -49,11 +50,14 @@ struct ContentView: View {
                     .foregroundColor(Color.white)
                     .padding()
                 Spacer()
-                Button(action: addSign, label: {
+                Button(action: {
+                    createViewIsActive = true
+                
+                }, label: {
                     Text("Lägg till tecken.")
                         .foregroundColor(Color.white)
                         .onAppear {
-                        
+                            
                             if signs.count != 0 {
                                 
                                 activeSign = signs[0]
@@ -64,6 +68,14 @@ struct ContentView: View {
                     Image(systemName: "plus")
                         .foregroundColor(Color.white)
                 })
+                    .padding()
+                
+                Button(action: {
+                    deleteItems()
+                }, label: {
+                    Text("Delete")
+                })
+                
                 Spacer()
                 
                 DisclosureGroup("Tecken", isExpanded: $isExpanded) {
@@ -71,10 +83,10 @@ struct ContentView: View {
                         VStack{
                             ForEach(signs, id: \.self) { sign in
                                 HStack{
-                                Text(sign.name!)
-                                    .font(.title3)
-                                    .padding(.all)
-                                    .onTapGesture {
+                                    Text(sign.name!)
+                                        .font(.title3)
+                                        .padding(.all)
+                                        .onTapGesture {
                                             self.isExpanded.toggle()
                                             self.activeSign = sign
                                             print("FFS")
@@ -86,12 +98,13 @@ struct ContentView: View {
                         }
                     }
                 }
-                    .accentColor(.white) // Pil färg
-                    .font(.title3)
-                    .foregroundColor(.white) // Text färg
-                    .padding(.all)
-//                    .background(Color.blue) // Färg på hela drop down grejen
-                    .cornerRadius(8)
+                .accentColor(.white) // Pil färg
+                .font(.title3)
+                .foregroundColor(.white) // Text färg
+                .padding(.all)
+                //                    .background(Color.blue) // Färg på hela drop down grejen
+                .cornerRadius(8)
+                .frame(minWidth: 10, maxWidth: 300)
                 
                 
             }
@@ -116,26 +129,13 @@ struct ContentView: View {
                 
                 Text ("Det finns inga tecken att visa.")
                 Text("Skapa ett nytt genom att trycka på plus tecknet uppe i menyn.")
-//                if let activeSign = signs.first {
-//                    Text(activeSign.name!)
-//                        .padding()
-//                }else{
-//                    Text("Tecken Namn")
-//                        .padding()
-//                }
-//
-//                if let activeSign = signs.first {
-//                    Text(activeSign.instruction!)
-//                        .padding()
-//                }else{
-//                    Text("Tecken instruktion.")
-//                        .padding()
-//                }
-                
                 
             }
             
         }
+        
+        
+        
         
         
         
@@ -158,22 +158,28 @@ struct ContentView: View {
         }
     }
     
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            offsets.map { signs[$0] }.forEach(viewContext.delete)
-            
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
+    private func deleteItems() {
+        
+        guard let activeSign = activeSign else {
+            return
+        }
+        
+        viewContext.delete(activeSign)
+        print(signs.count)
+        self.activeSign = nil
+        
+        do {
+            try viewContext.save()
+        } catch {
+            // Replace this implementation with code to handle the error appropriately.
+            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
     }
     
-
+    
+    
 }
 
 //private let itemFormatter: DateFormatter = {
