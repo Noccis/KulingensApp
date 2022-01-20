@@ -70,7 +70,7 @@ struct ContentView: View {
                                         .padding(.all)
                                         .onTapGesture {
                                             self.isExpanded.toggle()
-                                        //    self.signShowing = sign
+                                     //       self.signIndex = Hur ska jag få detta till en index????
                                             
                                         }
                                 }
@@ -98,21 +98,26 @@ struct ContentView: View {
                 Text("Skapa ett nytt genom att trycka på plus tecknet uppe i menyn.")
             }else{
                 
-                if let activeSign = signs.first {
-                    Text(activeSign.name!)
-                        .padding()
-                }else{
-                    Text("Tecken Namn")
-                        .padding()
-                }
+                Text(signs[signIndex].name!)
+                    .padding()
                 
-                if let activeSign = signs.first {
-                    Text(activeSign.instruction!)
-                        .padding()
-                }else{
-                    Text("Tecken instruktion.")
-                        .padding()
-                }
+                Text(signs[signIndex].instruction!)
+                    .padding()
+//                if let activeSign = signs.first {
+//                    Text(activeSign.name!)
+//                        .padding()
+//                }else{
+//                    Text("Tecken Namn")
+//                        .padding()
+//                }
+//
+//                if let activeSign = signs.first {
+//                    Text(activeSign.instruction!)
+//                        .padding()
+//                }else{
+//                    Text("Tecken instruktion.")
+//                        .padding()
+//                }
                 
                 Spacer()
             }
@@ -126,8 +131,8 @@ struct ContentView: View {
     private func addSign() {
         withAnimation {
             let newSign = Sign(context: viewContext)
-            newSign.name = "Dodo"
-            newSign.instruction = "Hej och hå."
+            newSign.name = "Klogli"
+            newSign.instruction = "Second gen."
             
             do {
                 try viewContext.save()
@@ -155,13 +160,7 @@ struct ContentView: View {
         }
     }
     
-    private func loadActiveSign() {
-        
-        
-        
-        
-        
-    }
+
 }
 
 //private let itemFormatter: DateFormatter = {
