@@ -69,17 +69,15 @@ struct ContentView: View {
                 DisclosureGroup("Tecken", isExpanded: $isExpanded) {
                     ScrollView{
                         VStack{
-                            ForEach(signs) { sign in
+                            ForEach(signs, id: \.self) { sign in
                                 HStack{
                                 Text(sign.name!)
                                     .font(.title3)
                                     .padding(.all)
-                                    Spacer()
-                                        .font(.title2)
-                                        .padding(.all)
-                                        .onTapGesture {
+                                    .onTapGesture {
                                             self.isExpanded.toggle()
                                             self.activeSign = sign
+                                            print("FFS")
                                             
                                         }
                                 }
@@ -109,6 +107,11 @@ struct ContentView: View {
                 Text(activeSign.instruction!)
                     .padding()
                 Spacer()
+                Button(action: {
+                    print(activeSign.name!)
+                }, label: {
+                    Text("active sign")
+                })
             }else{
                 
                 Text ("Det finns inga tecken att visa.")
