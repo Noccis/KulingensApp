@@ -18,7 +18,7 @@ struct ContentView: View {
     
     @State private var isExpanded = false
     @State private var signIndex = 0
-    
+    @State var activeSign: Sign? = nil
     
     
    // var signShowing: Sign
@@ -52,6 +52,15 @@ struct ContentView: View {
                 Button(action: addSign, label: {
                     Text("Lägg till tecken.")
                         .foregroundColor(Color.white)
+                        .onAppear {
+                        
+                            if signs.count != 0 {
+                                
+                                activeSign = signs[0]
+                                print("ON APPEAR, active sign is same as signs[0]")
+                                
+                            }
+                        }
                     Image(systemName: "plus")
                         .foregroundColor(Color.white)
                 })
@@ -70,7 +79,7 @@ struct ContentView: View {
                                         .padding(.all)
                                         .onTapGesture {
                                             self.isExpanded.toggle()
-                                     //       self.signIndex = Hur ska jag få detta till en index????
+                                            self.activeSign = sign
                                             
                                         }
                                 }
@@ -93,16 +102,17 @@ struct ContentView: View {
             Spacer()
             
             
-            if signs.count == 0 {
-                Text ("Det finns inga tecken att visa.")
-                Text("Skapa ett nytt genom att trycka på plus tecknet uppe i menyn.")
+            if let activeSign = activeSign {
+                Text(activeSign.name!)
+                    .padding()
+                
+                Text(activeSign.instruction!)
+                    .padding()
+                Spacer()
             }else{
                 
-                Text(signs[signIndex].name!)
-                    .padding()
-                
-                Text(signs[signIndex].instruction!)
-                    .padding()
+                Text ("Det finns inga tecken att visa.")
+                Text("Skapa ett nytt genom att trycka på plus tecknet uppe i menyn.")
 //                if let activeSign = signs.first {
 //                    Text(activeSign.name!)
 //                        .padding()
@@ -119,7 +129,7 @@ struct ContentView: View {
 //                        .padding()
 //                }
                 
-                Spacer()
+                
             }
             
         }
