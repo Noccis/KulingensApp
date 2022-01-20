@@ -18,3 +18,6 @@ struct KulingensAppApp: App {
         }
     }
 }
+
+// ContentView()
+// CreateSignView()
