@@ -52,7 +52,7 @@ struct ContentView: View {
                 Spacer()
                 Button(action: {
                     createViewIsActive = true
-                
+                    
                 }, label: {
                     Text("Lägg till tecken.")
                         .foregroundColor(Color.white)
@@ -114,14 +114,31 @@ struct ContentView: View {
             
             
             if let activeSign = activeSign {
-                Text(activeSign.name!)
-                    .padding()
+                HStack{
+                    
+                    Text(activeSign.name!)
+                        .padding()
+                    Spacer()
+                    Text("Audio file")
+                        .padding(.trailing, 300)
+                    
+                }
                 
-                Text(activeSign.instruction!)
-                    .padding()
+            
+                HStack{
+                    VideoView(videoID: activeSign.videoUrl!)
+                        .frame(minWidth: 200, maxWidth: 600, minHeight: 100, maxHeight: 400)
+                        .padding()
+                    Spacer()
+                    
+                    VStack{ // Room for instruction
+                    Text(activeSign.instruction!)
+                            .padding(.trailing, 200)
+                //    Spacer()
+                    }
+
+                }
                 Spacer()
-                VideoView(videoID: activeSign.videoUrl!)
-                    .frame(minWidth: 200, maxWidth: 600, minHeight: 100, maxHeight: 400)
             }else{
                 
                 Text ("Det finns inga tecken att visa.")
