@@ -120,11 +120,8 @@ struct ContentView: View {
                 Text(activeSign.instruction!)
                     .padding()
                 Spacer()
-                Button(action: {
-                    print(activeSign.name!)
-                }, label: {
-                    Text("active sign")
-                })
+                VideoView(videoID: activeSign.videoUrl!)
+                    .frame(minWidth: 200, maxWidth: 600, minHeight: 100, maxHeight: 400)
             }else{
                 
                 Text ("Det finns inga tecken att visa.")
@@ -133,6 +130,7 @@ struct ContentView: View {
             }
             
         }
+        .sheet(isPresented: $createViewIsActive) { CreateSignView() }
         
         
         

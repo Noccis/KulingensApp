@@ -56,11 +56,11 @@ struct CreateSignView: View {
 //                Spacer()
 //            }
             
-//            TextField("Skriv in URL till din video", text: $inputVideoUrl)
-//                .padding()
-//                .background(Color.gray.opacity(0.2).cornerRadius(10))
-//                .font(.title3)
-//                .padding()
+            TextField("Skriv in URL till din video", text: $inputVideoUrl)
+                .padding()
+                .background(Color.gray.opacity(0.2).cornerRadius(10))
+                .font(.title3)
+                .padding()
             
 //            Text("Här kan man spela in ljud")
 //                .padding()
@@ -78,7 +78,7 @@ struct CreateSignView: View {
     private func addSign() {
         withAnimation {
             
-            if inputName.count > 3 {
+            if inputName.count > 3 && inputVideoUrl.count > 5 {
                 
                 let newSign = Sign(context: viewContext)
                 // Lägg till lite nil checks
@@ -91,6 +91,7 @@ struct CreateSignView: View {
                     newSign.instruction = "Inga instruktioner tillagda."
                 }
                 
+                newSign.videoUrl = inputVideoUrl
                 
                 do {
                     try viewContext.save()
@@ -106,8 +107,12 @@ struct CreateSignView: View {
                 // Lägg in en toast.
             }
             
-           
-            print(signs.count)
+            inputName = ""
+        
+            inputInstruction = ""
+            
+            inputVideoUrl = ""
+            print("Nytt tecken sparat!")
         }
     }
     

@@ -16,6 +16,7 @@
 		0F69297927959FC300835982 /* KulingensAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F69297827959FC300835982 /* KulingensAppTests.swift */; };
 		0F69298327959FC400835982 /* KulingensAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F69298227959FC300835982 /* KulingensAppUITests.swift */; };
 		0F69298527959FC400835982 /* KulingensAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F69298427959FC400835982 /* KulingensAppUITestsLaunchTests.swift */; };
+		0F7090CC279AAB2400CCDC48 /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7090CB279AAB2400CCDC48 /* VideoView.swift */; };
 		0FA1B3F5279821C600AB17C3 /* CreateSignView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA1B3F4279821C600AB17C3 /* CreateSignView.swift */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +50,7 @@
 		0F69297E27959FC300835982 /* KulingensAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KulingensAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F69298227959FC300835982 /* KulingensAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KulingensAppUITests.swift; sourceTree = "<group>"; };
 		0F69298427959FC400835982 /* KulingensAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KulingensAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		0F7090CB279AAB2400CCDC48 /* VideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
 		0FA1B3F4279821C600AB17C3 /* CreateSignView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSignView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -148,6 +150,7 @@
 			isa = PBXGroup;
 			children = (
 				0FA1B3F4279821C600AB17C3 /* CreateSignView.swift */,
+				0F7090CB279AAB2400CCDC48 /* VideoView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -282,6 +285,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F7090CC279AAB2400CCDC48 /* VideoView.swift in Sources */,
 				0FA1B3F5279821C600AB17C3 /* CreateSignView.swift in Sources */,
 				0F69296C27959FC200835982 /* Persistence.swift in Sources */,
 				0F69296527959FB800835982 /* ContentView.swift in Sources */,
