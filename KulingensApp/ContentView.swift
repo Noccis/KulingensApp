@@ -45,83 +45,110 @@ struct ContentView: View {
         
         
         VStack {
+            
+            
             HStack{
-                Text("Här ska sökfunktionen vara.")
-                    .foregroundColor(Color.white)
-                    .padding()
-                Spacer()
-                Button(action: {
-                    createViewIsActive = true
-                
-                }, label: {
-                    Text("Lägg till tecken.")
+              
+                    
+                    Text("Input searchfunction here")
                         .foregroundColor(Color.white)
-                        .onAppear {
-                            
-                            if signs.count != 0 {
+                        .padding()
+                    Spacer()
+                    Button(action: {
+                        createViewIsActive = true
+                        
+                    }, label: {
+                        Text("Lägg till tecken.")
+                            .foregroundColor(Color.white)
+                            .onAppear {
                                 
-                                activeSign = signs[0]
-                                print("ON APPEAR, active sign is same as signs[0]")
-                                
-                            }
-                        }
-                    Image(systemName: "plus")
-                        .foregroundColor(Color.white)
-                })
-                    .padding()
-                
-                Button(action: {
-                    deleteItems()
-                }, label: {
-                    Text("Delete")
-                })
-                
-                Spacer()
-                
-                DisclosureGroup("Tecken", isExpanded: $isExpanded) {
-                    ScrollView{
-                        VStack{
-                            ForEach(signs, id: \.self) { sign in
-                                HStack{
-                                    Text(sign.name!)
-                                        .font(.title3)
-                                        .padding(.all)
-                                        .onTapGesture {
-                                            self.isExpanded.toggle()
-                                            self.activeSign = sign
-                                            print("FFS")
-                                            
-                                        }
+                                if signs.count != 0 {
+                                    
+                                    activeSign = signs[0]
+                                    
+                                    
                                 }
-                                
+                            }
+                        Image(systemName: "plus")
+                            .foregroundColor(Color.white)
+                    })
+                        .padding()
+                    
+                    Button(action: {
+                        deleteItems()
+                    }, label: {
+                        Text("Delete")
+                    })
+                    
+                    Spacer()
+                    Button(action: {
+                        isLocked.toggle()
+                    }, label: {
+                        Image(systemName: "lock.fill")
+                    })
+                    
+                    DisclosureGroup("Tecken", isExpanded: $isExpanded) {
+                        ScrollView{
+                            VStack{
+                                ForEach(signs, id: \.self) { sign in
+                                    HStack{
+                                        Text(sign.name!)
+                                            .font(.title3)
+                                            .padding(.all)
+                                            .onTapGesture {
+                                                self.isExpanded.toggle()
+                                                self.activeSign = sign
+                                            }
+                                    }
+                                    
+                                }
                             }
                         }
                     }
-                }
-                .accentColor(.white) // Pil färg
-                .font(.title3)
-                .foregroundColor(.white) // Text färg
-                .padding(.all)
-                //                    .background(Color.blue) // Färg på hela drop down grejen
-                .cornerRadius(8)
-                .frame(minWidth: 10, maxWidth: 300)
+                    .accentColor(.white) // Arrow color
+                    .font(.title3)
+                    .foregroundColor(.white) // Text color
+                    .padding(.all)
+                    .cornerRadius(8)
+                    .frame(minWidth: 10, maxWidth: 300)
+                    
                 
                 
             }
             .background(Color.gray)
             .padding()
+            
+            
+            
             Spacer()
             
             
             if let activeSign = activeSign {
-                Text(activeSign.name!)
-                    .padding()
+                HStack{
+                    
+                    Text(activeSign.name!)
+                        .padding()
+                    Spacer()
+                    Text("Audio file")
+                        .padding(.trailing, 300)
+                    
+                }
                 
-                Text(activeSign.instruction!)
-                    .padding()
+                
+                HStack{
+                    VideoView(videoID: activeSign.videoUrl!)
+                        .frame(minWidth: 200, maxWidth: 600, minHeight: 100, maxHeight: 400)
+                        .padding()
+                    Spacer()
+                    
+                    VStack{ // Room for instruction
+                        Text(activeSign.instruction!)
+                            .padding(.trailing, 200)
+                        //    Spacer()
+                    }
+                    
+                }
                 Spacer()
-                VideoView(videoID: activeSign.videoUrl!)
-                    .frame(minWidth: 200, maxWidth: 600, minHeight: 100, maxHeight: 400)
             }else{
                 
                 Text ("Det finns inga tecken att visa.")
