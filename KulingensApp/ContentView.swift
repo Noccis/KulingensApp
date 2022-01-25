@@ -20,6 +20,7 @@ struct ContentView: View {
     @State private var isLocked = true
     @State var createViewIsActive = false
     @State var activeSign: Sign? = nil
+    @State var isMenuActive = false
     private var pinCode: Int? = nil
     
     
@@ -86,36 +87,43 @@ struct ContentView: View {
                     }, label: {
                         Image(systemName: isLocked ? "lock.fill" : "lock.open.fill")
                     })
-                Spacer()
+                Button(action: {
+                    isMenuActive = true
+                }, label: {
+                    Text("Byt tecken")
+                        .foregroundColor(Color.white)
+                })
+                    .padding()
 
             }
             .background(Color.gray)
             .padding()
             
-            DisclosureGroup("Tecken", isExpanded: $isExpanded) {
-                ScrollView{
-                    VStack{
-                        ForEach(signs, id: \.self) { sign in
-                            HStack{
-                                Text(sign.name!)
-                                    .font(.title3)
-                                    .padding(.all)
-                                    .onTapGesture {
-                                        self.isExpanded.toggle()
-                                        self.activeSign = sign
-                                    }
-                            }
-                            
-                        }
-                    }
-                }
-            }
-            .accentColor(.white) // Arrow color
-            .font(.title3)
-            .foregroundColor(.white) // Text color
-            .padding(.all)
-            .cornerRadius(8)
-            .frame(minWidth: 10, maxWidth: 300)
+//            DisclosureGroup("Tecken", isExpanded: $isExpanded) {
+//                ScrollView{
+//                    VStack{
+//                        ForEach(signs, id: \.self) { sign in
+//                            HStack{
+//                                Text(sign.name!)
+//                                    .font(.title3)
+//                                    .padding(.all)
+//                                    .onTapGesture {
+//                                        self.isExpanded.toggle()
+//                                        self.activeSign = sign
+//                                    }
+//                            }
+//
+//                        }
+//                    }
+//                }
+//            }
+//            .accentColor(.white) // Arrow color
+//            .font(.title3)
+//            .foregroundColor(.white) // Text color
+//            .padding(.all)
+//            .cornerRadius(8)
+//            .frame(minWidth: 10, maxWidth: 300)
+//            .background(Color.blue)
             
             
             Spacer()
@@ -156,7 +164,7 @@ struct ContentView: View {
             
         }
         .sheet(isPresented: $createViewIsActive) { CreateSignView() }
-        
+        .sheet(isPresented: $isMenuActive) { SignListView(activeSign: activeSign) }
         
         
         
