@@ -50,7 +50,7 @@ struct ContentView: View {
             HStack{
               
                     
-                    Text("Input searchfunction here")
+                    Text("Searchfunction")
                         .foregroundColor(Color.white)
                         .padding()
                     Spacer()
@@ -58,7 +58,7 @@ struct ContentView: View {
                         createViewIsActive = true
                         
                     }, label: {
-                        Text("Lägg till tecken.")
+                        Text("Nytt tecken")
                             .foregroundColor(Color.white)
                             .onAppear {
                                 
@@ -69,55 +69,53 @@ struct ContentView: View {
                                     
                                 }
                             }
-                        Image(systemName: "plus")
-                            .foregroundColor(Color.white)
+//                        Image(systemName: "plus")
+//                            .foregroundColor(Color.white)
                     })
                         .padding()
-                    
+                if isLocked == false {
                     Button(action: {
                         deleteItems()
                     }, label: {
                         Text("Delete")
                     })
-                    
+                }
                     Spacer()
                     Button(action: {
                         isLocked.toggle()
                     }, label: {
-                        Image(systemName: "lock.fill")
+                        Image(systemName: isLocked ? "lock.fill" : "lock.open.fill")
                     })
-                    
-                    DisclosureGroup("Tecken", isExpanded: $isExpanded) {
-                        ScrollView{
-                            VStack{
-                                ForEach(signs, id: \.self) { sign in
-                                    HStack{
-                                        Text(sign.name!)
-                                            .font(.title3)
-                                            .padding(.all)
-                                            .onTapGesture {
-                                                self.isExpanded.toggle()
-                                                self.activeSign = sign
-                                            }
-                                    }
-                                    
-                                }
-                            }
-                        }
-                    }
-                    .accentColor(.white) // Arrow color
-                    .font(.title3)
-                    .foregroundColor(.white) // Text color
-                    .padding(.all)
-                    .cornerRadius(8)
-                    .frame(minWidth: 10, maxWidth: 300)
-                    
-                
-                
+                Spacer()
+
             }
             .background(Color.gray)
             .padding()
             
+            DisclosureGroup("Tecken", isExpanded: $isExpanded) {
+                ScrollView{
+                    VStack{
+                        ForEach(signs, id: \.self) { sign in
+                            HStack{
+                                Text(sign.name!)
+                                    .font(.title3)
+                                    .padding(.all)
+                                    .onTapGesture {
+                                        self.isExpanded.toggle()
+                                        self.activeSign = sign
+                                    }
+                            }
+                            
+                        }
+                    }
+                }
+            }
+            .accentColor(.white) // Arrow color
+            .font(.title3)
+            .foregroundColor(.white) // Text color
+            .padding(.all)
+            .cornerRadius(8)
+            .frame(minWidth: 10, maxWidth: 300)
             
             
             Spacer()
