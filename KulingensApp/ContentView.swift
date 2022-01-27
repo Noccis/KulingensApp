@@ -50,7 +50,7 @@ struct ContentView: View {
             ZStack{
                 
                 Color(red: 2/256, green: 116/256, blue: 138/256 )
-                    .cornerRadius(15)
+                  //  .cornerRadius(15)
                 
                 HStack{
                     
@@ -114,6 +114,10 @@ struct ContentView: View {
                     
                     Text(activeSign.name!)
                         .padding()
+                        .background(Color(red: 92/256, green: 177/256, blue: 199/256 ))
+                        .cornerRadius(10)
+                        .padding(EdgeInsets(top:0, leading: 20, bottom: 0, trailing: 0))
+                        
                     Spacer()
                     Text("Audio file")
                         .padding(.trailing, 300)
