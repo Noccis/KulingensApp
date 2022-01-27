@@ -5,12 +5,11 @@
         <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
     <entity name="Sign" representedClassName="Sign" syncable="YES" codeGenerationType="class">
-        <attribute name="instruction" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="videoUrl" optional="YES" attributeType="String"/>
     </entity>
     <elements>
         <element name="Item" positionX="-63" positionY="-18" width="128" height="59"/>
-        <element name="Sign" positionX="-63" positionY="-9" width="128" height="74"/>
+        <element name="Sign" positionX="-63" positionY="-9" width="128" height="59"/>
     </elements>
 </model>

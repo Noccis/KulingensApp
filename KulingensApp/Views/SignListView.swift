@@ -34,6 +34,9 @@ struct SignListView: View {
 
                             
                         })
+                        .onTapGesture {
+                            activeSign = sign
+                        }
 //                    NavigationLink(destination: VehicleView(vehicle: vehicle)) {
 //                        RowView(vehicle: vehicle)
 //                    }

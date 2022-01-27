@@ -50,7 +50,6 @@ struct ContentView: View {
             
             HStack{
               
-                    
                     Text("Searchfunction")
                         .foregroundColor(Color.white)
                         .padding()
@@ -96,35 +95,9 @@ struct ContentView: View {
                     .padding()
 
             }
-            .background(Color.gray)
+            .cornerRadius(15)
+            .background(Color(red: 2/256, green: 116/256, blue: 138/256 ))
             .padding()
-            
-//            DisclosureGroup("Tecken", isExpanded: $isExpanded) {
-//                ScrollView{
-//                    VStack{
-//                        ForEach(signs, id: \.self) { sign in
-//                            HStack{
-//                                Text(sign.name!)
-//                                    .font(.title3)
-//                                    .padding(.all)
-//                                    .onTapGesture {
-//                                        self.isExpanded.toggle()
-//                                        self.activeSign = sign
-//                                    }
-//                            }
-//
-//                        }
-//                    }
-//                }
-//            }
-//            .accentColor(.white) // Arrow color
-//            .font(.title3)
-//            .foregroundColor(.white) // Text color
-//            .padding(.all)
-//            .cornerRadius(8)
-//            .frame(minWidth: 10, maxWidth: 300)
-//            .background(Color.blue)
-            
             
             Spacer()
             
@@ -147,11 +120,6 @@ struct ContentView: View {
                         .padding()
                     Spacer()
                     
-                    VStack{ // Room for instruction
-                        Text(activeSign.instruction!)
-                            .padding(.trailing, 200)
-                        //    Spacer()
-                    }
                     
                 }
                 Spacer()
@@ -176,7 +144,6 @@ struct ContentView: View {
         withAnimation {
             let newSign = Sign(context: viewContext)
             newSign.name = "Klogli"
-            newSign.instruction = "Second gen."
             
             do {
                 try viewContext.save()

@@ -17,7 +17,6 @@ struct CreateSignView: View {
     private var signs: FetchedResults<Sign>
     
     @State var inputName: String = ""
-    @State var inputInstruction: String = ""
     @State var inputVideoUrl: String = ""
     
     
@@ -40,21 +39,7 @@ struct CreateSignView: View {
                 .font(.title3)
                 .padding()
             
-//            HStack{
-//            Text("Skriv instruktioner till ditt tecken:")
-//                .padding()
-//            Spacer()
-//            }
-            TextField("Skriv instruktioner till ditt tecken", text: $inputInstruction) .padding()
-                .background(Color.gray.opacity(0.2).cornerRadius(10))
-                .font(.title3)
-                .padding()
-            
-//            HStack{
-//            Text("Skriv in URL till din video:")
-//                .padding()
-//                Spacer()
-//            }
+
             
             TextField("Skriv in URL till din video", text: $inputVideoUrl)
                 .padding()
@@ -85,12 +70,6 @@ struct CreateSignView: View {
                 
                 newSign.name = inputName
                 
-                if inputInstruction.count > 1 {
-                    newSign.instruction = inputInstruction
-                }else{
-                    newSign.instruction = "Inga instruktioner tillagda."
-                }
-                
                 newSign.videoUrl = inputVideoUrl
                 
                 do {
@@ -109,7 +88,6 @@ struct CreateSignView: View {
             
             inputName = ""
         
-            inputInstruction = ""
             
             inputVideoUrl = ""
             print("Nytt tecken sparat!")
