@@ -47,9 +47,13 @@ struct ContentView: View {
         
         VStack {
             
-            
-            HStack{
-              
+            ZStack{
+                
+                Color(red: 2/256, green: 116/256, blue: 138/256 )
+                    .cornerRadius(15)
+                
+                HStack{
+                    
                     Text("Searchfunction")
                         .foregroundColor(Color.white)
                         .padding()
@@ -69,35 +73,38 @@ struct ContentView: View {
                                     
                                 }
                             }
-//                        Image(systemName: "plus")
-//                            .foregroundColor(Color.white)
+                        //                        Image(systemName: "plus")
+                        //                            .foregroundColor(Color.white)
                     })
                         .padding()
-                if isLocked == false {
-                    Button(action: {
-                        deleteItems()
-                    }, label: {
-                        Text("Delete")
-                    })
-                }
+                    if isLocked == false {
+                        Button(action: {
+                            deleteItems()
+                        }, label: {
+                            Text("Delete")
+                        })
+                    }
                     Spacer()
                     Button(action: {
                         isLocked.toggle()
                     }, label: {
                         Image(systemName: isLocked ? "lock.fill" : "lock.open.fill")
                     })
-                Button(action: {
-                    isMenuActive = true
-                }, label: {
-                    Text("Byt tecken")
-                        .foregroundColor(Color.white)
-                })
-                    .padding()
-
+                    Button(action: {
+                        isMenuActive = true
+                    }, label: {
+                        Text("Byt tecken")
+                            .foregroundColor(Color.white)
+                    })
+                        .padding()
+                    
+                }
+                .cornerRadius(10)
+              //  .background(Color(red: 2/256, green: 116/256, blue: 138/256 ))
+                .padding()
+                
             }
-            .cornerRadius(15)
-            .background(Color(red: 2/256, green: 116/256, blue: 138/256 ))
-            .padding()
+            .frame(width: UIScreen.main.bounds.size.width, height: 80)
             
             Spacer()
             
