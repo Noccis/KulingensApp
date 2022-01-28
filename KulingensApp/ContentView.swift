@@ -49,7 +49,7 @@ struct ContentView: View {
             
             ZStack{
                 
-                Color(red: 2/256, green: 116/256, blue: 138/256 )
+          //   Color(red: 2/256, green: 116/256, blue: 138/256 )
                   //  .cornerRadius(15)
                 
                 HStack{
@@ -83,12 +83,14 @@ struct ContentView: View {
                         }, label: {
                             Text("Delete")
                         })
+                            .foregroundColor(Color.white)
                     }
                     Spacer()
                     Button(action: {
                         isLocked.toggle()
                     }, label: {
                         Image(systemName: isLocked ? "lock.fill" : "lock.open.fill")
+                            .foregroundColor(Color.white)
                     })
                     Button(action: {
                         isMenuActive = true
@@ -99,12 +101,11 @@ struct ContentView: View {
                         .padding()
                     
                 }
-                .cornerRadius(10)
-              //  .background(Color(red: 2/256, green: 116/256, blue: 138/256 ))
+                .background(Color(red: 2/256, green: 116/256, blue: 138/256 ))
                 .padding()
                 
             }
-            .frame(width: UIScreen.main.bounds.size.width, height: 80)
+       //   .frame(width: UIScreen.main.bounds.size.width, height: 80)
             
             Spacer()
             
