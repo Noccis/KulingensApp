@@ -116,20 +116,26 @@ struct ContentView: View {
                         .padding()
                         .background(Color(red: 92/256, green: 177/256, blue: 199/256 ))
                         .cornerRadius(10)
-                        .padding(EdgeInsets(top:0, leading: 20, bottom: 0, trailing: 0))
+                    //    .padding(EdgeInsets(top:0, leading: 200, bottom: 0, trailing: 0))
                         
-                    Spacer()
-                    Text("Audio file")
-                        .padding(.trailing, 300)
+                   
+                 //   Text("Audio file")
+                    Image(systemName: "speaker.wave.3.fill")
+                        .padding()
+                        .foregroundColor(Color.black)
+                        .cornerRadius(10)
+                        .background(Color(red: 92/256, green: 177/256, blue: 199/256 ))
+                        .padding(.trailing, 530)
                     
                 }
+               
                 
                 
                 HStack{
                     VideoView(videoID: activeSign.videoUrl!)
-                        .frame(minWidth: 200, maxWidth: 600, minHeight: 100, maxHeight: 400)
-                        .padding()
-                    Spacer()
+                        .frame(minWidth: 200, maxWidth: 700, minHeight: 100, maxHeight: 500)
+                        .padding(EdgeInsets(top:0, leading: 0, bottom: 10, trailing: 0))
+                  
                     
                     
                 }
@@ -142,6 +148,7 @@ struct ContentView: View {
             }
             
         }
+        .background( Color(red: 210/256, green: 231/256, blue: 238/256 ))
         .sheet(isPresented: $createViewIsActive) { CreateSignView() }
         .sheet(isPresented: $isMenuActive) { SignListView(activeSign: activeSign) }
         
