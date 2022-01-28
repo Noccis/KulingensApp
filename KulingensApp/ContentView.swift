@@ -111,8 +111,8 @@ struct ContentView: View {
                     Image(systemName: "speaker.wave.3.fill")
                         .padding()
                         .foregroundColor(Color.black)
-                        .cornerRadius(10)
                         .background(Color(red: 92/256, green: 177/256, blue: 199/256 ))
+                        .cornerRadius(10)
                         .padding(.trailing, 530)
                     
                 }
