@@ -24,101 +24,100 @@ struct ContentView: View {
     private var pinCode: Int? = nil
     
     
-    // var signShowing: Sign
-    
-    //    init() {
-    
-    //
-    //        let newSign = Sign(context: viewContext)
-    //        newSign.name = "Dodo"
-    //        newSign.instruction = "Hej och hå."
-    //
-    //        do {
-    //            try viewContext.save()
-    //        } catch {
-    //
-    //            let nsError = error as NSError
-    //            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-    //        }
-    //     }
-    
+
     var body: some View {
         
         
         VStack {
-            
-            
-            HStack{
-              
+ 
+                HStack{
+                    
                     Text("Searchfunction")
                         .foregroundColor(Color.white)
                         .padding()
                     Spacer()
+                    
+                    if isLocked == false {
+                        
                     Button(action: {
                         createViewIsActive = true
                         
                     }, label: {
                         Text("Nytt tecken")
                             .foregroundColor(Color.white)
-                            .onAppear {
-                                
-                                if signs.count != 0 {
-                                    
-                                    activeSign = signs[0]
-                                    
-                                    
-                                }
-                            }
-//                        Image(systemName: "plus")
-//                            .foregroundColor(Color.white)
+                           
+                        //                        Image(systemName: "plus")
+                        //                            .foregroundColor(Color.white)
                     })
                         .padding()
-                if isLocked == false {
-                    Button(action: {
-                        deleteItems()
-                    }, label: {
-                        Text("Delete")
-                    })
-                }
+                    
+                        Button(action: {
+                            deleteItems()
+                        }, label: {
+                            Text("Delete")
+                        })
+                            .foregroundColor(Color.white)
+                    }
+                    
                     Spacer()
+                    
                     Button(action: {
                         isLocked.toggle()
                     }, label: {
                         Image(systemName: isLocked ? "lock.fill" : "lock.open.fill")
+                            .foregroundColor(Color.white)
                     })
-                Button(action: {
-                    isMenuActive = true
-                }, label: {
-                    Text("Byt tecken")
-                        .foregroundColor(Color.white)
-                })
-                    .padding()
+                        .onAppear {
+                            
+                            if signs.count != 0 {
+                                
+                                activeSign = signs[0]
+                                
+                                
+                            }
+                        }
+                    
+                    Button(action: {
+                        isMenuActive = true
+                    }, label: {
+                        Text("Byt tecken")
+                            .foregroundColor(Color.white)
+                    })
+                        .padding()
+                    
+                }
+                .background(Color(red: 2/256, green: 116/256, blue: 138/256 ))
+                .padding()
 
-            }
-            .cornerRadius(15)
-            .background(Color(red: 2/256, green: 116/256, blue: 138/256 ))
-            .padding()
-            
             Spacer()
-            
-            
+
             if let activeSign = activeSign {
                 HStack{
                     
                     Text(activeSign.name!)
                         .padding()
-                    Spacer()
-                    Text("Audio file")
-                        .padding(.trailing, 300)
+                        .background(Color(red: 92/256, green: 177/256, blue: 199/256 ))
+                        .cornerRadius(10)
+                    //    .padding(EdgeInsets(top:0, leading: 200, bottom: 0, trailing: 0))
+                        
+                   
+                 //   Text("Audio file")
+                    Image(systemName: "speaker.wave.3.fill")
+                        .padding()
+                        .foregroundColor(Color.black)
+                        .cornerRadius(10)
+                        .background(Color(red: 92/256, green: 177/256, blue: 199/256 ))
+                        .padding(.trailing, 530)
                     
                 }
+               
                 
                 
                 HStack{
                     VideoView(videoID: activeSign.videoUrl!)
-                        .frame(minWidth: 200, maxWidth: 600, minHeight: 100, maxHeight: 400)
-                        .padding()
-                    Spacer()
+                        .frame(minWidth: 200, maxWidth: 700, minHeight: 100, maxHeight: 500)
+                        .padding(EdgeInsets(top:0, leading: 0, bottom: 10, trailing: 0))
+                  
                     
                     
                 }
@@ -127,10 +126,12 @@ struct ContentView: View {
                 
                 Text ("Det finns inga tecken att visa.")
                 Text("Skapa ett nytt genom att trycka på plus tecknet uppe i menyn.")
+                Spacer()
                 
             }
             
         }
+        .background( Color(red: 210/256, green: 231/256, blue: 238/256 ))
         .sheet(isPresented: $createViewIsActive) { CreateSignView() }
         .sheet(isPresented: $isMenuActive) { SignListView(activeSign: $activeSign) }
         
