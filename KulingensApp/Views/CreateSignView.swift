@@ -19,6 +19,7 @@ struct CreateSignView: View {
     @State var inputName: String = ""
     @State var inputVideoUrl: String = ""
     
+    @Environment(\.presentationMode) var presentationMode
     
     
     var body: some View {
@@ -52,7 +53,11 @@ struct CreateSignView: View {
 //
             Spacer()
             
-            Button(action: addSign, label: {
+            Button(action: {
+                addSign()
+                presentationMode.wrappedValue
+                    .dismiss()
+            }, label: {
                 Text("Spara")
             })
             Spacer()

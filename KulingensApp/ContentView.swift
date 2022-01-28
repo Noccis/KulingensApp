@@ -53,6 +53,12 @@ struct ContentView: View {
                     
                         Button(action: {
                             deleteItems()
+                            
+                            if signs.count != 0 {
+                                activeSign = signs[0]
+
+                            }
+                            
                         }, label: {
                             Text("Delete")
                         })
