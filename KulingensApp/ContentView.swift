@@ -24,34 +24,12 @@ struct ContentView: View {
     private var pinCode: Int? = nil
     
     
-    // var signShowing: Sign
-    
-    //    init() {
-    
-    //
-    //        let newSign = Sign(context: viewContext)
-    //        newSign.name = "Dodo"
-    //        newSign.instruction = "Hej och hå."
-    //
-    //        do {
-    //            try viewContext.save()
-    //        } catch {
-    //
-    //            let nsError = error as NSError
-    //            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-    //        }
-    //     }
-    
+
     var body: some View {
         
         
         VStack {
-            
-            ZStack{
-                
-          //   Color(red: 2/256, green: 116/256, blue: 138/256 )
-                  //  .cornerRadius(15)
-                
+ 
                 HStack{
                     
                     Text("Searchfunction")
@@ -67,15 +45,7 @@ struct ContentView: View {
                     }, label: {
                         Text("Nytt tecken")
                             .foregroundColor(Color.white)
-                            .onAppear {
-                                
-                                if signs.count != 0 {
-                                    
-                                    activeSign = signs[0]
-                                    
-                                    
-                                }
-                            }
+                           
                         //                        Image(systemName: "plus")
                         //                            .foregroundColor(Color.white)
                     })
@@ -88,13 +58,25 @@ struct ContentView: View {
                         })
                             .foregroundColor(Color.white)
                     }
+                    
                     Spacer()
+                    
                     Button(action: {
                         isLocked.toggle()
                     }, label: {
                         Image(systemName: isLocked ? "lock.fill" : "lock.open.fill")
                             .foregroundColor(Color.white)
                     })
+                        .onAppear {
+                            
+                            if signs.count != 0 {
+                                
+                                activeSign = signs[0]
+                                
+                                
+                            }
+                        }
+                    
                     Button(action: {
                         isMenuActive = true
                     }, label: {
@@ -106,13 +88,9 @@ struct ContentView: View {
                 }
                 .background(Color(red: 2/256, green: 116/256, blue: 138/256 ))
                 .padding()
-                
-            }
-       //   .frame(width: UIScreen.main.bounds.size.width, height: 80)
-            
+
             Spacer()
-            
-            
+
             if let activeSign = activeSign {
                 HStack{
                     
@@ -148,6 +126,7 @@ struct ContentView: View {
                 
                 Text ("Det finns inga tecken att visa.")
                 Text("Skapa ett nytt genom att trycka på plus tecknet uppe i menyn.")
+                Spacer()
                 
             }
             
