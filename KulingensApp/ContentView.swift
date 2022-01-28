@@ -132,7 +132,7 @@ struct ContentView: View {
             
         }
         .sheet(isPresented: $createViewIsActive) { CreateSignView() }
-        .sheet(isPresented: $isMenuActive) { SignListView(activeSign: activeSign) }
+        .sheet(isPresented: $isMenuActive) { SignListView(activeSign: $activeSign) }
         
         
         

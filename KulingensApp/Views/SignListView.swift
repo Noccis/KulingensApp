@@ -16,7 +16,8 @@ struct SignListView: View {
         animation: .default)
     private var signs: FetchedResults<Sign>
     
-    @State var activeSign: Sign? = nil
+    @Binding var activeSign: Sign?
+    @Environment(\.presentationMode) var presentationMode
     
     
     var body: some View {
@@ -28,14 +29,13 @@ struct SignListView: View {
                     Text(sign.name!)
                         .onAppear(perform: {
                        
-                            if let activeSign = activeSign {
-                                print("active Sign= \(activeSign.name)")
-                            }
-
+                        
                             
                         })
                         .onTapGesture {
                             activeSign = sign
+                            presentationMode.wrappedValue
+                                .dismiss()
                         }
 //                    NavigationLink(destination: VehicleView(vehicle: vehicle)) {
 //                        RowView(vehicle: vehicle)
@@ -47,8 +47,8 @@ struct SignListView: View {
     }
 }
 
-struct SignListView_Previews: PreviewProvider {
-    static var previews: some View {
-        SignListView()
-    }
-}
+//struct SignListView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SignListView()
+//    }
+//}
