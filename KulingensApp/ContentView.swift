@@ -138,7 +138,7 @@ struct ContentView: View {
             
         }
         .background( Color(red: 210/256, green: 231/256, blue: 238/256 ))
-        .sheet(isPresented: $createViewIsActive) { CreateSignView() }
+        .sheet(isPresented: $createViewIsActive) { CreateSignView(activeSign: $activeSign) }
         .sheet(isPresented: $isMenuActive) { SignListView(activeSign: $activeSign) }
         
         
