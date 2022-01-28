@@ -58,6 +58,9 @@ struct ContentView: View {
                         .foregroundColor(Color.white)
                         .padding()
                     Spacer()
+                    
+                    if isLocked == false {
+                        
                     Button(action: {
                         createViewIsActive = true
                         
@@ -77,7 +80,7 @@ struct ContentView: View {
                         //                            .foregroundColor(Color.white)
                     })
                         .padding()
-                    if isLocked == false {
+                    
                         Button(action: {
                             deleteItems()
                         }, label: {
