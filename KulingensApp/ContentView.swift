@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import AVKit
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
@@ -22,6 +23,7 @@ struct ContentView: View {
     @State var activeSign: Sign? = nil
     @State var isMenuActive = false
     private var pinCode: Int? = nil
+    @State var audioPlayer: AVAudioPlayer!
     
     
 
@@ -108,12 +110,22 @@ struct ContentView: View {
                         
                    
                  //   Text("Audio file")
-                    Image(systemName: "speaker.wave.3.fill")
-                        .padding()
-                        .foregroundColor(Color.black)
-                        .background(Color(red: 92/256, green: 177/256, blue: 199/256 ))
-                        .cornerRadius(10)
-                        .padding(.trailing, 530)
+                    Button(action: {
+                        self.audioPlayer.play()
+                    }, label: {
+                        Image(systemName: "speaker.wave.3.fill")
+                            .padding()
+                            .foregroundColor(Color.black)
+                            .background(Color(red: 92/256, green: 177/256, blue: 199/256 ))
+                            .cornerRadius(10)
+                            .padding(.trailing, 530)
+                    })
+                        .onAppear(perform: {
+                            
+                            let sound = Bundle.main.path(forResource: "crow", ofType: "wav")
+                            self.audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
+                        })
+                    
                     
                 }
                
