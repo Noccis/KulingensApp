@@ -18,6 +18,7 @@ struct CreateSignView: View {
     
     @State var inputName: String = ""
     @State var inputVideoUrl: String = ""
+    @State var inputAudioName: String = ""
     @Binding var activeSign: Sign?
     @Environment(\.presentationMode) var presentationMode
     
@@ -72,6 +73,8 @@ struct CreateSignView: View {
                 newSign.name = inputName
                 
                 newSign.videoUrl = inputVideoUrl
+                
+                newSign.audioName = "crow"
                 
                 activeSign = newSign
                 

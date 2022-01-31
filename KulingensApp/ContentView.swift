@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import AVKit
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
@@ -22,6 +23,7 @@ struct ContentView: View {
     @State var activeSign: Sign? = nil
     @State var isMenuActive = false
     private var pinCode: Int? = nil
+    @State var audioPlayer: AVAudioPlayer!
     
     
 
@@ -108,12 +110,20 @@ struct ContentView: View {
                         
                    
                  //   Text("Audio file")
-                    Image(systemName: "speaker.wave.3.fill")
-                        .padding()
-                        .foregroundColor(Color.black)
-                        .background(Color(red: 92/256, green: 177/256, blue: 199/256 ))
-                        .cornerRadius(10)
-                        .padding(.trailing, 530)
+                    Button(action: {
+                        self.audioPlayer.play()
+                    }, label: {
+                        Image(systemName: "speaker.wave.3.fill")
+                            .padding()
+                            .foregroundColor(Color.black)
+                            .background(Color(red: 92/256, green: 177/256, blue: 199/256 ))
+                            .cornerRadius(10)
+                            .padding(.trailing, 530)
+                    })
+                        .onAppear(perform: {
+                            setAudioSound()
+                        })
+                    
                     
                 }
                
@@ -138,13 +148,24 @@ struct ContentView: View {
             
         }
         .background( Color(red: 210/256, green: 231/256, blue: 238/256 ))
-        .sheet(isPresented: $createViewIsActive) { CreateSignView(activeSign: $activeSign) }
-        .sheet(isPresented: $isMenuActive) { SignListView(activeSign: $activeSign) }
+        .sheet(isPresented: $createViewIsActive, onDismiss: {
+            setAudioSound()
+        }) { CreateSignView(activeSign: $activeSign) }
+        .sheet(isPresented: $isMenuActive, onDismiss: {
+            setAudioSound()
+        }) { SignListView(activeSign: $activeSign) }
         
         
         
         
         
+    }
+    
+    func setAudioSound() {
+        if let activeSign = activeSign {
+            let sound = Bundle.main.path(forResource: activeSign.audioName, ofType: "wav")
+            self.audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
+        }
     }
     
     private func addSign() {

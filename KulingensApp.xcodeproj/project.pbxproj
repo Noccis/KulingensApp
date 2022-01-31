@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0F5FE70927A03AC1003E302E /* SignListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F5FE70827A03AC1003E302E /* SignListView.swift */; };
+		0F64E52727A7EFAA009F98A3 /* crow.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0F64E52627A7EFAA009F98A3 /* crow.wav */; };
+		0F64E52927A7FB40009F98A3 /* bird.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0F64E52827A7FB40009F98A3 /* bird.wav */; };
 		0F69296327959FB800835982 /* KulingensAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F69296227959FB800835982 /* KulingensAppApp.swift */; };
 		0F69296527959FB800835982 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F69296427959FB800835982 /* ContentView.swift */; };
 		0F69296727959FC200835982 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0F69296627959FC200835982 /* Assets.xcassets */; };
@@ -40,6 +42,8 @@
 
 /* Begin PBXFileReference section */
 		0F5FE70827A03AC1003E302E /* SignListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignListView.swift; sourceTree = "<group>"; };
+		0F64E52627A7EFAA009F98A3 /* crow.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = crow.wav; sourceTree = "<group>"; };
+		0F64E52827A7FB40009F98A3 /* bird.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = bird.wav; sourceTree = "<group>"; };
 		0F69295F27959FB800835982 /* KulingensApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KulingensApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F69296227959FB800835982 /* KulingensAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KulingensAppApp.swift; sourceTree = "<group>"; };
 		0F69296427959FB800835982 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -105,8 +109,9 @@
 			isa = PBXGroup;
 			children = (
 				0FA1B3F32798209C00AB17C3 /* Views */,
-				0F6929912795A0E400835982 /* Entities */,
 				0F69296227959FB800835982 /* KulingensAppApp.swift */,
+				0F64E52827A7FB40009F98A3 /* bird.wav */,
+				0F64E52627A7EFAA009F98A3 /* crow.wav */,
 				0F69296427959FB800835982 /* ContentView.swift */,
 				0F69296627959FC200835982 /* Assets.xcassets */,
 				0F69296B27959FC200835982 /* Persistence.swift */,
@@ -139,13 +144,6 @@
 				0F69298427959FC400835982 /* KulingensAppUITestsLaunchTests.swift */,
 			);
 			path = KulingensAppUITests;
-			sourceTree = "<group>";
-		};
-		0F6929912795A0E400835982 /* Entities */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Entities;
 			sourceTree = "<group>";
 		};
 		0FA1B3F32798209C00AB17C3 /* Views */ = {
@@ -262,6 +260,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F64E52727A7EFAA009F98A3 /* crow.wav in Resources */,
+				0F64E52927A7FB40009F98A3 /* bird.wav in Resources */,
 				0F69296A27959FC200835982 /* Preview Assets.xcassets in Resources */,
 				0F69296727959FC200835982 /* Assets.xcassets in Resources */,
 			);
