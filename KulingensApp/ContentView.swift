@@ -150,7 +150,7 @@ struct ContentView: View {
         .background( Color(red: 210/256, green: 231/256, blue: 238/256 ))
         .sheet(isPresented: $createViewIsActive, onDismiss: {
             setAudioSound()
-        }) { CreateSignView(activeSign: $activeSign) }
+        }) { CreateSignView(audioRecorder: AudioRecorder(), activeSign: $activeSign) }
         .sheet(isPresented: $isMenuActive, onDismiss: {
             setAudioSound()
         }) { SignListView(activeSign: $activeSign) }
@@ -163,7 +163,7 @@ struct ContentView: View {
     
     func setAudioSound() {
         if let activeSign = activeSign {
-            let sound = Bundle.main.path(forResource: activeSign.audioName, ofType: "wav")
+            let sound = Bundle.main.path(forResource: "crow", ofType: "wav")
             self.audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
         }
     }

@@ -16,6 +16,7 @@ struct CreateSignView: View {
         animation: .default)
     private var signs: FetchedResults<Sign>
     
+    @ObservedObject var audioRecorder: AudioRecorder
     @State var inputName: String = ""
     @State var inputVideoUrl: String = ""
     @State var inputAudioName: String = ""
@@ -27,17 +28,17 @@ struct CreateSignView: View {
         
         VStack{
             
-        Text("Skapa nytt tecken")
+            Text("Skapa nytt tecken")
                 .padding()
-
-            .padding()                                  // Ta bort padding neråt
+            
+                .padding()                                  // Ta bort padding neråt
             TextField("Namge ditt tecken", text: $inputName)             // Ta bort padding uppåt
                 .padding()
                 .background(Color.gray.opacity(0.2).cornerRadius(10))
                 .font(.title3)
                 .padding()
             
-
+            
             
             TextField("Skriv in URL till din video", text: $inputVideoUrl)
                 .padding()
@@ -45,9 +46,38 @@ struct CreateSignView: View {
                 .font(.title3)
                 .padding()
             
-//            Text("Här kan man spela in ljud")
-//                .padding()
-//
+            Text("Här kan man spela in ljud")
+                .padding()
+            if audioRecorder.recording == false {
+                Button(action: {
+                    self.audioRecorder.startRecording()
+                }) {
+                    Image(systemName: "circle.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 50, height: 50)
+                        .clipped()
+                        .foregroundColor(.red)
+                        .padding(.bottom, 40)
+                }
+            } else {
+                Button(action: {
+                    self.audioRecorder.stopRecording()
+                }) {
+                    Image(systemName: "stop.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 50, height: 50)
+                        .clipped()
+                        .foregroundColor(.red)
+                        .padding(.bottom, 40)
+                }
+            }
+            
+            // Lista med recordings
+            RecordingsList(audioRecorder: audioRecorder)
+            
+            
             Spacer()
             
             Button(action: {
@@ -93,12 +123,23 @@ struct CreateSignView: View {
             inputName = ""
             inputVideoUrl = ""
             
-
+            
         }
     }
     
     
     
+}
+
+struct RecordingsList: View {
+    
+    @ObservedObject var audioRecorder: AudioRecorder
+    
+    var body: some View {
+        List {
+            Text("Empty list")
+        }
+    }
 }
 
 //struct CreateSignView_Previews: PreviewProvider {
