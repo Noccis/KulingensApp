@@ -24,6 +24,10 @@ struct ContentView: View {
     @State var isMenuActive = false
     private var pinCode: Int? = nil
   //  @State var audioPlayer: AVAudioPlayer!
+    @ObservedObject var audioPlayer = AudioPlayer()
+    
+    let urlName = "file:///Users/tonilof/Library/Developer/CoreSimulator/Devices/4846ABA4-92A8-4AB0-A360-9E0B93F695E0/data/Containers/Data/Application/A55204FA-A77F-41EB-A5D6-8DB548767EE1/Documents/01-02-22_at_12:40:38.m4a"
+  
     
     
 
@@ -135,6 +139,12 @@ struct ContentView: View {
                         .frame(minWidth: 200, maxWidth: 700, minHeight: 100, maxHeight: 500)
                         .padding(EdgeInsets(top:0, leading: 0, bottom: 10, trailing: 0))
                   
+                    // ------------------------------------- Testar spela upp ljud
+                    
+                    if let testUrl = URL(string: urlName)
+                    {
+                        TestView(audioURL: testUrl)
+                    }
                     
                     
                 }
@@ -211,58 +221,34 @@ struct ContentView: View {
     
 }
 
-//private let itemFormatter: DateFormatter = {
-//    let formatter = DateFormatter()
-//    formatter.dateStyle = .short
-//    formatter.timeStyle = .medium
-//    return formatter
-//}()
 
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-//    }
-//}
+struct TestView: View {
+    
+    var audioURL: URL
+    @ObservedObject var audioPlayer = AudioPlayer()
+    
+        var body: some View {
+            HStack {
+                Text("\(audioURL.lastPathComponent)")
+                Spacer()
+               
+                if audioPlayer.isPlaying == false {
+                               Button(action: {
+                                   self.audioPlayer.startPlayback(audio: self.audioURL)
+                                   print("SELF AUDIOURL; \(self.audioURL)")
+                               }) {
+                                   Image(systemName: "play.circle")
+                                       .imageScale(.large)
+                               }
+                           } else {
+                               Button(action: {
+                                   self.audioPlayer.stopPlayback()
+                               }) {
+                                   Image(systemName: "stop.fill")
+                                       .imageScale(.large)
+                               }
+                           }
+            }
+        }
+}
 
-
-//        .onAppear(){
-//            let newSign = Sign(context: viewContext)
-//                    newSign.name = "Dodo"
-//                    newSign.instruction = "Hej och hå."
-//
-//                    do {
-//                        try viewContext.save()
-//                    } catch {
-//
-//                        let nsError = error as NSError
-//                        fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-//                    }
-//            print(signs)
-//        }
-//        NavigationView {
-//            List {
-//                ForEach(signs) { sign in
-//                    NavigationLink { // Texten som visas efter man tryckt på objektet i listan.
-//                        Text("Item name \(sign.name!)")
-//                        Text("Instruction: \(sign.instruction!)")
-//
-//                    } label: {  // Texten som visas i listan.
-//                        Text(sign.name!)
-//
-//                    }
-//                }
-//                .onDelete(perform: deleteItems)
-//            }
-//            .toolbar {
-//                ToolbarItem(placement: .navigationBarTrailing) {
-//                    EditButton()
-//                }
-//                ToolbarItem {
-//                    Button(action: addSign) {
-//                        Label("Add Sign", systemImage: "plus")
-//                    }
-//                }
-//            }
-//            Text("Select an item")
-//        }
-//
