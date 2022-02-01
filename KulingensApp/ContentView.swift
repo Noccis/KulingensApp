@@ -23,7 +23,7 @@ struct ContentView: View {
     @State var activeSign: Sign? = nil
     @State var isMenuActive = false
     private var pinCode: Int? = nil
-    @State var audioPlayer: AVAudioPlayer!
+  //  @State var audioPlayer: AVAudioPlayer!
     
     
 
@@ -111,7 +111,8 @@ struct ContentView: View {
                    
                  //   Text("Audio file")
                     Button(action: {
-                        self.audioPlayer.play()
+                        print("Nothing to see here.")
+                     //   self.audioPlayer.play()
                     }, label: {
                         Image(systemName: "speaker.wave.3.fill")
                             .padding()
@@ -120,9 +121,9 @@ struct ContentView: View {
                             .cornerRadius(10)
                             .padding(.trailing, 530)
                     })
-                        .onAppear(perform: {
-                            setAudioSound()
-                        })
+//                        .onAppear(perform: {
+//                            setAudioSound()
+//                        })
                     
                     
                 }
@@ -149,10 +150,12 @@ struct ContentView: View {
         }
         .background( Color(red: 210/256, green: 231/256, blue: 238/256 ))
         .sheet(isPresented: $createViewIsActive, onDismiss: {
-            setAudioSound()
+          print("Nothing to see here!")
+            //  setAudioSound()
         }) { CreateSignView(audioRecorder: AudioRecorder(), activeSign: $activeSign) }
         .sheet(isPresented: $isMenuActive, onDismiss: {
-            setAudioSound()
+           print("Nothing to see here!")
+            // setAudioSound()
         }) { SignListView(activeSign: $activeSign) }
         
         
@@ -161,12 +164,12 @@ struct ContentView: View {
         
     }
     
-    func setAudioSound() {
-        if let activeSign = activeSign {
-            let sound = Bundle.main.path(forResource: "crow", ofType: "wav")
-            self.audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
-        }
-    }
+//    func setAudioSound() {
+//        if let activeSign = activeSign {
+//            let sound = Bundle.main.path(forResource: "crow", ofType: "wav")
+//            self.audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
+//        }
+//    }
     
     private func addSign() {
         withAnimation {
