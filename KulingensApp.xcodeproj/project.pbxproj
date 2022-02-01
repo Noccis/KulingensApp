@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0F4BD62427A9C4CF004C4D2F /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4BD62327A9C4CF004C4D2F /* AudioRecorder.swift */; };
 		0F4BD62627A9C7AA004C4D2F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4BD62527A9C7AA004C4D2F /* Extensions.swift */; };
+		0F4BD62827A9C906004C4D2F /* RecordingDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4BD62727A9C906004C4D2F /* RecordingDataModel.swift */; };
+		0F4BD62A27A9C996004C4D2F /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4BD62927A9C996004C4D2F /* Helper.swift */; };
 		0F5FE70927A03AC1003E302E /* SignListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F5FE70827A03AC1003E302E /* SignListView.swift */; };
 		0F64E52727A7EFAA009F98A3 /* crow.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0F64E52627A7EFAA009F98A3 /* crow.wav */; };
 		0F64E52927A7FB40009F98A3 /* bird.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0F64E52827A7FB40009F98A3 /* bird.wav */; };
@@ -45,6 +47,8 @@
 /* Begin PBXFileReference section */
 		0F4BD62327A9C4CF004C4D2F /* AudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
 		0F4BD62527A9C7AA004C4D2F /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		0F4BD62727A9C906004C4D2F /* RecordingDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingDataModel.swift; sourceTree = "<group>"; };
+		0F4BD62927A9C996004C4D2F /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		0F5FE70827A03AC1003E302E /* SignListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignListView.swift; sourceTree = "<group>"; };
 		0F64E52627A7EFAA009F98A3 /* crow.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = crow.wav; sourceTree = "<group>"; };
 		0F64E52827A7FB40009F98A3 /* bird.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = bird.wav; sourceTree = "<group>"; };
@@ -94,6 +98,8 @@
 			children = (
 				0F4BD62327A9C4CF004C4D2F /* AudioRecorder.swift */,
 				0F4BD62527A9C7AA004C4D2F /* Extensions.swift */,
+				0F4BD62727A9C906004C4D2F /* RecordingDataModel.swift */,
+				0F4BD62927A9C996004C4D2F /* Helper.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -302,7 +308,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F4BD62A27A9C996004C4D2F /* Helper.swift in Sources */,
 				0F7090CC279AAB2400CCDC48 /* VideoView.swift in Sources */,
+				0F4BD62827A9C906004C4D2F /* RecordingDataModel.swift in Sources */,
 				0F4BD62627A9C7AA004C4D2F /* Extensions.swift in Sources */,
 				0FA1B3F5279821C600AB17C3 /* CreateSignView.swift in Sources */,
 				0F69296C27959FC200835982 /* Persistence.swift in Sources */,
