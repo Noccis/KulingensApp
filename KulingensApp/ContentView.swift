@@ -25,6 +25,9 @@ struct ContentView: View {
     private var pinCode: Int? = nil
   //  @State var audioPlayer: AVAudioPlayer!
     @ObservedObject var audioPlayer = AudioPlayer()
+    @State var audioRecorder = AudioRecorder()
+    var audioUrlstring = "31-01-22_at_05:22:28.m4a"
+    
     
     let urlName = "file:///Users/tonilof/Library/Developer/CoreSimulator/Devices/4846ABA4-92A8-4AB0-A360-9E0B93F695E0/data/Containers/Data/Application/F5878356-E741-49D3-AA1A-7ADB26C2B4E1/Documents/01-02-22_at_12:40:38.m4a"
   
@@ -114,7 +117,13 @@ struct ContentView: View {
                    
                  //   Text("Audio file")
                     Button(action: {
+                        
                         print("Nothing to see here.")
+                        getRecordingList()
+                        
+                      //      self.audioPlayer.startPlayback(audio: audioUrlName))
+                        
+                       
                      //   self.audioPlayer.play()
                     }, label: {
                         Image(systemName: "speaker.wave.3.fill")
@@ -128,6 +137,11 @@ struct ContentView: View {
 //                            setAudioSound()
 //                        })
                     
+                    Button(action: {
+                        getRecordingList()
+                    }, label: {
+                        Text("Hämta namn")
+                    })
                     
                 }
                
@@ -138,14 +152,6 @@ struct ContentView: View {
                         .frame(minWidth: 200, maxWidth: 700, minHeight: 100, maxHeight: 500)
                         .padding(EdgeInsets(top:0, leading: 0, bottom: 10, trailing: 0))
                   
-                    // ------------------------------------- Testar spela upp ljud
-                    
-                    if let testUrl = URL(string: "file:///Users/tonilof/Library/Developer/CoreSimulator/Devices/4846ABA4-92A8-4AB0-A360-9E0B93F695E0/data/Containers/Data/Application/9AB3A9D5-E476-470F-88B5-7F3EC236D203/Documents/01-02-22_at_12:40:38.m4a")
-                    {
-                        TestView(audioURL: testUrl)
-                    }
-                    
-                    
                 }
                 Spacer()
             }else{
@@ -161,7 +167,7 @@ struct ContentView: View {
         .sheet(isPresented: $createViewIsActive, onDismiss: {
           print("Nothing to see here!")
             //  setAudioSound()
-        }) { CreateSignView(audioRecorder: AudioRecorder(), activeSign: $activeSign) }
+        }) { CreateSignView(audioRecorder: audioRecorder, activeSign: $activeSign) }
         .sheet(isPresented: $isMenuActive, onDismiss: {
            print("Nothing to see here!")
             // setAudioSound()
@@ -216,38 +222,66 @@ struct ContentView: View {
         }
     }
     
-    
-    
-}
+    func getRecordingList(){
+            
+        let testList = self.audioRecorder.recordings
+       // print(testList.count)
+     //   self.audioPlayer.startPlayback(audio: testList.first!.fileURL)
+        print("play: ::\(audioUrlstring)::")
+        
+        for recording in testList {
+            let dodo = recording.fileURL.absoluteString.suffix(24)
+            print("TESTLIST ::\(dodo)::")
 
+            if dodo == audioUrlstring {
+                print("PLaying!!!!!!!!!")
 
-struct TestView: View {
-    
-    var audioURL: URL
-    var audioPlayer = AudioPlayer()
-    
-        var body: some View {
-            HStack {
-                Text("\(audioURL.lastPathComponent)")
-                Spacer()
-               
-                if audioPlayer.isPlaying == false {
-                               Button(action: {
-                                   self.audioPlayer.startPlayback(audio: self.audioURL)
-                                 //  print("SELF AUDIOURL; ::\(self.audioURL)::")
-                               }) {
-                                   Image(systemName: "play.circle")
-                                       .imageScale(.large)
-                               }
-                           } else {
-                               Button(action: {
-                                   self.audioPlayer.stopPlayback()
-                               }) {
-                                   Image(systemName: "stop.fill")
-                                       .imageScale(.large)
-                               }
-                           }
+                self.audioPlayer.startPlayback(audio: recording.fileURL)
             }
         }
+        
+    //    let signAudioName = "test"
+        
+     
+        
+        // Ta in en namnString (ska vara activeSign.audioName i framtiden)
+        // Gå igenom testList
+        // Sätt audioUrlName till rätt URL
+        
+    }
+    
+    
+    
 }
+
+
+//struct TestView: View {
+//
+//    var audioURL: URL
+//    var audioPlayer = AudioPlayer()
+//
+//        var body: some View {
+//            HStack {
+//                Text("\(audioURL.lastPathComponent)")
+//                Spacer()
+//
+//                if audioPlayer.isPlaying == false {
+//                               Button(action: {
+//                                   self.audioPlayer.startPlayback(audio: self.audioURL)
+//                                 //  print("SELF AUDIOURL; ::\(self.audioURL)::")
+//                               }) {
+//                                   Image(systemName: "play.circle")
+//                                       .imageScale(.large)
+//                               }
+//                           } else {
+//                               Button(action: {
+//                                   self.audioPlayer.stopPlayback()
+//                               }) {
+//                                   Image(systemName: "stop.fill")
+//                                       .imageScale(.large)
+//                               }
+//                           }
+//            }
+//        }
+//}
 

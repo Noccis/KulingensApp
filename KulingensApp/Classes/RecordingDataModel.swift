@@ -10,4 +10,8 @@ import Foundation
 struct Recording {
     let fileURL: URL
     let createdAt: Date
+    
+    var filename : String {
+        return String(fileURL.absoluteString.suffix(24))
+    }
 }

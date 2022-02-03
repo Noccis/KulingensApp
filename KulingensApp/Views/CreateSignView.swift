@@ -50,7 +50,7 @@ struct CreateSignView: View {
                 .padding()
             if audioRecorder.recording == false {
                 Button(action: {
-                    self.audioRecorder.startRecording()
+                    inputAudioName = self.audioRecorder.startRecording()
                 }) {
                     Image(systemName: "circle.fill")
                         .resizable()
@@ -75,7 +75,7 @@ struct CreateSignView: View {
             }
             
             // Lista med recordings
-            RecordingsList(audioRecorder: audioRecorder)
+        //    RecordingsList(audioRecorder: audioRecorder)
             
             
             Spacer()
@@ -104,7 +104,7 @@ struct CreateSignView: View {
                 
                 newSign.videoUrl = inputVideoUrl
                 
-                newSign.audioName = "crow"
+                newSign.audioName = inputAudioName
                 
                 activeSign = newSign
                 

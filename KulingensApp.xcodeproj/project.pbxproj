@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F49307A27AC107F006DB4F1 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F49307927AC107F006DB4F1 /* GameView.swift */; };
 		0F4BD62427A9C4CF004C4D2F /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4BD62327A9C4CF004C4D2F /* AudioRecorder.swift */; };
 		0F4BD62627A9C7AA004C4D2F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4BD62527A9C7AA004C4D2F /* Extensions.swift */; };
 		0F4BD62827A9C906004C4D2F /* RecordingDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4BD62727A9C906004C4D2F /* RecordingDataModel.swift */; };
@@ -46,6 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0F49307927AC107F006DB4F1 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		0F4BD62327A9C4CF004C4D2F /* AudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
 		0F4BD62527A9C7AA004C4D2F /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		0F4BD62727A9C906004C4D2F /* RecordingDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingDataModel.swift; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 				0FA1B3F4279821C600AB17C3 /* CreateSignView.swift */,
 				0F7090CB279AAB2400CCDC48 /* VideoView.swift */,
 				0F5FE70827A03AC1003E302E /* SignListView.swift */,
+				0F49307927AC107F006DB4F1 /* GameView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -322,6 +325,7 @@
 				0F69296327959FB800835982 /* KulingensAppApp.swift in Sources */,
 				0F4BD62427A9C4CF004C4D2F /* AudioRecorder.swift in Sources */,
 				0F5FE70927A03AC1003E302E /* SignListView.swift in Sources */,
+				0F49307A27AC107F006DB4F1 /* GameView.swift in Sources */,
 				0F4BD62C27A9CBB9004C4D2F /* AudioPlayer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

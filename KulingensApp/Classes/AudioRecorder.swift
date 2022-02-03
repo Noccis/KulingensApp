@@ -27,7 +27,7 @@ class AudioRecorder: NSObject, ObservableObject {
        }
     
     
-    func startRecording() {
+    func startRecording()-> String {
         let recordingSession = AVAudioSession.sharedInstance()
         do {
             try recordingSession.setCategory(.playAndRecord, mode: .default)
@@ -37,9 +37,12 @@ class AudioRecorder: NSObject, ObservableObject {
         }
         
         let documentPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        print("AUDIORECORDER document path: \(documentPath)")
+        
         let audioFilename = documentPath.appendingPathComponent("\(Date().toString(dateFormat: "dd-MM-YY_'at'_HH:mm:ss")).m4a")
-        print("AUDIORECORDER audioFilename: \(audioFilename)")
+        print("AUDIORECORDER audioFilename::\(audioFilename)::")
+        
+        let audioName = String(audioFilename.absoluteString.suffix(24))
+        print("AUDIORECORDER audioName::\(audioName)::")
         let settings = [
             AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
             AVSampleRateKey: 12000,
@@ -56,7 +59,7 @@ class AudioRecorder: NSObject, ObservableObject {
             print("Could not start recording")
         }
         
-        
+        return audioName
     }
     
     func stopRecording() {
@@ -64,6 +67,7 @@ class AudioRecorder: NSObject, ObservableObject {
            recording = false
         fetchRecordings()
        }
+    
     
     func fetchRecordings() {
             recordings.removeAll()
@@ -74,6 +78,7 @@ class AudioRecorder: NSObject, ObservableObject {
             for audio in directoryContents {
                 
                 let recording = Recording(fileURL: audio, createdAt: getCreationDate(for: audio))
+                print("\(recording.fileURL)")
                           recordings.append(recording)
             }
         // Behöver denna rad vara med?
@@ -81,5 +86,24 @@ class AudioRecorder: NSObject, ObservableObject {
                 
                 objectWillChange.send(self)
         }
+    
+    func fetchSingleRecording() {
+        
+        recordings.removeAll()
+        
+        let fileManager = FileManager.default
+        let documentDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let directoryContents = try! fileManager.contentsOfDirectory(at: documentDirectory, includingPropertiesForKeys: nil)
+        for audio in directoryContents {
+            
+            let recording = Recording(fileURL: audio, createdAt: getCreationDate(for: audio))
+            print("\(recording.fileURL)")
+                      recordings.append(recording)
+        }
+            
+            objectWillChange.send(self)     // Behöver jag ha med denna?
+        
+        
+    }
     
 }
