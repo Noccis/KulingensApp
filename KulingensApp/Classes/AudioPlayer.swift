@@ -33,8 +33,8 @@ class AudioPlayer:  NSObject, ObservableObject, AVAudioPlayerDelegate {
         //                }
         
         do {
+            print("AudioPlayer startPlayback audio URL:  ::\(audio)::")
             audioPlayer = try AVAudioPlayer(contentsOf: audio)
-            print("AudioPlayer startPlayback audio URL:  \(audio)")
             audioPlayer.delegate = self
             audioPlayer.play()
             isPlaying = true

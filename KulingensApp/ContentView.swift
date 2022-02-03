@@ -26,7 +26,7 @@ struct ContentView: View {
   //  @State var audioPlayer: AVAudioPlayer!
     @ObservedObject var audioPlayer = AudioPlayer()
     
-    let urlName = "file:///Users/tonilof/Library/Developer/CoreSimulator/Devices/4846ABA4-92A8-4AB0-A360-9E0B93F695E0/data/Containers/Data/Application/A55204FA-A77F-41EB-A5D6-8DB548767EE1/Documents/01-02-22_at_12:40:38.m4a"
+    let urlName = "file:///Users/tonilof/Library/Developer/CoreSimulator/Devices/4846ABA4-92A8-4AB0-A360-9E0B93F695E0/data/Containers/Data/Application/F5878356-E741-49D3-AA1A-7ADB26C2B4E1/Documents/01-02-22_at_12:40:38.m4a"
   
     
     
@@ -52,8 +52,7 @@ struct ContentView: View {
                         Text("Nytt tecken")
                             .foregroundColor(Color.white)
                            
-                        //                        Image(systemName: "plus")
-                        //                            .foregroundColor(Color.white)
+        
                     })
                         .padding()
                     
@@ -141,7 +140,7 @@ struct ContentView: View {
                   
                     // ------------------------------------- Testar spela upp ljud
                     
-                    if let testUrl = URL(string: urlName)
+                    if let testUrl = URL(string: "file:///Users/tonilof/Library/Developer/CoreSimulator/Devices/4846ABA4-92A8-4AB0-A360-9E0B93F695E0/data/Containers/Data/Application/9AB3A9D5-E476-470F-88B5-7F3EC236D203/Documents/01-02-22_at_12:40:38.m4a")
                     {
                         TestView(audioURL: testUrl)
                     }
@@ -225,7 +224,7 @@ struct ContentView: View {
 struct TestView: View {
     
     var audioURL: URL
-    @ObservedObject var audioPlayer = AudioPlayer()
+    var audioPlayer = AudioPlayer()
     
         var body: some View {
             HStack {
@@ -235,7 +234,7 @@ struct TestView: View {
                 if audioPlayer.isPlaying == false {
                                Button(action: {
                                    self.audioPlayer.startPlayback(audio: self.audioURL)
-                                   print("SELF AUDIOURL; \(self.audioURL)")
+                                 //  print("SELF AUDIOURL; ::\(self.audioURL)::")
                                }) {
                                    Image(systemName: "play.circle")
                                        .imageScale(.large)
