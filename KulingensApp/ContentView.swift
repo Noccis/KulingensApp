@@ -22,11 +22,13 @@ struct ContentView: View {
     @State var createViewIsActive = false
     @State var activeSign: Sign? = nil
     @State var isMenuActive = false
+    @State var audioRecorder = AudioRecorder()
+    @State var audioString = ""
+    @State var audioUrl: String = ""
     private var pinCode: Int? = nil
   //  @State var audioPlayer: AVAudioPlayer!
     @ObservedObject var audioPlayer = AudioPlayer()
-    @State var audioRecorder = AudioRecorder()
-    var audioUrlstring = "31-01-22_at_05:22:28.m4a"
+    
     
     
     let urlName = "file:///Users/tonilof/Library/Developer/CoreSimulator/Devices/4846ABA4-92A8-4AB0-A360-9E0B93F695E0/data/Containers/Data/Application/F5878356-E741-49D3-AA1A-7ADB26C2B4E1/Documents/01-02-22_at_12:40:38.m4a"
@@ -61,9 +63,11 @@ struct ContentView: View {
                     
                         Button(action: {
                             deleteItems()
+                            deleteAudioFile()
                             
                             if signs.count != 0 {
                                 activeSign = signs[0]
+                                fetchSignAudio()
 
                             }
                             
@@ -87,7 +91,7 @@ struct ContentView: View {
                                 
                                 activeSign = signs[0]
                                 
-                                
+                                fetchSignAudio()
                             }
                         }
                     
@@ -117,14 +121,9 @@ struct ContentView: View {
                    
                  //   Text("Audio file")
                     Button(action: {
-                        
+                        playAudio()
                         print("Nothing to see here.")
-                        getRecordingList()
-                        
-                      //      self.audioPlayer.startPlayback(audio: audioUrlName))
-                        
-                       
-                     //   self.audioPlayer.play()
+                    
                     }, label: {
                         Image(systemName: "speaker.wave.3.fill")
                             .padding()
@@ -133,15 +132,16 @@ struct ContentView: View {
                             .cornerRadius(10)
                             .padding(.trailing, 530)
                     })
-//                        .onAppear(perform: {
-//                            setAudioSound()
-//                        })
+                        .onAppear(perform: {
+                            fetchSignAudio()
+                        })
                     
-                    Button(action: {
-                        getRecordingList()
-                    }, label: {
-                        Text("Hämta namn")
-                    })
+//                    Button(action: {
+//                        fetchSignAudio()
+//                    }, label: {
+//                        Text("Hämta namn")
+//                    })
+                      
                     
                 }
                
@@ -164,14 +164,9 @@ struct ContentView: View {
             
         }
         .background( Color(red: 210/256, green: 231/256, blue: 238/256 ))
-        .sheet(isPresented: $createViewIsActive, onDismiss: {
-          print("Nothing to see here!")
-            //  setAudioSound()
+        .sheet(isPresented: $createViewIsActive, onDismiss: { fetchSignAudio()
         }) { CreateSignView(audioRecorder: audioRecorder, activeSign: $activeSign) }
-        .sheet(isPresented: $isMenuActive, onDismiss: {
-           print("Nothing to see here!")
-            // setAudioSound()
-        }) { SignListView(activeSign: $activeSign) }
+        .sheet(isPresented: $isMenuActive, onDismiss: { fetchSignAudio() }) { SignListView(activeSign: $activeSign) }
         
         
         
@@ -179,12 +174,6 @@ struct ContentView: View {
         
     }
     
-//    func setAudioSound() {
-//        if let activeSign = activeSign {
-//            let sound = Bundle.main.path(forResource: "crow", ofType: "wav")
-//            self.audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
-//        }
-//    }
     
     private func addSign() {
         withAnimation {
@@ -222,31 +211,52 @@ struct ContentView: View {
         }
     }
     
-    func getRecordingList(){
-            
-        let testList = self.audioRecorder.recordings
-       // print(testList.count)
-     //   self.audioPlayer.startPlayback(audio: testList.first!.fileURL)
-        print("play: ::\(audioUrlstring)::")
-        
-        for recording in testList {
-            let dodo = recording.fileURL.absoluteString.suffix(24)
-            print("TESTLIST ::\(dodo)::")
-
-            if dodo == audioUrlstring {
-                print("PLaying!!!!!!!!!")
-
-                self.audioPlayer.startPlayback(audio: recording.fileURL)
+    func fetchSignAudio(){
+       print("FETCH SIGN AUDIO KÖRS!")
+        if let activeSign = activeSign {
+            if let name = activeSign.audioName {
+                audioString = name
+                print(" FETCH SIGN AUDIO AUDIO URL: ::\(audioUrl)::")
             }
         }
         
-    //    let signAudioName = "test"
+        // Behöver jag kalla på fetch recordings första gången appen körs?
+        let testList = self.audioRecorder.recordings
+       
+       // print("play: ::\(audioUrlstring)::")
         
-     
+        for recording in testList {
+            let dodo = recording.fileURL.absoluteString.suffix(24)
+          //  print("TESTLIST ::\(dodo)::")
+
+            if dodo == audioString {
+           //     print("PLaying!!!!!!!!!")
+
+                audioUrl = String(recording.fileURL.absoluteString)
+                
+                print("FETCHSIGNRECORDING audio url set: ::\(audioUrl)::")
+              //  self.audioPlayer.startPlayback(audio: recording.fileURL)
+            }
+        }
+    }
+    
+    func playAudio() {
+        if let playUrl = URL(string: audioUrl){
+        self.audioPlayer.startPlayback(audio: playUrl)
+        }
+    }
+    
+    func deleteAudioFile() {
         
-        // Ta in en namnString (ska vara activeSign.audioName i framtiden)
-        // Gå igenom testList
-        // Sätt audioUrlName till rätt URL
+       if let deleteUrl = URL(string: audioUrl){
+            
+            self.audioRecorder.deleteSingleRecording(urlToDelete: deleteUrl)
+       }else{
+           
+           print("DELETE AUDIO FILE URL BROKEN!!")
+       }
+        
+       print("AUDIO URL: ::\(audioUrl)::")
         
     }
     
@@ -254,34 +264,4 @@ struct ContentView: View {
     
 }
 
-
-//struct TestView: View {
-//
-//    var audioURL: URL
-//    var audioPlayer = AudioPlayer()
-//
-//        var body: some View {
-//            HStack {
-//                Text("\(audioURL.lastPathComponent)")
-//                Spacer()
-//
-//                if audioPlayer.isPlaying == false {
-//                               Button(action: {
-//                                   self.audioPlayer.startPlayback(audio: self.audioURL)
-//                                 //  print("SELF AUDIOURL; ::\(self.audioURL)::")
-//                               }) {
-//                                   Image(systemName: "play.circle")
-//                                       .imageScale(.large)
-//                               }
-//                           } else {
-//                               Button(action: {
-//                                   self.audioPlayer.stopPlayback()
-//                               }) {
-//                                   Image(systemName: "stop.fill")
-//                                       .imageScale(.large)
-//                               }
-//                           }
-//            }
-//        }
-//}
 
