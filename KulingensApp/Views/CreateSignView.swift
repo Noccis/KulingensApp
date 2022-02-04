@@ -23,6 +23,7 @@ struct CreateSignView: View {
     @Binding var activeSign: Sign?
     @State var isAudioSaved = false
     @State var varningText = ""
+    @State var saveText = "Spara"
     @Environment(\.presentationMode) var presentationMode
     
     
@@ -83,12 +84,21 @@ struct CreateSignView: View {
                 
                 Spacer()
                 Text(varningText)
+                    .foregroundColor(Color.red)
+                    .padding()
                 Button(action: {
+                    
+                    if isAudioSaved == true {
                     addSign()
                     presentationMode.wrappedValue
                         .dismiss()
+                    }else{
+                        varningText = "Du har inte spelat in ljud till ditt tecken. Är du säker på att du vill spara?"
+                        isAudioSaved = true
+                        saveText = "Ja, spara"
+                    }
                 }, label: {
-                    Text("Spara")
+                    Text(saveText)
                 })
                 Spacer()
                 
@@ -102,7 +112,7 @@ struct CreateSignView: View {
     
     private func addSign() {
         
-        if isAudioSaved == true {
+       
             
             withAnimation {
                 
@@ -118,6 +128,7 @@ struct CreateSignView: View {
                     
                     newSign.audioName = inputAudioName
                     
+                    print ("\(inputName) har audio:: \(inputAudioName)")
                     activeSign = newSign
                     
                     do {
@@ -139,10 +150,7 @@ struct CreateSignView: View {
                 
             }
             
-        }else{
-           isAudioSaved = true
-            // Skriv toast och ändra booL
-        }
+     
         
     }
     
