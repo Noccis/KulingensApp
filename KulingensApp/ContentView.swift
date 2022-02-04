@@ -212,11 +212,20 @@ struct ContentView: View {
     }
     
     func fetchSignAudio(){
-       print("FETCH SIGN AUDIO KÖRS!")
+       
         if let activeSign = activeSign {
             if let name = activeSign.audioName {
-                audioString = name
-                print(" FETCH SIGN AUDIO AUDIO URL: ::\(audioUrl)::")
+              //  print("1 FETCHSIGN NAME:\(name):: COUNT:::\(name.count)")
+                if name.count > 1 {
+                    audioString = name
+        //            print("2 AUDIOSTRING:::: \(audioString)")
+               }else{
+          //         print("AUDIOSTRING SHOULD BE EMPTY")
+                  audioString = ""
+                   audioUrl = ""
+              }
+
+               
             }
         }
         
@@ -231,18 +240,21 @@ struct ContentView: View {
 
             if dodo == audioString {
            //     print("PLaying!!!!!!!!!")
-
+           //     print("FETCHSIGNRECORDING DODO IS SAME AS IN LIST! set: ::\(audioUrl)::")
                 audioUrl = String(recording.fileURL.absoluteString)
                 
-                print("FETCHSIGNRECORDING audio url set: ::\(audioUrl)::")
+                
               //  self.audioPlayer.startPlayback(audio: recording.fileURL)
             }
         }
     }
     
     func playAudio() {
-        if let playUrl = URL(string: audioUrl){
-        self.audioPlayer.startPlayback(audio: playUrl)
+        if audioUrl.count > 3 {
+         //   print("AudioUrl bigger then 3, playing")
+            if let playUrl = URL(string: audioUrl){
+                self.audioPlayer.startPlayback(audio: playUrl)
+            }
         }
     }
     
@@ -253,10 +265,10 @@ struct ContentView: View {
             self.audioRecorder.deleteSingleRecording(urlToDelete: deleteUrl)
        }else{
            
-           print("DELETE AUDIO FILE URL BROKEN!!")
+          // print("DELETE AUDIO FILE URL BROKEN!!")
        }
         
-       print("AUDIO URL: ::\(audioUrl)::")
+   //    print("AUDIO URL: ::\(audioUrl)::")
         
     }
     

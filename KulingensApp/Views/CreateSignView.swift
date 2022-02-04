@@ -21,6 +21,9 @@ struct CreateSignView: View {
     @State var inputVideoUrl: String = ""
     @State var inputAudioName: String = ""
     @Binding var activeSign: Sign?
+    @State var isAudioSaved = false
+    @State var varningText = ""
+    @State var saveText = "Spara"
     @Environment(\.presentationMode) var presentationMode
     
     
@@ -63,6 +66,7 @@ struct CreateSignView: View {
                 } else {
                     Button(action: {
                         self.audioRecorder.stopRecording()
+                        isAudioSaved = true
                     }) {
                         Image(systemName: "stop.fill")
                             .resizable()
@@ -75,17 +79,26 @@ struct CreateSignView: View {
                 }
                 
                 //  Lista med recordings
-                RecordingsList(audioRecorder: audioRecorder)
+             //   RecordingsList(audioRecorder: audioRecorder)
                 
                 
                 Spacer()
-                
+                Text(varningText)
+                    .foregroundColor(Color.red)
+                    .padding()
                 Button(action: {
+                    
+                    if isAudioSaved == true {
                     addSign()
                     presentationMode.wrappedValue
                         .dismiss()
+                    }else{
+                        varningText = "Du har inte spelat in ljud till ditt tecken. Är du säker på att du vill spara?"
+                        isAudioSaved = true
+                        saveText = "Ja, spara"
+                    }
                 }, label: {
-                    Text("Spara")
+                    Text(saveText)
                 })
                 Spacer()
                 
@@ -98,38 +111,47 @@ struct CreateSignView: View {
     }
     
     private func addSign() {
-        withAnimation {
+        
+       
             
-            if inputName.count > 3 && inputVideoUrl.count > 5 {
+            withAnimation {
                 
-                let newSign = Sign(context: viewContext)
-                // Lägg till lite nil checks
                 
-                newSign.name = inputName
-                
-                newSign.videoUrl = inputVideoUrl
-                
-                newSign.audioName = inputAudioName
-                
-                activeSign = newSign
-                
-                do {
-                    try viewContext.save()
+                if inputName.count > 3 && inputVideoUrl.count > 5 {
                     
-                } catch {
-                    let nsError = error as NSError
-                    fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+                    let newSign = Sign(context: viewContext)
+                    // Lägg till lite nil checks
+                    
+                    newSign.name = inputName
+                    
+                    newSign.videoUrl = inputVideoUrl
+                    
+                    newSign.audioName = inputAudioName
+                    
+                    print ("\(inputName) har audio:: \(inputAudioName)")
+                    activeSign = newSign
+                    
+                    do {
+                        try viewContext.save()
+                        
+                    } catch {
+                        let nsError = error as NSError
+                        fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+                    }
+                }else{
+                    print("Error saving! Name not long enough")
+                    varningText = "Du har inte lagt till ljud, är du säker på att du vill spara?"
+                    // Lägg in en toast.
                 }
-            }else{
-                print("Error saving! Name not long enough")
-                // Lägg in en toast.
+                
+                inputName = ""
+                inputVideoUrl = ""
+                
+                
             }
             
-            inputName = ""
-            inputVideoUrl = ""
-            
-            
-        }
+     
+        
     }
     
     
@@ -191,3 +213,4 @@ struct RecordingRow: View {
 //        CreateSignView()
 //    }
 //}
+
