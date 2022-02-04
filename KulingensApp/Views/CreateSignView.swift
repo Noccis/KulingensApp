@@ -21,6 +21,8 @@ struct CreateSignView: View {
     @State var inputVideoUrl: String = ""
     @State var inputAudioName: String = ""
     @Binding var activeSign: Sign?
+    @State var isAudioSaved = false
+    @State var varningText = ""
     @Environment(\.presentationMode) var presentationMode
     
     
@@ -63,6 +65,7 @@ struct CreateSignView: View {
                 } else {
                     Button(action: {
                         self.audioRecorder.stopRecording()
+                        isAudioSaved = true
                     }) {
                         Image(systemName: "stop.fill")
                             .resizable()
@@ -75,11 +78,11 @@ struct CreateSignView: View {
                 }
                 
                 //  Lista med recordings
-                RecordingsList(audioRecorder: audioRecorder)
+             //   RecordingsList(audioRecorder: audioRecorder)
                 
                 
                 Spacer()
-                
+                Text(varningText)
                 Button(action: {
                     addSign()
                     presentationMode.wrappedValue
@@ -98,38 +101,49 @@ struct CreateSignView: View {
     }
     
     private func addSign() {
-        withAnimation {
+        
+        if isAudioSaved == true {
             
-            if inputName.count > 3 && inputVideoUrl.count > 5 {
+            withAnimation {
                 
-                let newSign = Sign(context: viewContext)
-                // Lägg till lite nil checks
                 
-                newSign.name = inputName
-                
-                newSign.videoUrl = inputVideoUrl
-                
-                newSign.audioName = inputAudioName
-                
-                activeSign = newSign
-                
-                do {
-                    try viewContext.save()
+                if inputName.count > 3 && inputVideoUrl.count > 5 {
                     
-                } catch {
-                    let nsError = error as NSError
-                    fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+                    let newSign = Sign(context: viewContext)
+                    // Lägg till lite nil checks
+                    
+                    newSign.name = inputName
+                    
+                    newSign.videoUrl = inputVideoUrl
+                    
+                    newSign.audioName = inputAudioName
+                    
+                    activeSign = newSign
+                    
+                    do {
+                        try viewContext.save()
+                        
+                    } catch {
+                        let nsError = error as NSError
+                        fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+                    }
+                }else{
+                    print("Error saving! Name not long enough")
+                    varningText = "Du har inte lagt till ljud, är du säker på att du vill spara?"
+                    // Lägg in en toast.
                 }
-            }else{
-                print("Error saving! Name not long enough")
-                // Lägg in en toast.
+                
+                inputName = ""
+                inputVideoUrl = ""
+                
+                
             }
             
-            inputName = ""
-            inputVideoUrl = ""
-            
-            
+        }else{
+           isAudioSaved = true
+            // Skriv toast och ändra booL
         }
+        
     }
     
     
@@ -191,3 +205,4 @@ struct RecordingRow: View {
 //        CreateSignView()
 //    }
 //}
+
