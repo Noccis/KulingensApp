@@ -22,8 +22,17 @@ struct ContentView: View {
     @State var createViewIsActive = false
     @State var activeSign: Sign? = nil
     @State var isMenuActive = false
+    @State var audioRecorder = AudioRecorder()
+    @State var audioString = ""
+    @State var audioUrl: String = ""
     private var pinCode: Int? = nil
-    @State var audioPlayer: AVAudioPlayer!
+  //  @State var audioPlayer: AVAudioPlayer!
+    @ObservedObject var audioPlayer = AudioPlayer()
+    
+    
+    
+    let urlName = "file:///Users/tonilof/Library/Developer/CoreSimulator/Devices/4846ABA4-92A8-4AB0-A360-9E0B93F695E0/data/Containers/Data/Application/F5878356-E741-49D3-AA1A-7ADB26C2B4E1/Documents/01-02-22_at_12:40:38.m4a"
+  
     
     
 
@@ -48,16 +57,17 @@ struct ContentView: View {
                         Text("Nytt tecken")
                             .foregroundColor(Color.white)
                            
-                        //                        Image(systemName: "plus")
-                        //                            .foregroundColor(Color.white)
+        
                     })
                         .padding()
                     
                         Button(action: {
                             deleteItems()
+                            deleteAudioFile()
                             
                             if signs.count != 0 {
                                 activeSign = signs[0]
+                                fetchSignAudio()
 
                             }
                             
@@ -81,7 +91,7 @@ struct ContentView: View {
                                 
                                 activeSign = signs[0]
                                 
-                                
+                                fetchSignAudio()
                             }
                         }
                     
@@ -111,7 +121,9 @@ struct ContentView: View {
                    
                  //   Text("Audio file")
                     Button(action: {
-                        self.audioPlayer.play()
+                        playAudio()
+                        print("Nothing to see here.")
+                    
                     }, label: {
                         Image(systemName: "speaker.wave.3.fill")
                             .padding()
@@ -121,9 +133,15 @@ struct ContentView: View {
                             .padding(.trailing, 530)
                     })
                         .onAppear(perform: {
-                            setAudioSound()
+                            fetchSignAudio()
                         })
                     
+//                    Button(action: {
+//                        fetchSignAudio()
+//                    }, label: {
+//                        Text("Hämta namn")
+//                    })
+                      
                     
                 }
                
@@ -134,8 +152,6 @@ struct ContentView: View {
                         .frame(minWidth: 200, maxWidth: 700, minHeight: 100, maxHeight: 500)
                         .padding(EdgeInsets(top:0, leading: 0, bottom: 10, trailing: 0))
                   
-                    
-                    
                 }
                 Spacer()
             }else{
@@ -148,12 +164,9 @@ struct ContentView: View {
             
         }
         .background( Color(red: 210/256, green: 231/256, blue: 238/256 ))
-        .sheet(isPresented: $createViewIsActive, onDismiss: {
-            setAudioSound()
-        }) { CreateSignView(activeSign: $activeSign) }
-        .sheet(isPresented: $isMenuActive, onDismiss: {
-            setAudioSound()
-        }) { SignListView(activeSign: $activeSign) }
+        .sheet(isPresented: $createViewIsActive, onDismiss: { fetchSignAudio()
+        }) { CreateSignView(audioRecorder: audioRecorder, activeSign: $activeSign) }
+        .sheet(isPresented: $isMenuActive, onDismiss: { fetchSignAudio() }) { SignListView(activeSign: $activeSign) }
         
         
         
@@ -161,12 +174,6 @@ struct ContentView: View {
         
     }
     
-    func setAudioSound() {
-        if let activeSign = activeSign {
-            let sound = Bundle.main.path(forResource: activeSign.audioName, ofType: "wav")
-            self.audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
-        }
-    }
     
     private func addSign() {
         withAnimation {
@@ -204,62 +211,57 @@ struct ContentView: View {
         }
     }
     
+    func fetchSignAudio(){
+       print("FETCH SIGN AUDIO KÖRS!")
+        if let activeSign = activeSign {
+            if let name = activeSign.audioName {
+                audioString = name
+                print(" FETCH SIGN AUDIO AUDIO URL: ::\(audioUrl)::")
+            }
+        }
+        
+        // Behöver jag kalla på fetch recordings första gången appen körs?
+        let testList = self.audioRecorder.recordings
+       
+       // print("play: ::\(audioUrlstring)::")
+        
+        for recording in testList {
+            let dodo = recording.fileURL.absoluteString.suffix(24)
+          //  print("TESTLIST ::\(dodo)::")
+
+            if dodo == audioString {
+           //     print("PLaying!!!!!!!!!")
+
+                audioUrl = String(recording.fileURL.absoluteString)
+                
+                print("FETCHSIGNRECORDING audio url set: ::\(audioUrl)::")
+              //  self.audioPlayer.startPlayback(audio: recording.fileURL)
+            }
+        }
+    }
+    
+    func playAudio() {
+        if let playUrl = URL(string: audioUrl){
+        self.audioPlayer.startPlayback(audio: playUrl)
+        }
+    }
+    
+    func deleteAudioFile() {
+        
+       if let deleteUrl = URL(string: audioUrl){
+            
+            self.audioRecorder.deleteSingleRecording(urlToDelete: deleteUrl)
+       }else{
+           
+           print("DELETE AUDIO FILE URL BROKEN!!")
+       }
+        
+       print("AUDIO URL: ::\(audioUrl)::")
+        
+    }
+    
     
     
 }
 
-//private let itemFormatter: DateFormatter = {
-//    let formatter = DateFormatter()
-//    formatter.dateStyle = .short
-//    formatter.timeStyle = .medium
-//    return formatter
-//}()
 
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-//    }
-//}
-
-
-//        .onAppear(){
-//            let newSign = Sign(context: viewContext)
-//                    newSign.name = "Dodo"
-//                    newSign.instruction = "Hej och hå."
-//
-//                    do {
-//                        try viewContext.save()
-//                    } catch {
-//
-//                        let nsError = error as NSError
-//                        fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-//                    }
-//            print(signs)
-//        }
-//        NavigationView {
-//            List {
-//                ForEach(signs) { sign in
-//                    NavigationLink { // Texten som visas efter man tryckt på objektet i listan.
-//                        Text("Item name \(sign.name!)")
-//                        Text("Instruction: \(sign.instruction!)")
-//
-//                    } label: {  // Texten som visas i listan.
-//                        Text(sign.name!)
-//
-//                    }
-//                }
-//                .onDelete(perform: deleteItems)
-//            }
-//            .toolbar {
-//                ToolbarItem(placement: .navigationBarTrailing) {
-//                    EditButton()
-//                }
-//                ToolbarItem {
-//                    Button(action: addSign) {
-//                        Label("Add Sign", systemImage: "plus")
-//                    }
-//                }
-//            }
-//            Text("Select an item")
-//        }
-//
