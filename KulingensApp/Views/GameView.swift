@@ -24,10 +24,10 @@ struct GameView: View {
     
     var body: some View {
         VStack{
-            
+            // Video
             HStack{
                 
-                Text("Tillbaka")
+                Text("Bullets.")
             
             }
             .background(Color(red: 2/256, green: 116/256, blue: 138/256 ))

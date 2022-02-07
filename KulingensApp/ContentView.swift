@@ -26,41 +26,48 @@ struct ContentView: View {
     @State var audioString = ""
     @State var audioUrl: String = ""
     private var pinCode: Int? = nil
-  //  @State var audioPlayer: AVAudioPlayer!
+    //  @State var audioPlayer: AVAudioPlayer!
     @ObservedObject var audioPlayer = AudioPlayer()
     
     
     
     let urlName = "file:///Users/tonilof/Library/Developer/CoreSimulator/Devices/4846ABA4-92A8-4AB0-A360-9E0B93F695E0/data/Containers/Data/Application/F5878356-E741-49D3-AA1A-7ADB26C2B4E1/Documents/01-02-22_at_12:40:38.m4a"
-  
     
     
-
+    
+    
     var body: some View {
         
-        
-        VStack {
- 
+        NavigationView {
+            
+            
+            VStack {
+                
                 HStack{
-                    
-                    Text("Searchfunction")
-                        .foregroundColor(Color.white)
-                        .padding()
+                    NavigationLink(destination: GameView()){
+                        Text("Öva")
+                            .foregroundColor(Color.white)
+                            .font(.title3)
+                            .padding(EdgeInsets(top:0, leading: 20, bottom: 0, trailing: 0))
+                    }
+//                    Text("Searchfunction")
+//                        .foregroundColor(Color.white)
+//                        .padding()
                     Spacer()
                     
                     if isLocked == false {
                         
-                    Button(action: {
-                        createViewIsActive = true
+                        Button(action: {
+                            createViewIsActive = true
+                            
+                        }, label: {
+                            Text("Nytt tecken")
+                                .foregroundColor(Color.white)
+                            
+                            
+                        })
+                            .padding()
                         
-                    }, label: {
-                        Text("Nytt tecken")
-                            .foregroundColor(Color.white)
-                           
-        
-                    })
-                        .padding()
-                    
                         Button(action: {
                             deleteItems()
                             deleteAudioFile()
@@ -68,7 +75,7 @@ struct ContentView: View {
                             if signs.count != 0 {
                                 activeSign = signs[0]
                                 fetchSignAudio()
-
+                                
                             }
                             
                         }, label: {
@@ -106,69 +113,70 @@ struct ContentView: View {
                 }
                 .background(Color(red: 2/256, green: 116/256, blue: 138/256 ))
                 .padding()
-
-            Spacer()
-
-            if let activeSign = activeSign {
-                HStack{
-                    
-                    Text(activeSign.name!)
-                        .padding()
-                        .background(Color(red: 92/256, green: 177/256, blue: 199/256 ))
-                        .cornerRadius(10)
-                    //    .padding(EdgeInsets(top:0, leading: 200, bottom: 0, trailing: 0))
+                
+                Spacer()
+                
+                if let activeSign = activeSign {
+                    HStack{
                         
-                   
-                 //   Text("Audio file")
-                    Button(action: {
-                        playAudio()
-                        print("Nothing to see here.")
-                    
-                    }, label: {
-                        Image(systemName: "speaker.wave.3.fill")
+                        Text(activeSign.name!)
                             .padding()
-                            .foregroundColor(Color.black)
                             .background(Color(red: 92/256, green: 177/256, blue: 199/256 ))
                             .cornerRadius(10)
-                            .padding(.trailing, 530)
-                    })
-                        .onAppear(perform: {
-                            fetchSignAudio()
+                        //    .padding(EdgeInsets(top:0, leading: 200, bottom: 0, trailing: 0))
+                        
+                        
+                        //   Text("Audio file")
+                        Button(action: {
+                            playAudio()
+                            print("Nothing to see here.")
+                            
+                        }, label: {
+                            Image(systemName: "speaker.wave.3.fill")
+                                .padding()
+                                .foregroundColor(Color.black)
+                                .background(Color(red: 92/256, green: 177/256, blue: 199/256 ))
+                                .cornerRadius(10)
+                                .padding(.trailing, 530)
                         })
+                            .onAppear(perform: {
+                                fetchSignAudio()
+                            })
+                        
+                        //                    Button(action: {
+                        //                        fetchSignAudio()
+                        //                    }, label: {
+                        //                        Text("Hämta namn")
+                        //                    })
+                        
+                        
+                    }
                     
-//                    Button(action: {
-//                        fetchSignAudio()
-//                    }, label: {
-//                        Text("Hämta namn")
-//                    })
-                      
+                    
+                    
+                    HStack{
+                        VideoView(videoID: activeSign.videoUrl!)
+                            .frame(minWidth: 200, maxWidth: 700, minHeight: 100, maxHeight: 500)
+                            .padding(EdgeInsets(top:0, leading: 0, bottom: 10, trailing: 0))
+                        
+                    }
+                    Spacer()
+                }else{
+                    
+                    Text ("Det finns inga tecken att visa.")
+                    Text("Skapa ett nytt genom att trycka på plus tecknet uppe i menyn.")
+                    Spacer()
                     
                 }
-               
-                
-                
-                HStack{
-                    VideoView(videoID: activeSign.videoUrl!)
-                        .frame(minWidth: 200, maxWidth: 700, minHeight: 100, maxHeight: 500)
-                        .padding(EdgeInsets(top:0, leading: 0, bottom: 10, trailing: 0))
-                  
-                }
-                Spacer()
-            }else{
-                
-                Text ("Det finns inga tecken att visa.")
-                Text("Skapa ett nytt genom att trycka på plus tecknet uppe i menyn.")
-                Spacer()
                 
             }
+            .background( Color(red: 210/256, green: 231/256, blue: 238/256 ))
+            .sheet(isPresented: $createViewIsActive, onDismiss: { fetchSignAudio()
+            }) { CreateSignView(audioRecorder: audioRecorder, activeSign: $activeSign) }
+            .sheet(isPresented: $isMenuActive, onDismiss: { fetchSignAudio() }) { SignListView(activeSign: $activeSign) }
             
         }
-        .background( Color(red: 210/256, green: 231/256, blue: 238/256 ))
-        .sheet(isPresented: $createViewIsActive, onDismiss: { fetchSignAudio()
-        }) { CreateSignView(audioRecorder: audioRecorder, activeSign: $activeSign) }
-        .sheet(isPresented: $isMenuActive, onDismiss: { fetchSignAudio() }) { SignListView(activeSign: $activeSign) }
-        
-        
+        .navigationViewStyle(.stack)
         
         
         
@@ -212,46 +220,46 @@ struct ContentView: View {
     }
     
     func fetchSignAudio(){
-       
+        
         if let activeSign = activeSign {
             if let name = activeSign.audioName {
-              //  print("1 FETCHSIGN NAME:\(name):: COUNT:::\(name.count)")
+                //  print("1 FETCHSIGN NAME:\(name):: COUNT:::\(name.count)")
                 if name.count > 1 {
                     audioString = name
-        //            print("2 AUDIOSTRING:::: \(audioString)")
-               }else{
-          //         print("AUDIOSTRING SHOULD BE EMPTY")
-                  audioString = ""
-                   audioUrl = ""
-              }
-
-               
+                    //            print("2 AUDIOSTRING:::: \(audioString)")
+                }else{
+                    //         print("AUDIOSTRING SHOULD BE EMPTY")
+                    audioString = ""
+                    audioUrl = ""
+                }
+                
+                
             }
         }
         
         // Behöver jag kalla på fetch recordings första gången appen körs?
         let testList = self.audioRecorder.recordings
-       
-       // print("play: ::\(audioUrlstring)::")
+        
+        // print("play: ::\(audioUrlstring)::")
         
         for recording in testList {
             let dodo = recording.fileURL.absoluteString.suffix(24)
-          //  print("TESTLIST ::\(dodo)::")
-
+            //  print("TESTLIST ::\(dodo)::")
+            
             if dodo == audioString {
-           //     print("PLaying!!!!!!!!!")
-           //     print("FETCHSIGNRECORDING DODO IS SAME AS IN LIST! set: ::\(audioUrl)::")
+                //     print("PLaying!!!!!!!!!")
+                //     print("FETCHSIGNRECORDING DODO IS SAME AS IN LIST! set: ::\(audioUrl)::")
                 audioUrl = String(recording.fileURL.absoluteString)
                 
                 
-              //  self.audioPlayer.startPlayback(audio: recording.fileURL)
+                //  self.audioPlayer.startPlayback(audio: recording.fileURL)
             }
         }
     }
     
     func playAudio() {
         if audioUrl.count > 3 {
-         //   print("AudioUrl bigger then 3, playing")
+            //   print("AudioUrl bigger then 3, playing")
             if let playUrl = URL(string: audioUrl){
                 self.audioPlayer.startPlayback(audio: playUrl)
             }
@@ -260,15 +268,15 @@ struct ContentView: View {
     
     func deleteAudioFile() {
         
-       if let deleteUrl = URL(string: audioUrl){
+        if let deleteUrl = URL(string: audioUrl){
             
             self.audioRecorder.deleteSingleRecording(urlToDelete: deleteUrl)
-       }else{
-           
-          // print("DELETE AUDIO FILE URL BROKEN!!")
-       }
+        }else{
+            
+            // print("DELETE AUDIO FILE URL BROKEN!!")
+        }
         
-   //    print("AUDIO URL: ::\(audioUrl)::")
+        //    print("AUDIO URL: ::\(audioUrl)::")
         
     }
     
