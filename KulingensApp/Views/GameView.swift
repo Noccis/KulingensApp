@@ -17,11 +17,12 @@ struct GameView: View {
     
     var sign: Sign? = nil
     @State var videoUrl = "07d2dXHYb94"
-    var audioUrlOne = ""
-    var audioUrlTwo = ""
-    var audioUrlThree = ""
-    var rightAudioUrl = ""
-    
+    @State var audioUrlOne = ""
+    @State var audioUrlTwo = ""
+    @State var audioUrlThree = ""
+    @State var rightAudioUrl = ""
+    @State var audioPlayer = AudioPlayer()
+    @State var audioRecorder = AudioRecorder()
     
     var body: some View {
         VStack{
@@ -41,19 +42,70 @@ struct GameView: View {
                 VideoView(videoID: videoUrl)
                     .frame(minWidth: 200, maxWidth: 600, minHeight: 100, maxHeight: 400)
                     .padding(EdgeInsets(top:0, leading: 30, bottom: 10, trailing: 0))
-                Spacer()
+                
                 VStack{
                     Text("LYSSNA:")
                         .bold()
-                    Text("Audio 1")
+                    Button(action: {
+                      //  playAudio(audioName: rightAudioUrl)
+                        audioUrlOne = signs[0].audioName!
+                       playAudio(audioName: audioUrlOne)
+                    }, label: {
+                        HStack{
+                            Image(systemName: "speaker.wave.3.fill")
+                               // .padding()
+                            Text("1")
+                                .bold()
+                                .font(.title2)
+                                
+                        }
                         .padding()
-                    Text("Audio 2")
-                        .padding()
-                    Text("Audio 3")
+                        .foregroundColor(Color.black)
+                        .background(Color(red: 92/256, green: 177/256, blue: 199/256 ))
+                        .cornerRadius(10)
+                        
+                        
+                    })
                         .padding()
                     
+                    Button(action: {
+                        playAudio(audioName: audioUrlTwo)
+                    }, label: {
+                        HStack{
+                            Image(systemName: "speaker.wave.3.fill")
+                               // .padding()
+                            Text("2")
+                                .bold()
+                                .font(.title2)
+                                
+                        }
+                        .padding()
+                        .foregroundColor(Color.black)
+                        .background(Color(red: 92/256, green: 177/256, blue: 199/256 ))
+                        .cornerRadius(10)
+                    })
+
+                    Button(action: {
+                        playAudio(audioName: audioUrlThree)
+                    }, label: {
+                        HStack{
+                            Image(systemName: "speaker.wave.3.fill")
+                               // .padding()
+                            Text("3")
+                                .bold()
+                                .font(.title2)
+                                
+                        }
+                        .padding()
+                        .foregroundColor(Color.black)
+                        .background(Color(red: 92/256, green: 177/256, blue: 199/256 ))
+                        .cornerRadius(10)
+                        
+                        
+                    })
+                        .padding()
                 }
-                .padding(.trailing, 30)
+                .padding(.leading, 30)
                 
                 
                 
@@ -147,16 +199,81 @@ struct GameView: View {
             videoUrl = url                                          // VideoUrl är satt
             
             guard let audio = randomSign.audioName else {return}
-           
-            
-            
-            
+     
         }
     }
     
     private func randomNrRightAnswer()-> Int {
         return Int.random(in: 1...3)
     }
+    
+    
+    func playAudio(audioName: String) {
+        
+      let audioPath = fetchaudioUrl(audioName: audioName)
+        
+        guard let audioPath = audioPath else {
+            return
+        }
+
+            if let audioUrl = URL(string: audioPath){
+
+                self.audioPlayer.startPlayback(audio: audioUrl)
+
+            }
+        
+    }
+    
+    private func fetchaudioUrl(audioName: String)-> String? {
+    
+        let audioList = self.audioRecorder.recordings
+
+        for recording in audioList {
+            let dodo = recording.fileURL.absoluteString.suffix(24)
+            
+            if dodo == audioName {
+                
+                print("FETCHAUDIOURL url found: ::\(recording.fileURL)::")
+                return String(recording.fileURL.absoluteString)
+            }
+            
+        }
+            
+        return nil
+    }
+//    func fetchSignAudio(){
+//
+//        if let activeSign = activeSign {
+//            if let name = activeSign.audioName {
+//                //  print("1 FETCHSIGN NAME:\(name):: COUNT:::\(name.count)")
+//                if name.count > 1 {
+//                    audioString = name
+//                    //            print("2 AUDIOSTRING:::: \(audioString)")
+//                }else{
+//                    //         print("AUDIOSTRING SHOULD BE EMPTY")
+//                    audioString = ""
+//                    audioUrl = ""
+//                }
+//            }
+//        }
+//        // Behöver jag kalla på fetch recordings första gången appen körs?
+//        let testList = self.audioRecorder.recordings
+//
+//        for recording in testList {
+//            let dodo = recording.fileURL.absoluteString.suffix(24)
+//            //  print("TESTLIST ::\(dodo)::")
+//
+//            if dodo == audioString {
+//                //     print("PLaying!!!!!!!!!")
+//                //     print("FETCHSIGNRECORDING DODO IS SAME AS IN LIST! set: ::\(audioUrl)::")
+//                audioUrl = String(recording.fileURL.absoluteString)
+//
+//
+//                //  self.audioPlayer.startPlayback(audio: recording.fileURL)
+//            }
+//        }
+//    }
+    
 }
 
 //struct GameView_Previews: PreviewProvider {
