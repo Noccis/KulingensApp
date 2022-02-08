@@ -15,8 +15,9 @@ struct GameView: View {
         animation: .default)
     private var signs: FetchedResults<Sign>
     
-    var sign: Sign? = nil
-    @State var videoUrl = "07d2dXHYb94"
+  //  var sign: Sign? = nil
+    @State var gameIsOn = true
+    @State var videoUrl = ""
     @State var audioUrlOne = ""
     @State var audioUrlTwo = ""
     @State var audioUrlThree = ""
@@ -50,8 +51,6 @@ struct GameView: View {
                     Text("LYSSNA:")
                         .bold()
                     Button(action: {
-                      //  playAudio(audioName: rightAudioUrl)
-                      //  audioUrlOne = signs[0].audioName!
                        playAudio(audioName: audioUrlOne)
                     }, label: {
                         HStack{
@@ -223,15 +222,13 @@ struct GameView: View {
             }else{
                 print("PICKRANDOMSIGN RANDOMNR ERROR")
             }
-            // sätt in audio på rightaudio och även random 1 till 3
-            
-            
         }
+        setTwoWrongAudioStrings()
     }
     
-    private func randomNrRightAnswer()-> Int {
-        return Int.random(in: 1...3)
-    }
+//    private func randomNr()-> Int {
+//        return Int.random(in: 1...3)
+//    }
     
     
     func playAudio(audioName: String) {
@@ -267,38 +264,66 @@ struct GameView: View {
             
         return nil
     }
-//    func fetchSignAudio(){
-//
-//        if let activeSign = activeSign {
-//            if let name = activeSign.audioName {
-//                //  print("1 FETCHSIGN NAME:\(name):: COUNT:::\(name.count)")
-//                if name.count > 1 {
-//                    audioString = name
-//                    //            print("2 AUDIOSTRING:::: \(audioString)")
-//                }else{
-//                    //         print("AUDIOSTRING SHOULD BE EMPTY")
-//                    audioString = ""
-//                    audioUrl = ""
-//                }
-//            }
-//        }
-//        // Behöver jag kalla på fetch recordings första gången appen körs?
-//        let testList = self.audioRecorder.recordings
-//
-//        for recording in testList {
-//            let dodo = recording.fileURL.absoluteString.suffix(24)
-//            //  print("TESTLIST ::\(dodo)::")
-//
-//            if dodo == audioString {
-//                //     print("PLaying!!!!!!!!!")
-//                //     print("FETCHSIGNRECORDING DODO IS SAME AS IN LIST! set: ::\(audioUrl)::")
-//                audioUrl = String(recording.fileURL.absoluteString)
-//
-//
-//                //  self.audioPlayer.startPlayback(audio: recording.fileURL)
-//            }
-//        }
-//    }
+    
+    private func setTwoWrongAudioStrings(){
+                
+        if !audioUrlOne.isEmpty {       // Om rightaudio är på spelare 1
+            
+            audioUrlTwo = getRandomWrongAudioString()
+            audioUrlThree = getRandomWrongAudioString()
+            
+        }else if !audioUrlTwo.isEmpty {     // Om rightaudio är på spelare 2
+            audioUrlOne = getRandomWrongAudioString()
+            audioUrlThree = getRandomWrongAudioString()
+            
+        }else if !audioUrlThree.isEmpty {       // Om rightaudio är på spelare 3
+            audioUrlOne = getRandomWrongAudioString()
+            audioUrlTwo = getRandomWrongAudioString()
+            
+            
+            
+        }
+        
+        
+        
+    }
+    
+    
+    private func getRandomWrongAudioString()-> String {
+        print("RANDOMWRONGAUDIO RUNNING!")
+        var audioString = ""
+        if let randomSign = signs.randomElement() {
+            
+           var wrongAudio = randomSign.audioName
+            
+            while wrongAudio == rightAudioUrl{      // Kollar så inte right wrong audio är samma som right audio
+                print("RANDOM-WRONG-AUDIO wrong is same as right")
+                
+                if let newSign = signs.randomElement() {
+                wrongAudio = newSign.audioName
+                
+                }
+            }               // wrong audio string är skapad
+            
+            guard let wrongAudio = wrongAudio else {return "Nope"}
+            
+            audioString = wrongAudio
+        }
+        return audioString
+    }
+    
+    private func checkThatListIsNotEmpty() {
+        if signs.count == 0 {
+            gameIsOn = false
+        }
+    }
+    
+    private func checkThatListHasThreeAudio() {
+        
+        
+        
+        
+    }
     
 }
 
