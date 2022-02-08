@@ -142,11 +142,12 @@ struct ContentView: View {
                                 fetchSignAudio()
                             })
                         
-                        //                    Button(action: {
-                        //                        fetchSignAudio()
-                        //                    }, label: {
-                        //                        Text("Hämta namn")
-                        //                    })
+//                                            Button(action: {
+//                                                self.audioPlayer.playErrorAudio()
+//
+//                                            }, label: {
+//                                                Text("ERROR")
+//                                            })
                         
                         
                     }
@@ -257,6 +258,8 @@ struct ContentView: View {
             if let playUrl = URL(string: audioUrl){
                 self.audioPlayer.startPlayback(audio: playUrl)
             }
+        }else{
+            self.audioPlayer.playErrorAudio()
         }
     }
     
@@ -273,6 +276,17 @@ struct ContentView: View {
         //    print("AUDIO URL: ::\(audioUrl)::")
         
     }
+    
+//    func playErrorAudio() {
+//        guard let soundFileURL = Bundle.main.url(
+//            forResource: "invalid", withExtension: "mp3"
+//        ) else {
+//            print("ERRORAUDIO NOT FOUND!")
+//            return
+//        }
+//        self.audioPlayer.startPlayback(audio: soundFileURL)
+//
+//    }
     
     
     

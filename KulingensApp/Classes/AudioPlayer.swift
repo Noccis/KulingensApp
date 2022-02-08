@@ -23,7 +23,7 @@ class AudioPlayer:  NSObject, ObservableObject, AVAudioPlayerDelegate {
     
     func startPlayback (audio: URL) {
         
-        let playbackSession = AVAudioSession.sharedInstance()
+   //     let playbackSession = AVAudioSession.sharedInstance()
         
         // Det här kan du nog kommentera bort
         //        do {
@@ -39,6 +39,7 @@ class AudioPlayer:  NSObject, ObservableObject, AVAudioPlayerDelegate {
             audioPlayer.play()
             isPlaying = true
         } catch {
+            playErrorAudio()
             print("Playback failed.")
         }
         
@@ -56,4 +57,21 @@ class AudioPlayer:  NSObject, ObservableObject, AVAudioPlayerDelegate {
             }
         }
     
+    func playErrorAudio() {
+        guard let soundFileURL = Bundle.main.url(
+            forResource: "invalid", withExtension: "mp3"
+        ) else {
+            print("ERRORAUDIO NOT FOUND!")
+            return
+        }
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: soundFileURL)
+            audioPlayer.delegate = self
+            audioPlayer.play()
+            isPlaying = true
+        }catch {
+            print("Playback failed.")
+        }
+        
+    }
 }
