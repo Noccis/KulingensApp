@@ -50,9 +50,9 @@ struct ContentView: View {
                             .font(.title3)
                             .padding(EdgeInsets(top:0, leading: 20, bottom: 0, trailing: 0))
                     }
-//                    Text("Searchfunction")
-//                        .foregroundColor(Color.white)
-//                        .padding()
+                    //                    Text("Searchfunction")
+                    //                        .foregroundColor(Color.white)
+                    //                        .padding()
                     Spacer()
                     
                     if isLocked == false {
@@ -129,7 +129,6 @@ struct ContentView: View {
                         //   Text("Audio file")
                         Button(action: {
                             playAudio()
-                            print("Nothing to see here.")
                             
                         }, label: {
                             Image(systemName: "speaker.wave.3.fill")
