@@ -15,7 +15,7 @@ struct GameView: View {
         animation: .default)
     private var signs: FetchedResults<Sign>
     
-  //  var sign: Sign? = nil
+    //  var sign: Sign? = nil
     @State var gameIsOn = true
     @State var videoUrl = ""
     @State var audioUrlOne = ""
@@ -38,81 +38,86 @@ struct GameView: View {
             .background(Color(red: 92/256, green: 177/256, blue: 199/256))
             Spacer()
             
-            HStack{
-                
-                VideoView(videoID: videoUrl)
-                    .frame(minWidth: 200, maxWidth: 600, minHeight: 100, maxHeight: 400)
-                    .padding(EdgeInsets(top:0, leading: 30, bottom: 10, trailing: 0))
-                    .onAppear(perform: {
-                        pickRandomSign()
-                    })
-                
-                VStack{
-                    Text("LYSSNA:")
-                        .bold()
-                    Button(action: {
-                       playAudio(audioName: audioUrlOne)
-                    }, label: {
-                        HStack{
-                            Image(systemName: "speaker.wave.3.fill")
-                               // .padding()
-                            Text("1")
-                                .bold()
-                                .font(.title2)
-                                
-                        }
-                        .padding()
-                        .foregroundColor(Color.black)
-                        .background(Color(red: 92/256, green: 177/256, blue: 199/256 ))
-                        .cornerRadius(10)
-                        
-                        
-                    })
-                        .padding()
+            if gameIsOn == true {
+                HStack{
                     
-                    Button(action: {
-                        playAudio(audioName: audioUrlTwo)
-                    }, label: {
-                        HStack{
-                            Image(systemName: "speaker.wave.3.fill")
-                               // .padding()
-                            Text("2")
-                                .bold()
-                                .font(.title2)
+                    VideoView(videoID: videoUrl)
+                        .frame(minWidth: 200, maxWidth: 600, minHeight: 100, maxHeight: 400)
+                        .padding(EdgeInsets(top:0, leading: 30, bottom: 10, trailing: 0))
+                        .onAppear(perform: {
+                            pickRandomSign()
+                        })
+                    
+                    VStack{
+                        Text("LYSSNA:")
+                            .bold()
+                        Button(action: {
+                            playAudio(audioName: audioUrlOne)
+                        }, label: {
+                            HStack{
+                                Image(systemName: "speaker.wave.3.fill")
+                                // .padding()
+                                Text("1")
+                                    .bold()
+                                    .font(.title2)
                                 
-                        }
-                        .padding()
-                        .foregroundColor(Color.black)
-                        .background(Color(red: 92/256, green: 177/256, blue: 199/256 ))
-                        .cornerRadius(10)
-                    })
-
-                    Button(action: {
-                        playAudio(audioName: audioUrlThree)
-                    }, label: {
-                        HStack{
-                            Image(systemName: "speaker.wave.3.fill")
-                               // .padding()
-                            Text("3")
-                                .bold()
-                                .font(.title2)
+                            }
+                            .padding()
+                            .foregroundColor(Color.black)
+                            .background(Color(red: 92/256, green: 177/256, blue: 199/256 ))
+                            .cornerRadius(10)
+                            
+                            
+                        })
+                            .padding()
+                        
+                        Button(action: {
+                            playAudio(audioName: audioUrlTwo)
+                        }, label: {
+                            HStack{
+                                Image(systemName: "speaker.wave.3.fill")
+                                // .padding()
+                                Text("2")
+                                    .bold()
+                                    .font(.title2)
                                 
-                        }
-                        .padding()
-                        .foregroundColor(Color.black)
-                        .background(Color(red: 92/256, green: 177/256, blue: 199/256 ))
-                        .cornerRadius(10)
+                            }
+                            .padding()
+                            .foregroundColor(Color.black)
+                            .background(Color(red: 92/256, green: 177/256, blue: 199/256 ))
+                            .cornerRadius(10)
+                        })
                         
-                        
-                    })
-                        .padding()
+                        Button(action: {
+                            playAudio(audioName: audioUrlThree)
+                        }, label: {
+                            HStack{
+                                Image(systemName: "speaker.wave.3.fill")
+                                // .padding()
+                                Text("3")
+                                    .bold()
+                                    .font(.title2)
+                                
+                            }
+                            .padding()
+                            .foregroundColor(Color.black)
+                            .background(Color(red: 92/256, green: 177/256, blue: 199/256 ))
+                            .cornerRadius(10)
+                            
+                            
+                        })
+                            .padding()
+                    }
+                    .padding(.leading, 30)
+                    
+                    
+                    
                 }
-                .padding(.leading, 30)
                 
-                
-                
+            }else{
+                Text("Minst 3 tecken behöver vara sparade för att öva. Gå tillbaka och spela in flera tecken.")
             }
-            //  .background(Color(red: 150/256, green: 100/256, blue: 199/256))
+
             Spacer()
             HStack{
                 
@@ -204,8 +209,8 @@ struct GameView: View {
                 print("ERROR ---- PICKRANDOMSIGN randomSign.audioName is NIL")
                 return
             }
-     
-        
+            
+            
             print("Right audio Name::::::: \(audio)")
             rightAudioUrl = audio
             let randomNr = Int.random(in: 1...3)
@@ -226,31 +231,31 @@ struct GameView: View {
         setTwoWrongAudioStrings()
     }
     
-//    private func randomNr()-> Int {
-//        return Int.random(in: 1...3)
-//    }
+    //    private func randomNr()-> Int {
+    //        return Int.random(in: 1...3)
+    //    }
     
     
     func playAudio(audioName: String) {
         
-      let audioPath = fetchaudioUrl(audioName: audioName)
+        let audioPath = fetchaudioUrl(audioName: audioName)
         
         guard let audioPath = audioPath else {
             return
         }
-
-            if let audioUrl = URL(string: audioPath){
-
-                self.audioPlayer.startPlayback(audio: audioUrl)
-
-            }
+        
+        if let audioUrl = URL(string: audioPath){
+            
+            self.audioPlayer.startPlayback(audio: audioUrl)
+            
+        }
         
     }
     
     private func fetchaudioUrl(audioName: String)-> String? {
-    
+        
         let audioList = self.audioRecorder.recordings
-
+        
         for recording in audioList {
             let dodo = recording.fileURL.absoluteString.suffix(24)
             
@@ -261,12 +266,12 @@ struct GameView: View {
             }
             
         }
-            
+        
         return nil
     }
     
     private func setTwoWrongAudioStrings(){
-                
+        
         if !audioUrlOne.isEmpty {       // Om rightaudio är på spelare 1
             
             audioUrlTwo = getRandomWrongAudioString()
@@ -294,14 +299,14 @@ struct GameView: View {
         var audioString = ""
         if let randomSign = signs.randomElement() {
             
-           var wrongAudio = randomSign.audioName
+            var wrongAudio = randomSign.audioName
             
             while wrongAudio == rightAudioUrl{      // Kollar så inte right wrong audio är samma som right audio
                 print("RANDOM-WRONG-AUDIO wrong is same as right")
                 
                 if let newSign = signs.randomElement() {
-                wrongAudio = newSign.audioName
-                
+                    wrongAudio = newSign.audioName
+                    
                 }
             }               // wrong audio string är skapad
             
@@ -313,17 +318,12 @@ struct GameView: View {
     }
     
     private func checkThatListIsNotEmpty() {
-        if signs.count == 0 {
+        if signs.count < 3 {
             gameIsOn = false
         }
     }
     
-    private func checkThatListHasThreeAudio() {
-        
-        
-        
-        
-    }
+    
     
 }
 
