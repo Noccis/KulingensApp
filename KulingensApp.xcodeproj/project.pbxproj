@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F47549827B2A3D400628953 /* invalid.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0F47549727B2A3D300628953 /* invalid.mp3 */; };
 		0F49307A27AC107F006DB4F1 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F49307927AC107F006DB4F1 /* GameView.swift */; };
 		0F4BD62427A9C4CF004C4D2F /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4BD62327A9C4CF004C4D2F /* AudioRecorder.swift */; };
 		0F4BD62627A9C7AA004C4D2F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4BD62527A9C7AA004C4D2F /* Extensions.swift */; };
@@ -47,6 +48,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0F47549727B2A3D300628953 /* invalid.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = invalid.mp3; sourceTree = "<group>"; };
 		0F49307927AC107F006DB4F1 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		0F4BD62327A9C4CF004C4D2F /* AudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
 		0F4BD62527A9C7AA004C4D2F /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 				0FA1B3F32798209C00AB17C3 /* Views */,
 				0F69296227959FB800835982 /* KulingensAppApp.swift */,
 				0F64E52827A7FB40009F98A3 /* bird.wav */,
+				0F47549727B2A3D300628953 /* invalid.mp3 */,
 				0F64E52627A7EFAA009F98A3 /* crow.wav */,
 				0F69296427959FB800835982 /* ContentView.swift */,
 				0F69296627959FC200835982 /* Assets.xcassets */,
@@ -289,6 +292,7 @@
 				0F64E52727A7EFAA009F98A3 /* crow.wav in Resources */,
 				0F64E52927A7FB40009F98A3 /* bird.wav in Resources */,
 				0F69296A27959FC200835982 /* Preview Assets.xcassets in Resources */,
+				0F47549827B2A3D400628953 /* invalid.mp3 in Resources */,
 				0F69296727959FC200835982 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
