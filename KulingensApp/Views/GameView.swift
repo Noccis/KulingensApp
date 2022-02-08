@@ -42,13 +42,16 @@ struct GameView: View {
                 VideoView(videoID: videoUrl)
                     .frame(minWidth: 200, maxWidth: 600, minHeight: 100, maxHeight: 400)
                     .padding(EdgeInsets(top:0, leading: 30, bottom: 10, trailing: 0))
+                    .onAppear(perform: {
+                        pickRandomSign()
+                    })
                 
                 VStack{
                     Text("LYSSNA:")
                         .bold()
                     Button(action: {
                       //  playAudio(audioName: rightAudioUrl)
-                        audioUrlOne = signs[0].audioName!
+                      //  audioUrlOne = signs[0].audioName!
                        playAudio(audioName: audioUrlOne)
                     }, label: {
                         HStack{
@@ -125,7 +128,6 @@ struct GameView: View {
                         
                         
                         Button(action: {
-                            randomSign()
                             print("button one")
                         }, label: {
                             
@@ -192,14 +194,38 @@ struct GameView: View {
         }
     }
     
-    func randomSign() {
+    func pickRandomSign() {
+        print("PICKRANDOMSIGN RUNNING!!!")
         if let randomSign = signs.randomElement() {
             
             guard let url = randomSign.videoUrl else {return}
             videoUrl = url                                          // VideoUrl är satt
             
-            guard let audio = randomSign.audioName else {return}
+            guard let audio = randomSign.audioName else {
+                print("ERROR ---- PICKRANDOMSIGN randomSign.audioName is NIL")
+                return
+            }
      
+        
+            print("Right audio Name::::::: \(audio)")
+            rightAudioUrl = audio
+            let randomNr = Int.random(in: 1...3)
+            
+            if randomNr == 1 {
+                audioUrlOne = audio
+                print("PICKRANDOMSIGN right audiourl is in 1")
+            }else if randomNr == 2 {
+                audioUrlTwo = audio
+                print("PICKRANDOMSIGN right audiourl is in 2")
+            }else if randomNr == 3 {
+                audioUrlThree = audio
+                print("PICKRANDOMSIGN right audiourl is in 3")
+            }else{
+                print("PICKRANDOMSIGN RANDOMNR ERROR")
+            }
+            // sätt in audio på rightaudio och även random 1 till 3
+            
+            
         }
     }
     
