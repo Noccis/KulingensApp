@@ -174,7 +174,7 @@ struct ContentView: View {
             .sheet(isPresented: $createViewIsActive, onDismiss: { fetchSignAudio()
             }) { CreateSignView(audioRecorder: audioRecorder, activeSign: $activeSign) }
             .sheet(isPresented: $isMenuActive, onDismiss: { fetchSignAudio() }) { SignListView(activeSign: $activeSign) }
-            
+            .navigationBarHidden(true)
         }
         .navigationViewStyle(.stack)
         
@@ -232,15 +232,10 @@ struct ContentView: View {
                     audioString = ""
                     audioUrl = ""
                 }
-                
-                
             }
         }
-        
         // Behöver jag kalla på fetch recordings första gången appen körs?
         let testList = self.audioRecorder.recordings
-        
-        // print("play: ::\(audioUrlstring)::")
         
         for recording in testList {
             let dodo = recording.fileURL.absoluteString.suffix(24)

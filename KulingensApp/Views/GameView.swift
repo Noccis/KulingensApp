@@ -16,7 +16,7 @@ struct GameView: View {
     private var signs: FetchedResults<Sign>
     
     var sign: Sign? = nil
-    var videoUrl = ""
+    @State var videoUrl = "07d2dXHYb94"
     var audioUrlOne = ""
     var audioUrlTwo = ""
     var audioUrlThree = ""
@@ -25,30 +25,26 @@ struct GameView: View {
     
     var body: some View {
         VStack{
-            // Video
-            HStack{
-                Spacer()
-                Image(systemName: "questionmark.circle.fill")
-                    .resizable()
-                    .frame(width: 30, height: 30)
-                    .padding(EdgeInsets(top:0, leading: 0, bottom: 15, trailing: 15))
-                    
-                // , alignment: .trailing
-                
-               // Text("Tillbaka")
-               // Spacer()
             
+            HStack{
+                //        Spacer()
+                
+                
+                
             }
             .frame(width: UIScreen.main.bounds.width, height: 30)
-           .background(Color(red: 92/256, green: 177/256, blue: 199/256))
-           Spacer()
+            .background(Color(red: 92/256, green: 177/256, blue: 199/256))
+            Spacer()
             
             HStack{
-               
-                Text("Video")
-                    .padding(.leading, 30)
+                
+                VideoView(videoID: videoUrl)
+                    .frame(minWidth: 200, maxWidth: 600, minHeight: 100, maxHeight: 400)
+                    .padding(EdgeInsets(top:0, leading: 30, bottom: 10, trailing: 0))
                 Spacer()
                 VStack{
+                    Text("LYSSNA:")
+                        .bold()
                     Text("Audio 1")
                         .padding()
                     Text("Audio 2")
@@ -59,10 +55,10 @@ struct GameView: View {
                 }
                 .padding(.trailing, 30)
                 
-             
+                
                 
             }
-          //  .background(Color(red: 150/256, green: 100/256, blue: 199/256))
+            //  .background(Color(red: 150/256, green: 100/256, blue: 199/256))
             Spacer()
             HStack{
                 
@@ -77,12 +73,13 @@ struct GameView: View {
                         
                         
                         Button(action: {
+                            randomSign()
                             print("button one")
                         }, label: {
                             
                             Text("1")
                                 .font(.title2)
-                                
+                            
                         })
                             .padding(EdgeInsets(top:10, leading: 40, bottom: 20, trailing: 40))
                             .foregroundColor(Color.white)
@@ -126,22 +123,39 @@ struct GameView: View {
                 
             }
             .background(Color(red: 10/256, green: 177/256, blue: 200/256))
-
+            
             
             
             
         }
         .background(Color(red: 210/256, green: 231/256, blue: 238/256 ))
+        // .navigationBarHidden(true)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing, content: {
+                
+                Image(systemName: "questionmark.circle.fill")
+                
+            })
+        }
     }
     
     func randomSign() {
-        
-        // Gör random nr upp till signs.count
-        // Ta ut sign så den blir signs.[randomnr]
-        // Sätt videoUrl och name (eller audio)
-        //
-        
-        
+        if let randomSign = signs.randomElement() {
+            
+            guard let url = randomSign.videoUrl else {return}
+            videoUrl = url                                          // VideoUrl är satt
+            
+            guard let audio = randomSign.audioName else {return}
+           
+            
+            
+            
+        }
+    }
+    
+    private func randomNrRightAnswer()-> Int {
+        return Int.random(in: 1...3)
     }
 }
 
