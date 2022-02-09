@@ -25,8 +25,12 @@ struct GameView: View {
     @State var audioUrlTwo = ""
     @State var audioUrlThree = ""
     @State var rightAudioUrl = ""
+    @State var answerOneString = ""
+    @State var answerTwoString = ""
+    @State var answerThreeString = ""
     @State var audioPlayer = AudioPlayer()
     @State var audioRecorder = AudioRecorder()
+    @State var color = Color(red: 10/256, green: 177/256, blue: 200/256)
     
     var body: some View {
         VStack{
@@ -119,39 +123,7 @@ struct GameView: View {
                         
                         
                     }
-                    if answerIsRight == true {
-                        
-                        Text("Rätt svar!")
-                            .font(.largeTitle)
-                            .padding(100)
-                            .background(Color.green)
-                            .cornerRadius(15)
-                            .onAppear() {
-                                withAnimation(Animation
-                                                .easeInOut(duration: 3.2), {
-                                    print("BEFORE\(answerAnimation)")
-                                    answerAnimation.toggle()
-                                    print("AFTER\(answerAnimation)")
-                                })
-                            }.opacity(answerAnimation ? 0 : 1)
-                        
-                    }
-                    if answerIsWrong == true {
-                        Text("Fel, Försök igen.")
-                            .font(.largeTitle)
-                            .padding(100)
-                            .background(Color.red)
-                            .cornerRadius(15)
-                            .onAppear() {
-                                withAnimation(Animation
-                                                .easeInOut(duration: 3.2), {
-                                  
-                                    answerAnimation.toggle()
-                                   
-                                })
-                            }.opacity(answerAnimation ? 0 : 1)
-                        
-                    }
+                   
                 }
                 
                 
@@ -180,8 +152,7 @@ struct GameView: View {
                         
                         
                         Button(action: {
-                            showAnswerIsWrongText()
-                            print("button one")
+                            checkAnswer(answer: answerOneString)
                         }, label: {
                             
                             Text("1")
@@ -193,9 +164,11 @@ struct GameView: View {
                             .background(Color(red: 2/256, green: 116/256, blue: 138/256))
                             .cornerRadius(15)
                             .padding(EdgeInsets(top:20, leading: 60, bottom: 30, trailing: 0))
+                        
                         Spacer()
+                        
                         Button(action: {
-                            print("button two")
+                            checkAnswer(answer: answerTwoString)
                         }, label: {
                             Text("2")
                                 .font(.title2)
@@ -204,9 +177,11 @@ struct GameView: View {
                             .foregroundColor(Color.white)
                             .background(Color(red: 2/256, green: 116/256, blue: 138/256))
                             .cornerRadius(15)
+                        
                         Spacer()
+                        
                         Button(action: {
-                            print("button three")
+                            checkAnswer(answer: answerThreeString)
                         }, label: {
                             Text("3")
                                 .font(.title2)
@@ -229,7 +204,8 @@ struct GameView: View {
                 }
                 
             }
-            .background(Color(red: 10/256, green: 177/256, blue: 200/256))
+          //  .background(Color(red: 10/256, green: 177/256, blue: 200/256))
+            .background(color)
             
             
             
@@ -266,12 +242,15 @@ struct GameView: View {
             
             if randomNr == 1 {
                 audioUrlOne = audio
+                answerOneString = audio
                 print("PICKRANDOMSIGN right audiourl is in 1")
             }else if randomNr == 2 {
                 audioUrlTwo = audio
+                answerTwoString = audio
                 print("PICKRANDOMSIGN right audiourl is in 2")
             }else if randomNr == 3 {
                 audioUrlThree = audio
+                answerThreeString = audio
                 print("PICKRANDOMSIGN right audiourl is in 3")
             }else{
                 print("PICKRANDOMSIGN RANDOMNR ERROR")
@@ -324,21 +303,44 @@ struct GameView: View {
         if !audioUrlOne.isEmpty {       // Om rightaudio är på spelare 1
             
             audioUrlTwo = getRandomWrongAudioString()
+            answerTwoString = audioUrlTwo
             audioUrlThree = getRandomWrongAudioString()
+            answerThreeString = audioUrlThree
             
         }else if !audioUrlTwo.isEmpty {     // Om rightaudio är på spelare 2
             audioUrlOne = getRandomWrongAudioString()
+            answerOneString = audioUrlOne
             audioUrlThree = getRandomWrongAudioString()
+            answerThreeString = audioUrlThree
             
         }else if !audioUrlThree.isEmpty {       // Om rightaudio är på spelare 3
             audioUrlOne = getRandomWrongAudioString()
+            answerOneString = audioUrlOne
             audioUrlTwo = getRandomWrongAudioString()
+            answerTwoString = audioUrlTwo
             
             
             
         }
         
         
+        
+    }
+    
+    private func resetGame() {
+        
+        answerAnimation = false
+        answerIsRight = false
+        answerIsWrong = false
+        videoUrl = ""
+        audioUrlOne = ""
+        audioUrlTwo = ""
+        audioUrlThree = ""
+        rightAudioUrl = ""
+        answerOneString = ""
+        answerTwoString = ""
+        answerThreeString = ""
+      
         
     }
     
@@ -368,24 +370,41 @@ struct GameView: View {
     
     private func checkAnswer(answer: String) {
         if answer == rightAudioUrl{
-            showANswerIsRightText()
-            
+            showAnswerIsRightColor()
+            resetGame()
+            pickRandomSign()
         }else{
-            
+            showAnswerIsWrongColor()
         }
         
     }
     
-    private func showANswerIsRightText() {
+    private func showAnswerIsRightColor() {
+        //  answerIsRight = true
         
-        answerAnimation = false
-        answerIsRight.toggle()
+        withAnimation(.easeInOut(duration: 0.1)){
+            color = Color(red: 0/256, green: 255/256, blue: 0/256)
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            
+            //   answerIsRight = false
+            withAnimation(.easeInOut(duration: 0.3)){
+                color = Color(red: 10/256, green: 177/256, blue: 200/256)
+            }
+        }
     }
     
-    private func showAnswerIsWrongText() {
-        answerAnimation = false
-        answerIsWrong.toggle()
-        
+    private func showAnswerIsWrongColor() {
+        //  answerIsWrong = true
+        withAnimation(.easeInOut(duration: 0.1)) {
+            color = Color(red: 255/256, green: 31/256, blue: 0/256)
+        }
+     //   color = Color(red: 255/256, green: 31/256, blue: 0/256)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            withAnimation(.easeInOut(duration: 0.3)) {
+                color = Color(red: 10/256, green: 177/256, blue: 200/256)
+            }
+        }
     }
     
     private func checkThatListIsNotEmpty() {
