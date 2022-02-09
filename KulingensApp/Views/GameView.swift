@@ -18,6 +18,7 @@ struct GameView: View {
     //  var sign: Sign? = nil
     @State var answerAnimation = false
     @State var answerIsRight = false
+    @State var answerIsWrong = false
     @State var gameIsOn = true
     @State var videoUrl = ""
     @State var audioUrlOne = ""
@@ -120,17 +121,33 @@ struct GameView: View {
                     }
                     if answerIsRight == true {
                         
-                        Text("RÄTT!")
+                        Text("Rätt svar!")
                             .font(.largeTitle)
                             .padding(100)
                             .background(Color.green)
                             .cornerRadius(15)
                             .onAppear() {
                                 withAnimation(Animation
-                                                .easeInOut(duration: 0.9), {
+                                                .easeInOut(duration: 3.2), {
                                     print("BEFORE\(answerAnimation)")
                                     answerAnimation.toggle()
                                     print("AFTER\(answerAnimation)")
+                                })
+                            }.opacity(answerAnimation ? 0 : 1)
+                        
+                    }
+                    if answerIsWrong == true {
+                        Text("Fel, Försök igen.")
+                            .font(.largeTitle)
+                            .padding(100)
+                            .background(Color.red)
+                            .cornerRadius(15)
+                            .onAppear() {
+                                withAnimation(Animation
+                                                .easeInOut(duration: 3.2), {
+                                  
+                                    answerAnimation.toggle()
+                                   
                                 })
                             }.opacity(answerAnimation ? 0 : 1)
                         
@@ -156,11 +173,14 @@ struct GameView: View {
                         .font(.title)
                         .bold()
                         .padding(EdgeInsets(top:20, leading: 0, bottom: 0, trailing: 0))
+                        .onAppear(perform: {
+                            checkThatListIsNotEmpty()
+                        })
                     HStack {
                         
                         
                         Button(action: {
-                            
+                            showAnswerIsWrongText()
                             print("button one")
                         }, label: {
                             
@@ -346,10 +366,26 @@ struct GameView: View {
         return audioString
     }
     
+    private func checkAnswer(answer: String) {
+        if answer == rightAudioUrl{
+            showANswerIsRightText()
+            
+        }else{
+            
+        }
+        
+    }
+    
     private func showANswerIsRightText() {
         
         answerAnimation = false
         answerIsRight.toggle()
+    }
+    
+    private func showAnswerIsWrongText() {
+        answerAnimation = false
+        answerIsWrong.toggle()
+        
     }
     
     private func checkThatListIsNotEmpty() {
