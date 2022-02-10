@@ -41,7 +41,6 @@ struct GameView: View {
                     EmptyView()
                         .frame(width: 0, height: 0)
                         .disabled(true)
-             //       Image(systemName: "questionmark.circle.fill")
                 }
               //  .navigationBarTitleDisplayMode(.inline)
   
@@ -163,13 +162,14 @@ struct GameView: View {
                             
                             Text("1")
                                 .font(.title2)
+                                .frame(width: 100, height: 60)
+                                .foregroundColor(Color.white)
+                                .background(Color(red: 2/256, green: 116/256, blue: 138/256))
+                                .cornerRadius(15)
                             
                         })
-                            .padding(EdgeInsets(top:10, leading: 40, bottom: 20, trailing: 40))
-                            .foregroundColor(Color.white)
-                            .background(Color(red: 2/256, green: 116/256, blue: 138/256))
-                            .cornerRadius(15)
-                            .padding(EdgeInsets(top:20, leading: 60, bottom: 30, trailing: 0))
+                            
+                            .padding(EdgeInsets(top:0, leading: 60, bottom: 40, trailing: 0))
                         
                         Spacer()
                         
@@ -178,11 +178,12 @@ struct GameView: View {
                         }, label: {
                             Text("2")
                                 .font(.title2)
+                                .frame(width: 100, height: 60)
+                                .foregroundColor(Color.white)
+                                .background(Color(red: 2/256, green: 116/256, blue: 138/256))
+                                .cornerRadius(15)
                         })
-                            .padding(EdgeInsets(top:20, leading: 40, bottom: 20, trailing: 40))
-                            .foregroundColor(Color.white)
-                            .background(Color(red: 2/256, green: 116/256, blue: 138/256))
-                            .cornerRadius(15)
+                            .padding(.bottom, 40)
                         
                         Spacer()
                         
@@ -191,12 +192,12 @@ struct GameView: View {
                         }, label: {
                             Text("3")
                                 .font(.title2)
-                        })
-                            .padding(EdgeInsets(top:20, leading: 40, bottom: 20, trailing: 40))
-                            .foregroundColor(Color.white)
-                            .background(Color(red: 2/256, green: 116/256, blue: 138/256))
-                            .cornerRadius(15)
-                            .padding(.trailing, 60)
+                                .frame(width: 100, height: 60)
+                                .foregroundColor(Color.white)
+                                .background(Color(red: 2/256, green: 116/256, blue: 138/256))
+                                .cornerRadius(15)                        })
+                            
+                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 40, trailing: 60))
                         
                         
                         
@@ -259,11 +260,7 @@ struct GameView: View {
         }
         setTwoWrongAudioStrings()
     }
-    
-    //    private func randomNr()-> Int {
-    //        return Int.random(in: 1...3)
-    //    }
-    
+
     
     func playAudio(audioName: String) {
         
@@ -372,6 +369,7 @@ struct GameView: View {
     private func checkAnswer(answer: String) {
         if answer == rightAudioUrl{
             showAnswerIsRightColor()
+            playRightAnswerSound()
             resetGame()
             pickRandomSign()
         }else{
@@ -419,6 +417,18 @@ struct GameView: View {
         }
         self.audioPlayer.startPlayback(audio: soundFileURL)
         
+        
+    }
+    
+    private func playRightAnswerSound() {
+        
+        guard let soundFileURL = Bundle.main.url(
+            forResource: "correctanswer", withExtension: "mp3"
+        ) else {
+            print("ERRORAUDIO NOT FOUND!")
+            return
+        }
+        self.audioPlayer.startPlayback(audio: soundFileURL)
         
     }
     
