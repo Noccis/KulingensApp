@@ -24,6 +24,7 @@ struct CreateSignView: View {
     @State var isAudioSaved = false
     @State var varningText = ""
     @State var saveText = "Spara"
+    @State var stopAudio = false
     @Environment(\.presentationMode) var presentationMode
     
     
@@ -115,8 +116,6 @@ struct CreateSignView: View {
        
             
             withAnimation {
-                
-                
                 if inputName.count > 3 && inputVideoUrl.count > 5 {
                     
                     let newSign = Sign(context: viewContext)
@@ -128,7 +127,7 @@ struct CreateSignView: View {
                     
                     newSign.audioName = inputAudioName
                     
-                    print ("\(inputName) har audio:: \(inputAudioName)")
+                //    print ("\(inputName) har audio:: \(inputAudioName)")
                     activeSign = newSign
                     
                     do {
@@ -140,7 +139,7 @@ struct CreateSignView: View {
                     }
                 }else{
                     print("Error saving! Name not long enough")
-                    varningText = "Du har inte lagt till ljud, är du säker på att du vill spara?"
+                 //   varningText = "Du har inte lagt till ljud, är du säker på att du vill spara?"
                     // Lägg in en toast.
                 }
                 
@@ -149,13 +148,8 @@ struct CreateSignView: View {
                 
                 
             }
-            
-     
-        
     }
-    
-    
-    
+ 
 }
 
 struct RecordingsList: View {
