@@ -55,6 +55,7 @@ struct CreateSignView: View {
                 if audioRecorder.recording == false {
                     Button(action: {
                         inputAudioName = self.audioRecorder.startRecording()
+                        stopAudio = true
                     }) {
                         Image(systemName: "circle.fill")
                             .resizable()
@@ -68,6 +69,7 @@ struct CreateSignView: View {
                     Button(action: {
                         self.audioRecorder.stopRecording()
                         isAudioSaved = true
+                        stopAudio = false
                     }) {
                         Image(systemName: "stop.fill")
                             .resizable()
@@ -80,7 +82,7 @@ struct CreateSignView: View {
                 }
                 
                 //  Lista med recordings
-             //   RecordingsList(audioRecorder: audioRecorder)
+                //   RecordingsList(audioRecorder: audioRecorder)
                 
                 
                 Spacer()
@@ -89,14 +91,18 @@ struct CreateSignView: View {
                     .padding()
                 Button(action: {
                     
-                    if isAudioSaved == true {
-                    addSign()
-                    presentationMode.wrappedValue
-                        .dismiss()
+                    if stopAudio == true {
+                        varningText = "Stoppa audioinspelningen innan du sparar"
                     }else{
-                        varningText = "Du har inte spelat in ljud till ditt tecken. Är du säker på att du vill spara?"
-                        isAudioSaved = true
-                        saveText = "Ja, spara"
+                        if isAudioSaved == true {
+                            addSign()
+                            presentationMode.wrappedValue
+                                .dismiss()
+                        }else{
+                            varningText = "Du har inte spelat in ljud till ditt tecken. Är du säker på att du vill spara?"
+                            isAudioSaved = true
+                            saveText = "Ja, spara"
+                        }
                     }
                 }, label: {
                     Text(saveText)
@@ -113,43 +119,43 @@ struct CreateSignView: View {
     
     private func addSign() {
         
-       
-            
-            withAnimation {
-                if inputName.count > 3 && inputVideoUrl.count > 5 {
-                    
-                    let newSign = Sign(context: viewContext)
-                    // Lägg till lite nil checks
-                    
-                    newSign.name = inputName
-                    
-                    newSign.videoUrl = inputVideoUrl
-                    
-                    newSign.audioName = inputAudioName
-                    
+        
+        
+        withAnimation {
+            if inputName.count > 3 && inputVideoUrl.count > 5 {
+                
+                let newSign = Sign(context: viewContext)
+                // Lägg till lite nil checks
+                
+                newSign.name = inputName
+                
+                newSign.videoUrl = inputVideoUrl
+                
+                newSign.audioName = inputAudioName
+                
                 //    print ("\(inputName) har audio:: \(inputAudioName)")
-                    activeSign = newSign
+                activeSign = newSign
+                
+                do {
+                    try viewContext.save()
                     
-                    do {
-                        try viewContext.save()
-                        
-                    } catch {
-                        let nsError = error as NSError
-                        fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-                    }
-                }else{
-                    print("Error saving! Name not long enough")
-                 //   varningText = "Du har inte lagt till ljud, är du säker på att du vill spara?"
-                    // Lägg in en toast.
+                } catch {
+                    let nsError = error as NSError
+                    fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
                 }
-                
-                inputName = ""
-                inputVideoUrl = ""
-                
-                
+            }else{
+                print("Error saving! Name not long enough")
+                //   varningText = "Du har inte lagt till ljud, är du säker på att du vill spara?"
+                // Lägg in en toast.
             }
+            
+            inputName = ""
+            inputVideoUrl = ""
+            
+            
+        }
     }
- 
+    
 }
 
 struct RecordingsList: View {
@@ -167,11 +173,11 @@ struct RecordingsList: View {
     
     func delete(at offsets: IndexSet) {
         var urlsToDelete = [URL]()
-               for index in offsets {
-                   urlsToDelete.append(audioRecorder.recordings[index].fileURL)
-               }
-        audioRecorder.deleteRecording(urlsToDelete: urlsToDelete)
+        for index in offsets {
+            urlsToDelete.append(audioRecorder.recordings[index].fileURL)
         }
+        audioRecorder.deleteRecording(urlsToDelete: urlsToDelete)
+    }
 }
 
 struct RecordingRow: View {
