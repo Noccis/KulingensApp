@@ -375,6 +375,7 @@ struct GameView: View {
             pickRandomSign()
         }else{
             showAnswerIsWrongColor()
+            playWrongAnswerSound()
         }
         
     }
@@ -405,6 +406,19 @@ struct GameView: View {
                 color = Color(red: 10/256, green: 177/256, blue: 200/256)
             }
         }
+    }
+    
+    private func playWrongAnswerSound() {
+        
+        guard let soundFileURL = Bundle.main.url(
+            forResource: "wronganswer2", withExtension: "mp3"
+        ) else {
+            print("ERRORAUDIO NOT FOUND!")
+            return
+        }
+        self.audioPlayer.startPlayback(audio: soundFileURL)
+        
+        
     }
     
     private func checkThatListIsNotEmpty() {
