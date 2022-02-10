@@ -90,16 +90,7 @@ struct ContentView: View {
                         Image(systemName: "questionmark.circle.fill")
                     }
                     .padding()
-                    
-//                    Button(action: {
-//                        infoIsShowing.toggle()
-//
-//                    }, label: {
-//
-//                        Image(systemName: "questionmark.circle.fill")
-//                    })
-                    
-                    
+               
                     Button(action: {
                         isLocked.toggle()
                     }, label: {

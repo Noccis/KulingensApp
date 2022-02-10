@@ -20,6 +20,7 @@ struct GameView: View {
     @State var answerIsRight = false
     @State var answerIsWrong = false
     @State var gameIsOn = true
+    @State var gameInfoShowing = false
     @State var videoUrl = ""
     @State var audioUrlOne = ""
     @State var audioUrlTwo = ""
@@ -36,13 +37,18 @@ struct GameView: View {
         VStack{
             
             HStack{
-                //        Spacer()
-                
-                
-                
+                NavigationLink(destination: GameInfoView(), isActive: self.$gameInfoShowing){
+                    EmptyView()
+                        .frame(width: 0, height: 0)
+                        .disabled(true)
+             //       Image(systemName: "questionmark.circle.fill")
+                }
+              //  .navigationBarTitleDisplayMode(.inline)
+  
             }
             .frame(width: UIScreen.main.bounds.width, height: 30)
             .background(Color(red: 92/256, green: 177/256, blue: 199/256))
+         //   .navigationBarTitleDisplayMode(.inline)
             Spacer()
             
             if gameIsOn == true {
@@ -212,15 +218,10 @@ struct GameView: View {
             
         }
         .background(Color(red: 210/256, green: 231/256, blue: 238/256 ))
-        // .navigationBarHidden(true)
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing, content: {
-                
-                Image(systemName: "questionmark.circle.fill")
-                
-            })
-        }
+        .navigationBarItems(trailing: Button(action:{ self.gameInfoShowing = true }) {
+                                Image(systemName: "questionmark.circle.fill")
+                            })
     }
     
     func pickRandomSign() {
