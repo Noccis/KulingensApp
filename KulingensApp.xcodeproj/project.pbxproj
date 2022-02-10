@@ -15,6 +15,7 @@
 		0F4BD62A27A9C996004C4D2F /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4BD62927A9C996004C4D2F /* Helper.swift */; };
 		0F4BD62C27A9CBB9004C4D2F /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4BD62B27A9CBB9004C4D2F /* AudioPlayer.swift */; };
 		0F5DCE7627B505EF002E4F73 /* wronganswer2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0F5DCE7527B505EF002E4F73 /* wronganswer2.mp3 */; };
+		0F5DCE7827B50900002E4F73 /* mainInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F5DCE7727B50900002E4F73 /* mainInfoView.swift */; };
 		0F5FE70927A03AC1003E302E /* SignListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F5FE70827A03AC1003E302E /* SignListView.swift */; };
 		0F64E52727A7EFAA009F98A3 /* crow.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0F64E52627A7EFAA009F98A3 /* crow.wav */; };
 		0F64E52927A7FB40009F98A3 /* bird.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0F64E52827A7FB40009F98A3 /* bird.wav */; };
@@ -57,6 +58,7 @@
 		0F4BD62927A9C996004C4D2F /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		0F4BD62B27A9CBB9004C4D2F /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		0F5DCE7527B505EF002E4F73 /* wronganswer2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = wronganswer2.mp3; sourceTree = "<group>"; };
+		0F5DCE7727B50900002E4F73 /* mainInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mainInfoView.swift; sourceTree = "<group>"; };
 		0F5FE70827A03AC1003E302E /* SignListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignListView.swift; sourceTree = "<group>"; };
 		0F64E52627A7EFAA009F98A3 /* crow.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = crow.wav; sourceTree = "<group>"; };
 		0F64E52827A7FB40009F98A3 /* bird.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = bird.wav; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 				0F7090CB279AAB2400CCDC48 /* VideoView.swift */,
 				0F5FE70827A03AC1003E302E /* SignListView.swift */,
 				0F49307927AC107F006DB4F1 /* GameView.swift */,
+				0F5DCE7727B50900002E4F73 /* mainInfoView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -329,6 +332,7 @@
 				0FA1B3F5279821C600AB17C3 /* CreateSignView.swift in Sources */,
 				0F69296C27959FC200835982 /* Persistence.swift in Sources */,
 				0F69296527959FB800835982 /* ContentView.swift in Sources */,
+				0F5DCE7827B50900002E4F73 /* mainInfoView.swift in Sources */,
 				0F69296F27959FC200835982 /* KulingensApp.xcdatamodeld in Sources */,
 				0F69296327959FB800835982 /* KulingensAppApp.swift in Sources */,
 				0F4BD62427A9C4CF004C4D2F /* AudioRecorder.swift in Sources */,

@@ -22,6 +22,7 @@ struct ContentView: View {
     @State var createViewIsActive = false
     @State var activeSign: Sign? = nil
     @State var isMenuActive = false
+    @State var infoIsShowing = false
     @State var audioRecorder = AudioRecorder()
     @State var audioString = ""
     @State var audioUrl: String = ""
@@ -85,6 +86,19 @@ struct ContentView: View {
                     }
                     
                     Spacer()
+                    NavigationLink(destination: mainInfoView()){
+                        Image(systemName: "questionmark.circle.fill")
+                    }
+                    .padding()
+                    
+//                    Button(action: {
+//                        infoIsShowing.toggle()
+//
+//                    }, label: {
+//
+//                        Image(systemName: "questionmark.circle.fill")
+//                    })
+                    
                     
                     Button(action: {
                         isLocked.toggle()
@@ -142,12 +156,12 @@ struct ContentView: View {
                                 fetchSignAudio()
                             })
                         
-//                                            Button(action: {
-//                                                self.audioPlayer.playErrorAudio()
-//
-//                                            }, label: {
-//                                                Text("ERROR")
-//                                            })
+                        //                                            Button(action: {
+                        //                                                self.audioPlayer.playErrorAudio()
+                        //
+                        //                                            }, label: {
+                        //                                                Text("ERROR")
+                        //                                            })
                         
                         
                     }
@@ -277,16 +291,16 @@ struct ContentView: View {
         
     }
     
-//    func playErrorAudio() {
-//        guard let soundFileURL = Bundle.main.url(
-//            forResource: "invalid", withExtension: "mp3"
-//        ) else {
-//            print("ERRORAUDIO NOT FOUND!")
-//            return
-//        }
-//        self.audioPlayer.startPlayback(audio: soundFileURL)
-//
-//    }
+    //    func playErrorAudio() {
+    //        guard let soundFileURL = Bundle.main.url(
+    //            forResource: "invalid", withExtension: "mp3"
+    //        ) else {
+    //            print("ERRORAUDIO NOT FOUND!")
+    //            return
+    //        }
+    //        self.audioPlayer.startPlayback(audio: soundFileURL)
+    //
+    //    }
     
     
     
