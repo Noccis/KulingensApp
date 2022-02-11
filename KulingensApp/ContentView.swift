@@ -26,32 +26,24 @@ struct ContentView: View {
     @State var audioRecorder = AudioRecorder()
     @State var audioString = ""
     @State var audioUrl: String = ""
-    private var pinCode: Int? = nil
-    //  @State var audioPlayer: AVAudioPlayer!
+    @State var videoUrl = ""
     @ObservedObject var audioPlayer = AudioPlayer()
     
-    
-    
-    let urlName = "file:///Users/tonilof/Library/Developer/CoreSimulator/Devices/4846ABA4-92A8-4AB0-A360-9E0B93F695E0/data/Containers/Data/Application/F5878356-E741-49D3-AA1A-7ADB26C2B4E1/Documents/01-02-22_at_12:40:38.m4a"
-    
-    
-    
-    
+
     var body: some View {
         
         NavigationView {
-            
-            
+ 
             VStack {
                 
                 HStack{
                     NavigationLink(destination: GameView()){
                         Text("Öva")
                             .foregroundColor(Color.white)
-                            .font(.title3)
+                            .font(.title2)
                             .padding(EdgeInsets(top:0, leading: 20, bottom: 0, trailing: 0))
                     }
-                  
+                    
                     Spacer()
                     
                     if isLocked == false {
@@ -62,6 +54,7 @@ struct ContentView: View {
                         }, label: {
                             Text("Nytt tecken")
                                 .foregroundColor(Color.white)
+                                .font(.title2)
                             
                             
                         })
@@ -74,25 +67,42 @@ struct ContentView: View {
                             if signs.count != 0 {
                                 activeSign = signs[0]
                                 fetchSignAudio()
+                                fetchVideoUrl()
                                 
                             }
                             
                         }, label: {
-                            Text("Delete")
+                            Text("Radera")
+                                .font(.title2)
+                                .foregroundColor(Color.white)
+                                .padding(10)
+                                .background(Color(red: 184/256, green: 76/256, blue: 109/256 ))
+                                .cornerRadius(15)
+                              
+                                
+                                
+//                            Image(systemName: "minus.circle.fill")
+//                                .resizable()
+//                            frame(width: 20, height: 20)
+//                                .foregroundColor(Color.red)
                         })
-                            .foregroundColor(Color.white)
+                            
                     }
                     
                     Spacer()
                     NavigationLink(destination: mainInfoView()){
                         Image(systemName: "questionmark.circle.fill")
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                            .foregroundColor(Color.white)
                     }
                     .padding()
-               
+                    
                     Button(action: {
                         isLocked.toggle()
                     }, label: {
                         Image(systemName: isLocked ? "lock.fill" : "lock.open.fill")
+
                             .foregroundColor(Color.white)
                     })
                         .onAppear {
@@ -104,18 +114,21 @@ struct ContentView: View {
                                 fetchSignAudio()
                             }
                         }
+                        .padding()
                     
                     Button(action: {
                         isMenuActive = true
                     }, label: {
                         Text("Byt tecken")
                             .foregroundColor(Color.white)
+                            .font(.title2)
                     })
-                        .padding()
+                        .padding(EdgeInsets(top: 0, leading: 25, bottom: 0, trailing: 20))
                     
                 }
                 .background(Color(red: 2/256, green: 116/256, blue: 138/256 ))
                 .padding()
+         
                 
                 Spacer()
                 
@@ -126,7 +139,8 @@ struct ContentView: View {
                             .padding()
                             .background(Color(red: 92/256, green: 177/256, blue: 199/256 ))
                             .cornerRadius(10)
-                   
+                            
+                        
                         Button(action: {
                             playAudio()
                             
@@ -142,24 +156,22 @@ struct ContentView: View {
                                 fetchSignAudio()
                             })
                         
-                        //                                            Button(action: {
-                        //                                                self.audioPlayer.playErrorAudio()
-                        //
-                        //                                            }, label: {
-                        //                                                Text("ERROR")
-                        //                                            })
-                        
-                        
                     }
+                    
                     
                     
                     
                     HStack{
-                        VideoView(videoID: activeSign.videoUrl!)
+                        VideoView(videoID: videoUrl)
                             .frame(minWidth: 200, maxWidth: 700, minHeight: 100, maxHeight: 500)
                             .padding(EdgeInsets(top:0, leading: 0, bottom: 10, trailing: 0))
+                            .onAppear(perform: {
+                                fetchVideoUrl()
+                            })
+                            
                         
                     }
+                    
                     Spacer()
                 }else{
                     
@@ -171,30 +183,45 @@ struct ContentView: View {
                 
             }
             .background( Color(red: 210/256, green: 231/256, blue: 238/256 ))
-            .sheet(isPresented: $createViewIsActive, onDismiss: { fetchSignAudio()
+            .sheet(isPresented: $createViewIsActive, onDismiss: { fetchSignAudio(); fetchVideoUrl()
             }) { CreateSignView(audioRecorder: audioRecorder, activeSign: $activeSign) }
-            .sheet(isPresented: $isMenuActive, onDismiss: { fetchSignAudio() }) { SignListView(activeSign: $activeSign) }
+            .sheet(isPresented: $isMenuActive, onDismiss: { fetchSignAudio(); fetchVideoUrl() }) { SignListView(activeSign: $activeSign) }
             .navigationBarHidden(true)
         }
         .navigationViewStyle(.stack)
+        .accentColor(.white)
         
         
         
     }
     
     
-    private func addSign() {
-        withAnimation {
-            let newSign = Sign(context: viewContext)
-            newSign.name = "Klogli"
-            
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+//    private func addSign() {
+//        withAnimation {
+//            let newSign = Sign(context: viewContext)
+//            newSign.name = "Klogli"
+//
+//            do {
+//                try viewContext.save()
+//            } catch {
+//                // Replace this implementation with code to handle the error appropriately.
+//                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+//                let nsError = error as NSError
+//                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+//            }
+//        }
+//    }
+    private func fetchVideoUrl() {
+        videoUrl = ""
+        if let activeSign = activeSign {
+            if let video = activeSign.videoUrl {
+                if video.count > 3 {
+                    videoUrl = video
+                }else{
+                    videoUrl = ""
+                }
+            }else{
+                videoUrl = ""
             }
         }
     }
@@ -270,25 +297,12 @@ struct ContentView: View {
             self.audioRecorder.deleteSingleRecording(urlToDelete: deleteUrl)
         }else{
             
-            // print("DELETE AUDIO FILE URL BROKEN!!")
+             print("DELETE AUDIO FILE URL BROKEN!!")
         }
-        
-        //    print("AUDIO URL: ::\(audioUrl)::")
-        
+  
     }
     
-    //    func playErrorAudio() {
-    //        guard let soundFileURL = Bundle.main.url(
-    //            forResource: "invalid", withExtension: "mp3"
-    //        ) else {
-    //            print("ERRORAUDIO NOT FOUND!")
-    //            return
-    //        }
-    //        self.audioPlayer.startPlayback(audio: soundFileURL)
-    //
-    //    }
-    
-    
+   
     
 }
 
