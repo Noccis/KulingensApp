@@ -29,11 +29,11 @@ struct ContentView: View {
     @State var videoUrl = ""
     @ObservedObject var audioPlayer = AudioPlayer()
     
-
+    
     var body: some View {
         
         NavigationView {
- 
+            
             VStack {
                 
                 HStack{
@@ -78,15 +78,9 @@ struct ContentView: View {
                                 .padding(10)
                                 .background(Color(red: 184/256, green: 76/256, blue: 109/256 ))
                                 .cornerRadius(15)
-                              
-                                
-                                
-//                            Image(systemName: "minus.circle.fill")
-//                                .resizable()
-//                            frame(width: 20, height: 20)
-//                                .foregroundColor(Color.red)
+
                         })
-                            
+                        
                     }
                     
                     Spacer()
@@ -102,7 +96,7 @@ struct ContentView: View {
                         isLocked.toggle()
                     }, label: {
                         Image(systemName: isLocked ? "lock.fill" : "lock.open.fill")
-
+                        
                             .foregroundColor(Color.white)
                     })
                         .onAppear {
@@ -128,7 +122,7 @@ struct ContentView: View {
                 }
                 .background(Color(red: 2/256, green: 116/256, blue: 138/256 ))
                 .padding()
-         
+                
                 
                 Spacer()
                 
@@ -139,7 +133,7 @@ struct ContentView: View {
                             .padding()
                             .background(Color(red: 92/256, green: 177/256, blue: 199/256 ))
                             .cornerRadius(10)
-                            
+                        
                         
                         Button(action: {
                             playAudio()
@@ -157,10 +151,6 @@ struct ContentView: View {
                             })
                         
                     }
-                    
-                    
-                    
-                    
                     HStack{
                         VideoView(videoID: videoUrl)
                             .frame(minWidth: 200, maxWidth: 700, minHeight: 100, maxHeight: 500)
@@ -168,8 +158,6 @@ struct ContentView: View {
                             .onAppear(perform: {
                                 fetchVideoUrl()
                             })
-                            
-                        
                     }
                     
                     Spacer()
@@ -180,7 +168,6 @@ struct ContentView: View {
                     Spacer()
                     
                 }
-                
             }
             .background( Color(red: 210/256, green: 231/256, blue: 238/256 ))
             .sheet(isPresented: $createViewIsActive, onDismiss: { fetchSignAudio(); fetchVideoUrl()
@@ -190,27 +177,9 @@ struct ContentView: View {
         }
         .navigationViewStyle(.stack)
         .accentColor(.white)
-        
-        
-        
+  
     }
     
-    
-//    private func addSign() {
-//        withAnimation {
-//            let newSign = Sign(context: viewContext)
-//            newSign.name = "Klogli"
-//
-//            do {
-//                try viewContext.save()
-//            } catch {
-//                // Replace this implementation with code to handle the error appropriately.
-//                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-//                let nsError = error as NSError
-//                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-//            }
-//        }
-//    }
     private func fetchVideoUrl() {
         videoUrl = ""
         if let activeSign = activeSign {
@@ -250,38 +219,28 @@ struct ContentView: View {
         
         if let activeSign = activeSign {
             if let name = activeSign.audioName {
-                //  print("1 FETCHSIGN NAME:\(name):: COUNT:::\(name.count)")
                 if name.count > 1 {
                     audioString = name
-                    //            print("2 AUDIOSTRING:::: \(audioString)")
                 }else{
-                    //         print("AUDIOSTRING SHOULD BE EMPTY")
                     audioString = ""
                     audioUrl = ""
                 }
             }
         }
-        // Behöver jag kalla på fetch recordings första gången appen körs?
         let testList = self.audioRecorder.recordings
         
         for recording in testList {
             let dodo = recording.fileURL.absoluteString.suffix(24)
-            //  print("TESTLIST ::\(dodo)::")
             
             if dodo == audioString {
-                //     print("PLaying!!!!!!!!!")
-                //     print("FETCHSIGNRECORDING DODO IS SAME AS IN LIST! set: ::\(audioUrl)::")
                 audioUrl = String(recording.fileURL.absoluteString)
                 
-                
-                //  self.audioPlayer.startPlayback(audio: recording.fileURL)
             }
         }
     }
     
     func playAudio() {
         if audioUrl.count > 3 {
-            //   print("AudioUrl bigger then 3, playing")
             if let playUrl = URL(string: audioUrl){
                 self.audioPlayer.startPlayback(audio: playUrl)
             }
@@ -297,12 +256,12 @@ struct ContentView: View {
             self.audioRecorder.deleteSingleRecording(urlToDelete: deleteUrl)
         }else{
             
-             print("DELETE AUDIO FILE URL BROKEN!!")
+            print("DELETE AUDIO FILE URL BROKEN!!")
         }
-  
+        
     }
     
-   
+    
     
 }
 

@@ -31,7 +31,7 @@ struct SignListView: View {
                     .padding()
                     .font(.title3)
                     .foregroundColor(Color.red)
-            //        .background(Color.red)
+                //        .background(Color.red)
                     .cornerRadius(15)
             })
             List() {
@@ -40,15 +40,12 @@ struct SignListView: View {
                     Text(sign.name!)
                         .onAppear(perform: {
                             
-                            
-                            
                         })
                         .onTapGesture {
                             activeSign = sign
                             presentationMode.wrappedValue
                                 .dismiss()
                         }
-                    
                 }
             }
         }

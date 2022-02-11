@@ -29,104 +29,99 @@ struct CreateSignView: View {
     
     
     var body: some View {
-  //      NavigationView{
-            HStack{
+        
+        HStack{
+            Button(action: {
+                presentationMode.wrappedValue
+                    .dismiss()
+            }, label: {
+                Text("Avbryt")
+                    .padding()
+                    .font(.title3)
+                    .foregroundColor(Color.red)
+                    .cornerRadius(15)
+            })
+            Spacer()
+        }
+        VStack{
+            
+            Text("Skapa nytt tecken")
+                .font(.title)
+                .padding()
+            
+                .padding()                                  // Ta bort padding neråt
+            TextField("Namge ditt tecken", text: $inputName)             // Ta bort padding uppåt
+                .padding()
+                .background(Color.gray.opacity(0.2).cornerRadius(10))
+                .font(.title3)
+                .padding()
+            
+            
+            
+            TextField("Skriv in ID till din video", text: $inputVideoUrl)
+                .padding()
+                .background(Color.gray.opacity(0.2).cornerRadius(10))
+                .font(.title3)
+                .padding()
+            
+            Text("Spela in ljud")
+                .font(.title)
+                .padding()
+            if audioRecorder.recording == false {
                 Button(action: {
-                    presentationMode.wrappedValue
-                        .dismiss()
-                }, label: {
-                    Text("Avbryt")
-                        .padding()
-                        .font(.title3)
-                        .foregroundColor(Color.red)
-                //        .background(Color.red)
-                        .cornerRadius(15)
-                })
-                Spacer()
+                    inputAudioName = self.audioRecorder.startRecording()
+                    stopAudio = true
+                }) {
+                    Image(systemName: "circle.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 50, height: 50)
+                        .clipped()
+                        .foregroundColor(.red)
+                        .padding(.bottom, 40)
+                }
+            } else {
+                Button(action: {
+                    self.audioRecorder.stopRecording()
+                    isAudioSaved = true
+                    stopAudio = false
+                }) {
+                    Image(systemName: "stop.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 50, height: 50)
+                        .clipped()
+                        .foregroundColor(.red)
+                        .padding(.bottom, 40)
+                }
             }
-            VStack{
+            
+            Spacer()
+            
+            Text(varningText)
+                .foregroundColor(Color.red)
+                .padding()
+            Button(action: {
                 
-                Text("Skapa nytt tecken")
-                    .font(.title)
-                    .padding()
-                
-                    .padding()                                  // Ta bort padding neråt
-                TextField("Namge ditt tecken", text: $inputName)             // Ta bort padding uppåt
-                    .padding()
-                    .background(Color.gray.opacity(0.2).cornerRadius(10))
-                    .font(.title3)
-                    .padding()
-                
-                
-                
-                TextField("Skriv in ID till din video", text: $inputVideoUrl)
-                    .padding()
-                    .background(Color.gray.opacity(0.2).cornerRadius(10))
-                    .font(.title3)
-                    .padding()
-                
-                Text("Spela in ljud")
-                    .font(.title)
-                    .padding()
-                if audioRecorder.recording == false {
-                    Button(action: {
-                        inputAudioName = self.audioRecorder.startRecording()
-                        stopAudio = true
-                    }) {
-                        Image(systemName: "circle.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 50, height: 50)
-                            .clipped()
-                            .foregroundColor(.red)
-                            .padding(.bottom, 40)
-                    }
-                } else {
-                    Button(action: {
-                        self.audioRecorder.stopRecording()
+                if stopAudio == true {
+                    varningText = "Stoppa audioinspelningen innan du sparar"
+                }else{
+                    if isAudioSaved == true {
+                        addSign()
+                        presentationMode.wrappedValue
+                            .dismiss()
+                    }else{
+                        varningText = "Du har inte spelat in ljud till ditt tecken. Är du säker på att du vill spara?"
                         isAudioSaved = true
-                        stopAudio = false
-                    }) {
-                        Image(systemName: "stop.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 50, height: 50)
-                            .clipped()
-                            .foregroundColor(.red)
-                            .padding(.bottom, 40)
+                        saveText = "Ja, spara"
                     }
                 }
-                
-                Spacer()
-                
-                Text(varningText)
-                    .foregroundColor(Color.red)
-                    .padding()
-                Button(action: {
-                    
-                    if stopAudio == true {
-                        varningText = "Stoppa audioinspelningen innan du sparar"
-                    }else{
-                        if isAudioSaved == true {
-                            addSign()
-                            presentationMode.wrappedValue
-                                .dismiss()
-                        }else{
-                            varningText = "Du har inte spelat in ljud till ditt tecken. Är du säker på att du vill spara?"
-                            isAudioSaved = true
-                            saveText = "Ja, spara"
-                        }
-                    }
-                }, label: {
-                    Text(saveText)
-                })
-                Spacer()
-                
-            }
-         //   .navigationBarTitle("Just nu bara")
+            }, label: {
+                Text(saveText)
+            })
+            Spacer()
             
-       // }
-        
+        }
         
     }
     
@@ -143,7 +138,6 @@ struct CreateSignView: View {
                 
                 newSign.audioName = inputAudioName
                 
-                //    print ("\(inputName) har audio:: \(inputAudioName)")
                 activeSign = newSign
                 
                 do {
@@ -166,55 +160,7 @@ struct CreateSignView: View {
     
 }
 
-//struct RecordingsList: View {
-//
-//    @ObservedObject var audioRecorder: AudioRecorder
-//
-//    var body: some View {
-//        List {
-//            ForEach(audioRecorder.recordings, id: \.createdAt) { recording in
-//                RecordingRow(audioURL: recording.fileURL)
-//            }
-//            .onDelete(perform: delete)
-//        }
-//    }
-//
-//    func delete(at offsets: IndexSet) {
-//        var urlsToDelete = [URL]()
-//        for index in offsets {
-//            urlsToDelete.append(audioRecorder.recordings[index].fileURL)
-//        }
-//        audioRecorder.deleteRecording(urlsToDelete: urlsToDelete)
-//    }
-//}
 
-//struct RecordingRow: View {
-//
-//    var audioURL: URL
-//    @ObservedObject var audioPlayer = AudioPlayer()
-//
-//    var body: some View {
-//        HStack {
-//            Text("\(audioURL.lastPathComponent)")
-//            Spacer()
-//            if audioPlayer.isPlaying == false {
-//                Button(action: {
-//                    self.audioPlayer.startPlayback(audio: self.audioURL)
-//                }) {
-//                    Image(systemName: "play.circle")
-//                        .imageScale(.large)
-//                }
-//            } else {
-//                Button(action: {
-//                    self.audioPlayer.stopPlayback()
-//                }) {
-//                    Image(systemName: "stop.fill")
-//                        .imageScale(.large)
-//                }
-//            }
-//        }
-//    }
-//}
 
 //struct CreateSignView_Previews: PreviewProvider {
 //    static var previews: some View {

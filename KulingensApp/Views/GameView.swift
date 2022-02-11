@@ -15,7 +15,7 @@ struct GameView: View {
         animation: .default)
     private var signs: FetchedResults<Sign>
     
-    //  var sign: Sign? = nil
+    
     @State var answerAnimation = false
     @State var answerIsRight = false
     @State var answerIsWrong = false
@@ -42,17 +42,17 @@ struct GameView: View {
                         .frame(width: 0, height: 0)
                         .disabled(true)
                 }
-  
+                
             }
             .frame(width: UIScreen.main.bounds.width, height: 30)
             .background(Color(red: 92/256, green: 177/256, blue: 199/256))
-       
+            
             Spacer()
             
             if gameIsOn == true {
                 
                 ZStack{
-                   
+                    
                     HStack{
                         
                         VideoView(videoID: videoUrl)
@@ -90,7 +90,6 @@ struct GameView: View {
                             }, label: {
                                 HStack{
                                     Image(systemName: "speaker.wave.3.fill")
-                                    // .padding()
                                     Text("2")
                                         .bold()
                                         .font(.title2)
@@ -123,18 +122,8 @@ struct GameView: View {
                                 .padding()
                         }
                         .padding(.leading, 30)
-                        
-                        
-                        
                     }
-                   
                 }
-                
-                
-                
-                
-                
-                
             }else{
                 Text("Minst 3 tecken behöver vara sparade för att öva. Gå tillbaka och spela in flera tecken.")
             }
@@ -168,7 +157,7 @@ struct GameView: View {
                                 .cornerRadius(15)
                             
                         })
-                            
+                        
                             .padding(EdgeInsets(top:0, leading: 60, bottom: 40, trailing: 0))
                         
                         Spacer()
@@ -197,23 +186,15 @@ struct GameView: View {
                                 .frame(width: 100, height: 60)
                                 .foregroundColor(Color.white)
                                 .background(Color(red: 2/256, green: 116/256, blue: 138/256))
-                                .cornerRadius(15)                        })
-                            
+                            .cornerRadius(15)                        })
+                        
                             .padding(EdgeInsets(top: 0, leading: 0, bottom: 40, trailing: 60))
-                        
-                        
-                        
-                        
-                        
-                        
-                        
                         
                     }
                     
                 }
                 
             }
-          //  .background(Color(red: 10/256, green: 177/256, blue: 200/256))
             .background(color)
             
             
@@ -226,14 +207,12 @@ struct GameView: View {
             self.gameInfoShowing = true
             
         }) {
-                                
+            
             Image(systemName: "questionmark.circle.fill")
                 .resizable()
                 .frame(width: 30, height: 30)
-             //   .foregroundColor(Color.white)
-
-                
-                            })
+            
+        })
         
     }
     
@@ -272,7 +251,7 @@ struct GameView: View {
         }
         setTwoWrongAudioStrings()
     }
-
+    
     
     func playAudio(audioName: String) {
         
@@ -329,12 +308,7 @@ struct GameView: View {
             audioUrlTwo = getRandomWrongAudioString()
             answerTwoString = audioUrlTwo
             
-            
-            
         }
-        
-        
-        
     }
     
     private func resetGame() {
@@ -350,8 +324,6 @@ struct GameView: View {
         answerOneString = ""
         answerTwoString = ""
         answerThreeString = ""
-      
-        
     }
     
     
@@ -362,14 +334,14 @@ struct GameView: View {
             
             var wrongAudio = randomSign.audioName
             
-            while wrongAudio == rightAudioUrl{      // Kollar så inte right wrong audio är samma som right audio
+            while wrongAudio == rightAudioUrl{
                 print("RANDOM-WRONG-AUDIO wrong is same as right")
                 
                 if let newSign = signs.randomElement() {
                     wrongAudio = newSign.audioName
                     
                 }
-            }               // wrong audio string är skapad
+            }
             
             guard let wrongAudio = wrongAudio else {return "Nope"}
             
@@ -392,14 +364,12 @@ struct GameView: View {
     }
     
     private func showAnswerIsRightColor() {
-        //  answerIsRight = true
         
         withAnimation(.easeInOut(duration: 0.1)){
             color = Color(red: 0/256, green: 255/256, blue: 0/256)
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             
-            //   answerIsRight = false
             withAnimation(.easeInOut(duration: 0.3)){
                 color = Color(red: 10/256, green: 177/256, blue: 200/256)
             }
@@ -407,11 +377,10 @@ struct GameView: View {
     }
     
     private func showAnswerIsWrongColor() {
-        //  answerIsWrong = true
+        
         withAnimation(.easeInOut(duration: 0.1)) {
             color = Color(red: 255/256, green: 31/256, blue: 0/256)
         }
-     //   color = Color(red: 255/256, green: 31/256, blue: 0/256)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             withAnimation(.easeInOut(duration: 0.3)) {
                 color = Color(red: 10/256, green: 177/256, blue: 200/256)
@@ -449,8 +418,6 @@ struct GameView: View {
             gameIsOn = false
         }
     }
-    
-    
     
 }
 
