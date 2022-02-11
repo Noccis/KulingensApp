@@ -40,7 +40,7 @@ struct ContentView: View {
                     NavigationLink(destination: GameView()){
                         Text("Öva")
                             .foregroundColor(Color.white)
-                            .font(.title3)
+                            .font(.title2)
                             .padding(EdgeInsets(top:0, leading: 20, bottom: 0, trailing: 0))
                     }
                     
@@ -54,6 +54,7 @@ struct ContentView: View {
                         }, label: {
                             Text("Nytt tecken")
                                 .foregroundColor(Color.white)
+                                .font(.title2)
                             
                             
                         })
@@ -71,14 +72,29 @@ struct ContentView: View {
                             }
                             
                         }, label: {
-                            Text("Delete")
+                            Text("Radera")
+                                .font(.title2)
+                                .foregroundColor(Color.white)
+                                .padding(10)
+                                .background(Color(red: 184/256, green: 76/256, blue: 109/256 ))
+                                .cornerRadius(15)
+                              
+                                
+                                
+//                            Image(systemName: "minus.circle.fill")
+//                                .resizable()
+//                            frame(width: 20, height: 20)
+//                                .foregroundColor(Color.red)
                         })
-                            .foregroundColor(Color.white)
+                            
                     }
                     
                     Spacer()
                     NavigationLink(destination: mainInfoView()){
                         Image(systemName: "questionmark.circle.fill")
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                            .foregroundColor(Color.white)
                     }
                     .padding()
                     
@@ -86,6 +102,7 @@ struct ContentView: View {
                         isLocked.toggle()
                     }, label: {
                         Image(systemName: isLocked ? "lock.fill" : "lock.open.fill")
+
                             .foregroundColor(Color.white)
                     })
                         .onAppear {
@@ -97,18 +114,21 @@ struct ContentView: View {
                                 fetchSignAudio()
                             }
                         }
+                        .padding()
                     
                     Button(action: {
                         isMenuActive = true
                     }, label: {
                         Text("Byt tecken")
                             .foregroundColor(Color.white)
+                            .font(.title2)
                     })
-                        .padding()
+                        .padding(EdgeInsets(top: 0, leading: 25, bottom: 0, trailing: 20))
                     
                 }
                 .background(Color(red: 2/256, green: 116/256, blue: 138/256 ))
                 .padding()
+         
                 
                 Spacer()
                 
@@ -119,6 +139,7 @@ struct ContentView: View {
                             .padding()
                             .background(Color(red: 92/256, green: 177/256, blue: 199/256 ))
                             .cornerRadius(10)
+                            
                         
                         Button(action: {
                             playAudio()
@@ -139,6 +160,7 @@ struct ContentView: View {
                     
                     
                     
+                    
                     HStack{
                         VideoView(videoID: videoUrl)
                             .frame(minWidth: 200, maxWidth: 700, minHeight: 100, maxHeight: 500)
@@ -146,8 +168,10 @@ struct ContentView: View {
                             .onAppear(perform: {
                                 fetchVideoUrl()
                             })
+                            
                         
                     }
+                    
                     Spacer()
                 }else{
                     
@@ -165,6 +189,7 @@ struct ContentView: View {
             .navigationBarHidden(true)
         }
         .navigationViewStyle(.stack)
+        .accentColor(.white)
         
         
         

@@ -42,12 +42,11 @@ struct GameView: View {
                         .frame(width: 0, height: 0)
                         .disabled(true)
                 }
-              //  .navigationBarTitleDisplayMode(.inline)
   
             }
             .frame(width: UIScreen.main.bounds.width, height: 30)
             .background(Color(red: 92/256, green: 177/256, blue: 199/256))
-         //   .navigationBarTitleDisplayMode(.inline)
+       
             Spacer()
             
             if gameIsOn == true {
@@ -161,6 +160,7 @@ struct GameView: View {
                         }, label: {
                             
                             Text("1")
+                                .bold()
                                 .font(.title2)
                                 .frame(width: 100, height: 60)
                                 .foregroundColor(Color.white)
@@ -177,6 +177,7 @@ struct GameView: View {
                             checkAnswer(answer: answerTwoString)
                         }, label: {
                             Text("2")
+                                .bold()
                                 .font(.title2)
                                 .frame(width: 100, height: 60)
                                 .foregroundColor(Color.white)
@@ -191,6 +192,7 @@ struct GameView: View {
                             checkAnswer(answer: answerThreeString)
                         }, label: {
                             Text("3")
+                                .bold()
                                 .font(.title2)
                                 .frame(width: 100, height: 60)
                                 .foregroundColor(Color.white)
@@ -220,9 +222,19 @@ struct GameView: View {
         }
         .background(Color(red: 210/256, green: 231/256, blue: 238/256 ))
         .navigationBarTitleDisplayMode(.inline)
-        .navigationBarItems(trailing: Button(action:{ self.gameInfoShowing = true }) {
-                                Image(systemName: "questionmark.circle.fill")
+        .navigationBarItems(trailing: Button(action:{
+            self.gameInfoShowing = true
+            
+        }) {
+                                
+            Image(systemName: "questionmark.circle.fill")
+                .resizable()
+                .frame(width: 30, height: 30)
+             //   .foregroundColor(Color.white)
+
+                
                             })
+        
     }
     
     func pickRandomSign() {
