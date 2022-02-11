@@ -51,9 +51,7 @@ struct ContentView: View {
                             .font(.title3)
                             .padding(EdgeInsets(top:0, leading: 20, bottom: 0, trailing: 0))
                     }
-                    //                    Text("Searchfunction")
-                    //                        .foregroundColor(Color.white)
-                    //                        .padding()
+                  
                     Spacer()
                     
                     if isLocked == false {
@@ -128,10 +126,7 @@ struct ContentView: View {
                             .padding()
                             .background(Color(red: 92/256, green: 177/256, blue: 199/256 ))
                             .cornerRadius(10)
-                        //    .padding(EdgeInsets(top:0, leading: 200, bottom: 0, trailing: 0))
-                        
-                        
-                        //   Text("Audio file")
+                   
                         Button(action: {
                             playAudio()
                             

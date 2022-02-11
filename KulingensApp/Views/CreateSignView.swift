@@ -29,7 +29,21 @@ struct CreateSignView: View {
     
     
     var body: some View {
-        NavigationView{
+  //      NavigationView{
+            HStack{
+                Button(action: {
+                    presentationMode.wrappedValue
+                        .dismiss()
+                }, label: {
+                    Text("Avbryt")
+                        .padding()
+                        .font(.title3)
+                        .foregroundColor(Color.red)
+                //        .background(Color.red)
+                        .cornerRadius(15)
+                })
+                Spacer()
+            }
             VStack{
                 
                 Text("Skapa nytt tecken")
@@ -111,7 +125,7 @@ struct CreateSignView: View {
             }
          //   .navigationBarTitle("Just nu bara")
             
-        }
+       // }
         
         
     }

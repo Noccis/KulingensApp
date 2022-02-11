@@ -23,13 +23,24 @@ struct SignListView: View {
     var body: some View {
         
         VStack{
+            Button(action: {
+                presentationMode.wrappedValue
+                    .dismiss()
+            }, label: {
+                Text("Avbryt")
+                    .padding()
+                    .font(.title3)
+                    .foregroundColor(Color.red)
+            //        .background(Color.red)
+                    .cornerRadius(15)
+            })
             List() {
                 
                 ForEach(signs) { sign in
                     Text(sign.name!)
                         .onAppear(perform: {
-                       
-                        
+                            
+                            
                             
                         })
                         .onTapGesture {
@@ -37,9 +48,6 @@ struct SignListView: View {
                             presentationMode.wrappedValue
                                 .dismiss()
                         }
-//                    NavigationLink(destination: VehicleView(vehicle: vehicle)) {
-//                        RowView(vehicle: vehicle)
-//                    }
                     
                 }
             }
