@@ -105,6 +105,7 @@ struct CreateSignView: View {
                 
                 if stopAudio == true {
                     varningText = "Stoppa audioinspelningen innan du sparar"
+                    saveText = "Spara"
                 }else{
                     if isAudioSaved == true {
                         addSign()
@@ -118,6 +119,11 @@ struct CreateSignView: View {
                 }
             }, label: {
                 Text(saveText)
+                    .font(.title2)
+                    .padding()
+                    .foregroundColor(Color.white)
+                    .background(Color(red: 92/256, green: 177/256, blue: 199/256))
+                    .cornerRadius(15)
             })
             Spacer()
             
