@@ -39,7 +39,7 @@ struct mainInfoView: View {
                         .frame(maxWidth: .infinity)
                     Image(uiImage: lockImage!)
                     
-                    Text("För att låsa upp funktionerna Skapa och radera tecken, tryck på låsknappen.")
+                    Text("För att låsa upp funktionerna skapa och radera tecken, tryck på låsknappen.")
                         
                    // Image(uiImage: youTubeId!)
                     VideoPlayer(player: AVPlayer(url: Bundle.main.url(forResource: youtubeVideo, withExtension: "mov")!))
