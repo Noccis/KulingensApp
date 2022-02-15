@@ -231,14 +231,17 @@ struct GameView: View {
                 
                 print("CHECK audioUrlOne = \(audioUrlOne), AnswerOneString= \(answerOneString)")
                 print("PICKRANDOMSIGN right audiourl is in 1")
+                
             }else if randomNr == 2 {
                 audioUrlTwo = audio
                 answerTwoString = audio
                 print("PICKRANDOMSIGN right audiourl is in 2")
+                print("CHECK audioUrlTwo = \(audioUrlTwo), AnswerTwoString= \(answerTwoString)")
             }else if randomNr == 3 {
                 audioUrlThree = audio
                 answerThreeString = audio
                 print("PICKRANDOMSIGN right audiourl is in 3")
+                print("CHECK audioUrlthree = \(audioUrlThree), AnswerThreeString= \(answerThreeString)")
             }else{
                 print("PICKRANDOMSIGN RANDOMNR ERROR")
             }
