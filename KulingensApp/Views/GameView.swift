@@ -15,7 +15,6 @@ struct GameView: View {
         animation: .default)
     private var signs: FetchedResults<Sign>
     
-    
     @State var answerAnimation = false
     @State var answerIsRight = false
     @State var answerIsWrong = false
@@ -70,7 +69,7 @@ struct GameView: View {
                             }, label: {
                                 HStack{
                                     Image(systemName: "speaker.wave.3.fill")
-                                    // .padding()
+                    
                                     Text("1")
                                         .bold()
                                         .font(.title2)
@@ -80,8 +79,6 @@ struct GameView: View {
                                 .foregroundColor(Color.black)
                                 .background(Color(red: 92/256, green: 177/256, blue: 199/256 ))
                                 .cornerRadius(10)
-                                
-                                
                             })
                                 .padding()
                             
@@ -106,7 +103,6 @@ struct GameView: View {
                             }, label: {
                                 HStack{
                                     Image(systemName: "speaker.wave.3.fill")
-                                    // .padding()
                                     Text("3")
                                         .bold()
                                         .font(.title2)
@@ -142,7 +138,6 @@ struct GameView: View {
                             checkThatListIsNotEmpty()
                         })
                     HStack {
-                        
                         
                         Button(action: {
                             checkAnswer(answer: answerOneString)
@@ -187,18 +182,12 @@ struct GameView: View {
                                 .foregroundColor(Color.white)
                                 .background(Color(red: 2/256, green: 116/256, blue: 138/256))
                             .cornerRadius(15)                        })
-                        
                             .padding(EdgeInsets(top: 0, leading: 0, bottom: 40, trailing: 60))
                         
                     }
-                    
                 }
-                
             }
             .background(color)
-            
-            
-            
             
         }
         .background(Color(red: 210/256, green: 231/256, blue: 238/256 ))
@@ -221,30 +210,38 @@ struct GameView: View {
         if let randomSign = signs.randomElement() {
             
             guard let url = randomSign.videoUrl else {return}
-            videoUrl = url                                          // VideoUrl är satt
+            videoUrl = url
             
             guard let audio = randomSign.audioName else {
                 print("ERROR ---- PICKRANDOMSIGN randomSign.audioName is NIL")
                 return
             }
             
-            
-            print("Right audio Name::::::: \(audio)")
+ 
             rightAudioUrl = audio
+            
+            print("Right audio Name::::::: \(audio) RIGHT AUDIO URL::\(rightAudioUrl)")
+            
+            
             let randomNr = Int.random(in: 1...3)
             
             if randomNr == 1 {
                 audioUrlOne = audio
                 answerOneString = audio
+                
+                print("CHECK audioUrlOne = \(audioUrlOne), AnswerOneString= \(answerOneString)")
                 print("PICKRANDOMSIGN right audiourl is in 1")
+                
             }else if randomNr == 2 {
                 audioUrlTwo = audio
                 answerTwoString = audio
                 print("PICKRANDOMSIGN right audiourl is in 2")
+                print("CHECK audioUrlTwo = \(audioUrlTwo), AnswerTwoString= \(answerTwoString)")
             }else if randomNr == 3 {
                 audioUrlThree = audio
                 answerThreeString = audio
                 print("PICKRANDOMSIGN right audiourl is in 3")
+                print("CHECK audioUrlthree = \(audioUrlThree), AnswerThreeString= \(answerThreeString)")
             }else{
                 print("PICKRANDOMSIGN RANDOMNR ERROR")
             }
@@ -277,8 +274,6 @@ struct GameView: View {
             let dodo = recording.fileURL.absoluteString.suffix(24)
             
             if dodo == audioName {
-                
-                print("FETCHAUDIOURL url found: ::\(recording.fileURL)::")
                 return String(recording.fileURL.absoluteString)
             }
             
@@ -289,20 +284,20 @@ struct GameView: View {
     
     private func setTwoWrongAudioStrings(){
         
-        if !audioUrlOne.isEmpty {       // Om rightaudio är på spelare 1
+        if !audioUrlOne.isEmpty {       // If rightaudio is on player 1
             
             audioUrlTwo = getRandomWrongAudioString()
             answerTwoString = audioUrlTwo
             audioUrlThree = getRandomWrongAudioString()
             answerThreeString = audioUrlThree
             
-        }else if !audioUrlTwo.isEmpty {     // Om rightaudio är på spelare 2
+        }else if !audioUrlTwo.isEmpty {     // If rightaudio is on player 2
             audioUrlOne = getRandomWrongAudioString()
             answerOneString = audioUrlOne
             audioUrlThree = getRandomWrongAudioString()
             answerThreeString = audioUrlThree
             
-        }else if !audioUrlThree.isEmpty {       // Om rightaudio är på spelare 3
+        }else if !audioUrlThree.isEmpty {       // If rightaudio is on player 3
             audioUrlOne = getRandomWrongAudioString()
             answerOneString = audioUrlOne
             audioUrlTwo = getRandomWrongAudioString()
@@ -393,12 +388,9 @@ struct GameView: View {
         guard let soundFileURL = Bundle.main.url(
             forResource: "wronganswer2", withExtension: "mp3"
         ) else {
-            print("ERRORAUDIO NOT FOUND!")
             return
         }
         self.audioPlayer.startPlayback(audio: soundFileURL)
-        
-        
     }
     
     private func playRightAnswerSound() {
@@ -406,7 +398,6 @@ struct GameView: View {
         guard let soundFileURL = Bundle.main.url(
             forResource: "correctanswer", withExtension: "mp3"
         ) else {
-            print("ERRORAUDIO NOT FOUND!")
             return
         }
         self.audioPlayer.startPlayback(audio: soundFileURL)

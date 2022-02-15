@@ -23,15 +23,6 @@ class AudioPlayer:  NSObject, ObservableObject, AVAudioPlayerDelegate {
     
     func startPlayback (audio: URL) {
         
-   //     let playbackSession = AVAudioSession.sharedInstance()
-        
-        // Det här kan du nog kommentera bort
-        //        do {
-        //                    try playbackSession.overrideOutputAudioPort(AVAudioSession.PortOverride.speaker)
-        //                } catch {
-        //                    print("Playing over the device's speakers failed")
-        //                }
-        
         do {
             print("AudioPlayer startPlayback audio URL:  ::\(audio)::")
             audioPlayer = try AVAudioPlayer(contentsOf: audio)
@@ -45,17 +36,16 @@ class AudioPlayer:  NSObject, ObservableObject, AVAudioPlayerDelegate {
         
     }
     
-    
     func stopPlayback() {
         audioPlayer.stop()
         isPlaying = false
     }
     
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-            if flag {
-                isPlaying = false
-            }
+        if flag {
+            isPlaying = false
         }
+    }
     
     func playErrorAudio() {
         guard let soundFileURL = Bundle.main.url(

@@ -55,8 +55,6 @@ struct ContentView: View {
                             Text("Nytt tecken")
                                 .foregroundColor(Color.white)
                                 .font(.title2)
-                            
-                            
                         })
                             .padding()
                         
@@ -78,9 +76,7 @@ struct ContentView: View {
                                 .padding(10)
                                 .background(Color(red: 184/256, green: 76/256, blue: 109/256 ))
                                 .cornerRadius(15)
-
                         })
-                        
                     }
                     
                     Spacer()
@@ -170,8 +166,12 @@ struct ContentView: View {
                 }
             }
             .background( Color(red: 210/256, green: 231/256, blue: 238/256 ))
+          
+            
             .sheet(isPresented: $createViewIsActive, onDismiss: { fetchSignAudio(); fetchVideoUrl()
             }) { CreateSignView(audioRecorder: audioRecorder, activeSign: $activeSign) }
+            
+            
             .sheet(isPresented: $isMenuActive, onDismiss: { fetchSignAudio(); fetchVideoUrl() }) { SignListView(activeSign: $activeSign) }
             .navigationBarHidden(true)
         }
@@ -208,8 +208,6 @@ struct ContentView: View {
         do {
             try viewContext.save()
         } catch {
-            // Replace this implementation with code to handle the error appropriately.
-            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
             let nsError = error as NSError
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }

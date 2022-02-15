@@ -9,11 +9,9 @@ import SwiftUI
 import AVKit
 
 struct GameInfoView: View {
-    
-  
+
     let practiceVideo = "practise"
-    
-    
+
     var body: some View {
         HStack{
             
@@ -36,14 +34,12 @@ struct GameInfoView: View {
                     .padding()
                 
             }
-            
         }
-        
     }
 }
 
-struct GameInfoView_Previews: PreviewProvider {
-    static var previews: some View {
-        GameInfoView()
-    }
-}
+//struct GameInfoView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        GameInfoView()
+//    }
+//}

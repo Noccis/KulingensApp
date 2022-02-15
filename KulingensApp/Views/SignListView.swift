@@ -31,7 +31,6 @@ struct SignListView: View {
                     .padding()
                     .font(.title3)
                     .foregroundColor(Color.red)
-                //        .background(Color.red)
                     .cornerRadius(15)
             })
             List() {
