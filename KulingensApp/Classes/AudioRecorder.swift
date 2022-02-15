@@ -14,7 +14,7 @@ class AudioRecorder: NSObject, ObservableObject {
     
     let objectWillChange = PassthroughSubject<AudioRecorder, Never>()
     var audioRecorder: AVAudioRecorder!
-    var recordings = [Recording]()              // Create active recording to get url?
+    var recordings = [Recording]()            
     var recording = false {
         didSet {
             objectWillChange.send(self)
@@ -22,9 +22,9 @@ class AudioRecorder: NSObject, ObservableObject {
     }
     
     override init() {
-           super.init()
-           fetchRecordings()
-       }
+        super.init()
+        fetchRecordings()
+    }
     
     
     func startRecording()-> String {
@@ -42,7 +42,7 @@ class AudioRecorder: NSObject, ObservableObject {
         print("AUDIORECORDER audioFilename::\(audioFilename)::")
         
         let audioName = String(audioFilename.absoluteString.suffix(24))
-        print("AUDIORECORDER audioName::\(audioName)::")
+        
         let settings = [
             AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
             AVSampleRateKey: 12000,
@@ -63,29 +63,25 @@ class AudioRecorder: NSObject, ObservableObject {
     }
     
     func stopRecording() {
-           audioRecorder.stop()
-           recording = false
+        audioRecorder.stop()
+        recording = false
         fetchRecordings()
-       }
+    }
     
     
     func fetchRecordings() {
-            recordings.removeAll()
+        recordings.removeAll()
+        
+        let fileManager = FileManager.default
+        let documentDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let directoryContents = try! fileManager.contentsOfDirectory(at: documentDirectory, includingPropertiesForKeys: nil)
+        for audio in directoryContents {
             
-            let fileManager = FileManager.default
-            let documentDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
-            let directoryContents = try! fileManager.contentsOfDirectory(at: documentDirectory, includingPropertiesForKeys: nil)
-            for audio in directoryContents {
-                
-                let recording = Recording(fileURL: audio, createdAt: getCreationDate(for: audio))
-                print("\(recording.fileURL)")
-                          recordings.append(recording)
-            }
-        // Behöver denna rad vara med?
-   //     recordings.sort(by: { $0.createdAt.compare($1.createdAt) == .orderedAscending})
-                
-                objectWillChange.send(self)
+            let recording = Recording(fileURL: audio, createdAt: getCreationDate(for: audio))
+            recordings.append(recording)
         }
+        objectWillChange.send(self)
+    }
     
     func fetchSingleRecording() {
         
@@ -97,18 +93,17 @@ class AudioRecorder: NSObject, ObservableObject {
         for audio in directoryContents {
             
             let recording = Recording(fileURL: audio, createdAt: getCreationDate(for: audio))
-            print("\(recording.fileURL)")
-                      recordings.append(recording)
+            recordings.append(recording)
         }
-            
-            objectWillChange.send(self)     // Behöver jag ha med denna?
+        
+        objectWillChange.send(self)
         
         
     }
     func deleteSingleRecording(urlToDelete: URL){
-       
+        
         do {
-           try FileManager.default.removeItem(at: urlToDelete)
+            try FileManager.default.removeItem(at: urlToDelete)
             print("DELETED!!")
         } catch {
             print("File could not be deleted!")
@@ -118,18 +113,18 @@ class AudioRecorder: NSObject, ObservableObject {
         
     }
     func deleteRecording(urlsToDelete: [URL]) {
-            
-            for url in urlsToDelete {
-                print(url)
-                do {
-                   try FileManager.default.removeItem(at: url)
-                } catch {
-                    print("File could not be deleted!")
-                }
+        
+        for url in urlsToDelete {
+            print(url)
+            do {
+                try FileManager.default.removeItem(at: url)
+            } catch {
+                print("File could not be deleted!")
             }
-            
-            fetchRecordings()
-            
         }
+        
+        fetchRecordings()
+        
+    }
     
 }

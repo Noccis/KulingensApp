@@ -25,6 +25,7 @@ struct CreateSignView: View {
     @State var varningText = ""
     @State var saveText = "Spara"
     @State var stopAudio = false
+    @State var audioUrl = ""
     @Environment(\.presentationMode) var presentationMode
     
     
@@ -32,6 +33,7 @@ struct CreateSignView: View {
         
         HStack{
             Button(action: {
+                deleteAudioFile()
                 presentationMode.wrappedValue
                     .dismiss()
             }, label: {
@@ -109,8 +111,8 @@ struct CreateSignView: View {
                 }else{
                     if isAudioSaved == true {
                         addSign()
-                        presentationMode.wrappedValue
-                            .dismiss()
+//                        presentationMode.wrappedValue
+//                            .dismiss()
                     }else{
                         varningText = "Du har inte spelat in ljud till ditt tecken. Är du säker på att du vill spara?"
                         isAudioSaved = true
@@ -145,7 +147,7 @@ struct CreateSignView: View {
                 newSign.audioName = inputAudioName
                 
                 activeSign = newSign
-                
+ 
                 do {
                     try viewContext.save()
                     
@@ -153,15 +155,53 @@ struct CreateSignView: View {
                     let nsError = error as NSError
                     fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
                 }
+                inputName = ""
+                inputVideoUrl = ""
+                presentationMode.wrappedValue
+                    .dismiss()
             }else{
-                print("För kort namn")
-            }
+               
+                varningText = "Skriv in namn på tecken innan du sparar."
+        
+            }       
+        }
+    }
+    
+    
+    func fetchAudioUrl(){
+        
+     let audioString = inputAudioName
+        if audioString.count > 3 {
             
-            inputName = ""
-            inputVideoUrl = ""
+            let testList = self.audioRecorder.recordings
+            
+            for recording in testList {
+                let dodo = recording.fileURL.absoluteString.suffix(24)
+                
+                if dodo == audioString {
+                    audioUrl = String(recording.fileURL.absoluteString)
+                    
+                }
+            }
             
             
         }
+        
+    }
+    
+    func deleteAudioFile() {
+        
+        fetchAudioUrl()
+        if let deleteUrl = URL(string: audioUrl){
+            
+            self.audioRecorder.deleteSingleRecording(urlToDelete: deleteUrl)
+            
+            print("DELETE AUDIO FILE: \(audioUrl)")
+        }else{
+            
+            print("Delete audio error.")
+        }
+        
     }
     
 }

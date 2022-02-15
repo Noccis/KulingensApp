@@ -42,8 +42,8 @@ struct GameInfoView: View {
     }
 }
 
-struct GameInfoView_Previews: PreviewProvider {
-    static var previews: some View {
-        GameInfoView()
-    }
-}
+//struct GameInfoView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        GameInfoView()
+//    }
+//}
