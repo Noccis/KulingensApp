@@ -45,6 +45,7 @@ struct CreateSignView: View {
             })
             Spacer()
         }
+        .interactiveDismissDisabled()
         VStack{
             
             Text("Skapa nytt tecken")
@@ -111,8 +112,8 @@ struct CreateSignView: View {
                 }else{
                     if isAudioSaved == true {
                         addSign()
-//                        presentationMode.wrappedValue
-//                            .dismiss()
+                        //                        presentationMode.wrappedValue
+                        //                            .dismiss()
                     }else{
                         varningText = "Du har inte spelat in ljud till ditt tecken. Är du säker på att du vill spara?"
                         isAudioSaved = true
@@ -138,16 +139,13 @@ struct CreateSignView: View {
             if inputName.count > 2 && inputVideoUrl.count > 2 {
                 
                 let newSign = Sign(context: viewContext)
-                // Lägg till lite nil checks
                 
                 newSign.name = inputName
-                
                 newSign.videoUrl = inputVideoUrl
-                
                 newSign.audioName = inputAudioName
                 
                 activeSign = newSign
- 
+                
                 do {
                     try viewContext.save()
                     
@@ -160,17 +158,15 @@ struct CreateSignView: View {
                 presentationMode.wrappedValue
                     .dismiss()
             }else{
-               
-                varningText = "Skriv in namn på tecken innan du sparar."
-        
-            }       
+                varningText = "Skriv in namn och youtube ID innan du sparar."
+            }
         }
     }
     
     
     func fetchAudioUrl(){
         
-     let audioString = inputAudioName
+        let audioString = inputAudioName
         if audioString.count > 3 {
             
             let testList = self.audioRecorder.recordings
@@ -183,10 +179,7 @@ struct CreateSignView: View {
                     
                 }
             }
-            
-            
         }
-        
     }
     
     func deleteAudioFile() {
@@ -198,12 +191,10 @@ struct CreateSignView: View {
             
             print("DELETE AUDIO FILE: \(audioUrl)")
         }else{
-            
             print("Delete audio error.")
         }
         
     }
-    
 }
 
 
