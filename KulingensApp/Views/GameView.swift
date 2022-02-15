@@ -14,7 +14,8 @@ struct GameView: View {
         sortDescriptors: [NSSortDescriptor(keyPath: \Sign.name, ascending: true)],
         animation: .default)
     private var signs: FetchedResults<Sign>
-    
+    @State private var signsPractiseList: [Sign] = []
+    @State private var practiseSignListIndex = 0
     @State var answerAnimation = false
     @State var answerIsRight = false
     @State var answerIsWrong = false
@@ -204,48 +205,79 @@ struct GameView: View {
         })
         
     }
+    private func fetchPractiseSign()-> Sign {
+        fillEmptySignPractiseList()
+        
+        let sign = signsPractiseList[practiseSignListIndex]
+         practiseSignListIndex += 1
+         
+        print("FETCH PRACTISE SIGN... Index is: \(practiseSignListIndex)")
+        
+        if practiseSignListIndex > signsPractiseList.count - 1 {
+            print("FETCH PRACTISE SIGN... Index is : \(practiseSignListIndex):: Bigger then \(signsPractiseList.count)")
+            signsPractiseList.removeAll()
+        }
+         return sign
+        
+    }
+    private func fillEmptySignPractiseList() {
+        
+        if signsPractiseList.count == 0 {
+            practiseSignListIndex = 0
+            
+            for sign in signs {
+                signsPractiseList.append(sign)
+            }
+            print("COPY DONE! SIGNS PRACTISE LIST: \(signsPractiseList.count)")
+        }
+        
+       
+    }
+    
     
     func pickRandomSign() {
+        
         print("PICKRANDOMSIGN RUNNING!!!")
-        if let randomSign = signs.randomElement() {
-            
-            guard let url = randomSign.videoUrl else {return}
-            videoUrl = url
-            
-            guard let audio = randomSign.audioName else {
-                print("ERROR ---- PICKRANDOMSIGN randomSign.audioName is NIL")
-                return
-            }
-            
- 
-            rightAudioUrl = audio
-            
-            print("Right audio Name::::::: \(audio) RIGHT AUDIO URL::\(rightAudioUrl)")
-            
-            
-            let randomNr = Int.random(in: 1...3)
-            
-            if randomNr == 1 {
-                audioUrlOne = audio
-                answerOneString = audio
-                
-                print("CHECK audioUrlOne = \(audioUrlOne), AnswerOneString= \(answerOneString)")
-                print("PICKRANDOMSIGN right audiourl is in 1")
-                
-            }else if randomNr == 2 {
-                audioUrlTwo = audio
-                answerTwoString = audio
-                print("PICKRANDOMSIGN right audiourl is in 2")
-                print("CHECK audioUrlTwo = \(audioUrlTwo), AnswerTwoString= \(answerTwoString)")
-            }else if randomNr == 3 {
-                audioUrlThree = audio
-                answerThreeString = audio
-                print("PICKRANDOMSIGN right audiourl is in 3")
-                print("CHECK audioUrlthree = \(audioUrlThree), AnswerThreeString= \(answerThreeString)")
-            }else{
-                print("PICKRANDOMSIGN RANDOMNR ERROR")
-            }
+        
+        let randomSign = fetchPractiseSign()
+        
+        guard let url = randomSign.videoUrl else {return}
+        videoUrl = url
+        
+        guard let audio = randomSign.audioName else {
+            print("ERROR ---- PICKRANDOMSIGN randomSign.audioName is NIL")
+            return
         }
+        
+        
+        rightAudioUrl = audio
+        
+        print("Right audio Name::::::: \(audio) RIGHT AUDIO URL::\(rightAudioUrl)")
+        
+        
+        let randomNr = Int.random(in: 1...3)
+        
+        if randomNr == 1 {
+            audioUrlOne = audio
+            answerOneString = audio
+            
+            print("CHECK audioUrlOne = \(audioUrlOne), AnswerOneString= \(answerOneString)")
+            print("PICKRANDOMSIGN right audiourl is in 1")
+            
+        }else if randomNr == 2 {
+            audioUrlTwo = audio
+            answerTwoString = audio
+            print("PICKRANDOMSIGN right audiourl is in 2")
+            print("CHECK audioUrlTwo = \(audioUrlTwo), AnswerTwoString= \(answerTwoString)")
+        }else if randomNr == 3 {
+            audioUrlThree = audio
+            answerThreeString = audio
+            print("PICKRANDOMSIGN right audiourl is in 3")
+            print("CHECK audioUrlthree = \(audioUrlThree), AnswerThreeString= \(answerThreeString)")
+        }else{
+            print("PICKRANDOMSIGN RANDOMNR ERROR")
+        }
+        
         setTwoWrongAudioStrings()
     }
     
